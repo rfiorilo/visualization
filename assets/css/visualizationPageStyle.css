@@ -1,0 +1,594 @@
+@import url("vars.css");
+
+
+/* =====================================================
+   BASE
+   ===================================================== */
+
+body.VisualizationMainPage {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-900);
+}
+
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+#header {
+    background: linear-gradient(
+        135deg,
+        var(--ufms-blue-900),
+        var(--ufms-blue-700)
+    );
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+#header h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* =====================================================
+   CONTAINER
+   ===================================================== */
+
+#container {
+    width: min(1400px, 95%);
+    margin: 2rem auto;
+}
+
+
+/* =====================================================
+   LAYOUT PRINCIPAL
+   ===================================================== */
+
+#ideLayout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.5rem;
+}
+
+/* =====================================================
+   SIDEBAR DIDÁTICA INSTITUCIONAL
+   ===================================================== */
+
+#didacticSidebar {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex: 0 0 380px;
+}
+
+/* Painéis padrão */
+
+.panel h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 0.6rem;
+    color: var(--ufms-blue-700);
+}
+
+.panel ul {
+    list-style: none;
+    padding: 0;
+    font-size: 0.9rem;
+    color: var(--gray-700);
+}
+
+.panel li {
+    margin-bottom: 0.4rem;
+}
+
+/* =====================================================
+   ÁREA CENTRAL
+   ===================================================== */
+
+#centerArea {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    max-width: 1500px;
+    width: 100%;
+
+}
+
+.algo-visualization {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    display: flex;
+    justify-content: center; /* centraliza horizontalmente */
+}
+
+#canvas {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    margin-top: -0.5rem;
+    margin-bottom: -0.5rem;
+}
+
+
+
+/* Controles gerais */
+#generalAnimationControlSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: smaller;
+}
+
+/* Tabela de controles gerais */
+#GeneralAnimationControls {
+    margin: 0 auto;
+}
+
+
+/* =====================================================
+   CONTROLES
+   ===================================================== */
+
+input[type="button"],
+button {
+    background: var(--ufms-blue-700);
+    color: white;
+    border: none;
+    /* padding: 0.6rem 1rem; */
+    border-radius: 8px;
+    /* font-size: 0.9rem; */
+    cursor: pointer;
+    transition: var(--transition);
+
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+}
+
+input[type="button"]:hover,
+button:hover {
+    background: var(--ufms-blue-900);
+}
+
+input[type="text"] {
+    /* padding: 0.5rem; */
+    padding: 0.4rem;
+    border-radius: 6px;
+    border: 1px solid var(--ufms-blue-900);
+}
+
+/* =====================================================
+   LOG PANEL - LIMPO E PROFISSIONAL
+   ===================================================== */
+
+.log-panel {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 0.75rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+/* Título */
+
+.log-panel h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 0.8rem;
+    color: var(--ufms-blue-700);
+}
+
+/* Área de log com tamanho fixo */
+
+#terminalOutput {
+    height: 160px;              /* ALTURA FIXA */
+    overflow-y: auto;           /* SCROLL AUTOMÁTICO */
+    font-family: monospace;
+    font-size: 0.75rem;
+    background: var(--gray-100);
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--gray-200);
+}
+
+/* Estilo da barra de scroll (mais discreta) */
+
+#terminalOutput::-webkit-scrollbar {
+    width: 6px;
+}
+
+#terminalOutput::-webkit-scrollbar-thumb {
+    background: var(--gray-400);
+    border-radius: 3px;
+}
+
+/* Linhas do log */
+
+#terminalOutput div {
+    margin-bottom: 0.3rem;
+    color: var(--gray-900);
+}
+
+/* Botão limpar */
+
+#clearLog {
+    margin-top: 0.6rem;
+    background: var(--ufms-blue-700);
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+#clearLog:hover {
+    background: var(--ufms-blue-900);
+}
+
+
+
+/* =====================================================
+   RESPONSIVIDADE
+   ===================================================== */
+
+@media (max-width: 1100px) {
+
+    #ideLayout {
+        grid-template-columns: 1fr;
+    }
+
+    #terminalPanel {
+        grid-column: 1;
+    }
+}
+
+
+
+
+/* =====================================================
+   AJUSTE GLOBAL PARA BARRA FIXA
+   ===================================================== */
+
+/* Compensa altura da topbar */
+
+body.VisualizationMainPage {
+    padding-top: 65px;
+}
+
+/* Ajusta header principal para não colidir */
+
+#header {
+    margin-top: 0;
+}
+
+
+/* =====================================================
+   INFO PANEL - DESTAQUE INSTITUCIONAL ELEGANTE
+   ===================================================== */
+
+.info-panel {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-left: 4px solid var(--ufms-blue-700);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+/* Título */
+
+.info-panel h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 0.8rem;
+    color: var(--ufms-blue-700);
+}
+
+/* Lista */
+
+.info-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-panel li {
+    font-size: 0.9rem;
+    color: var(--gray-700);
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.info-panel li:last-child {
+    border-bottom: none;
+}
+
+.info-panel strong {
+    color: var(--gray-900);
+}
+
+
+
+
+#algoControlSection {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap; /* evita quebrar layout em telas menores */
+    justify-content: center; /* centraliza tabela */
+    margin-top: 1rem;
+}
+
+/* Faz a tabela se comportar como bloco flexível */
+#AlgorithmSpecificControls {
+    /* display: inline-table; */
+    margin: 0;
+}
+
+/* Botão desafio com estilo coerente */
+#btnNewChallenge {
+    white-space: nowrap;
+}
+
+#btnNewChallenge {
+    background: white;
+    color: var(--ufms-blue-700);
+    border: 1px solid var(--ufms-blue-700);
+}
+
+#btnNewChallenge:hover {
+    background: var(--ufms-blue-700);
+    color: white;
+}
+
+/* =====================================================
+   BADGE DE DESAFIO AO LADO DO TÍTULO
+   ===================================================== */
+
+.algo-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+
+/* Botão estilo badge */
+
+.challenge-badge {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 0.3rem 0.7rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+
+/* Hover elegante */
+
+.challenge-badge:hover {
+    background: white;
+    color: var(--ufms-blue-700);
+}
+
+/* Foco acessível */
+
+.challenge-badge:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+
+
+
+/* =====================================================
+   CHALLENGE DRAWER - PAINEL LATERAL ANIMADO
+   ===================================================== */
+
+#challengeDrawer {
+    position: fixed;
+    top: 80px;                 /* abaixo da topbar */
+    right: -420px; /* começa escondido */
+    width: 300px;
+    height: calc(100vh - 80px);
+    background: var(--ufms-blue-50);
+    
+    transition: right 0.35s ease;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 0 16px 16px 0;
+    border-right: 6px solid var(--ufms-blue-700);
+    box-shadow: 5px 0 10px rgba(0,0,0,0.5);
+    z-index: 9998;
+
+    overflow: hidden;
+}
+
+
+/* Estado ativo */
+
+#challengeDrawer.open {
+    left: 0;
+}
+
+/* Cabeçalho */
+.drawer-header {
+    background: var(--ufms-blue-700); /* verde institucional */
+    color: white;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.drawer-header h2 {
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Botão fechar */
+
+#closeDrawer {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#closeDrawer:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* =========================
+   CORPO DO DRAWER
+   ========================= */
+
+.drawer-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.drawer-content p {
+    font-size: 0.95rem;
+    color: var(--gray-900);
+    line-height: 1.6;
+}
+
+/* Botão gerar */
+
+#generateChallenge {
+    background: var(--ufms-blue-700);
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#generateChallenge:hover {
+    background: var(--ufms-blue-900);
+}
+
+
+
+/* =====================================================
+   BOTÃO VOLTAR COM SVG
+   ===================================================== */
+
+.topbar-back {
+    position: absolute;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    transition: 0.2s ease;
+}
+
+
+
+/* Ícone */
+
+.back-icon {
+    transition: transform 0.2s ease;
+}
+
+/* Hover */
+
+.topbar-back:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.topbar-back:hover .back-icon {
+    transform: translateX(-3px);
+}
+
+/* Foco acessível */
+
+.topbar-back:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+
+
+
+/* =====================================================
+   ESTILO DO LOG DIDÁTICO
+===================================================== */
+
+#terminalOutput div {
+    margin-bottom: 0.3rem;
+    font-size: 0.75rem;
+    animation: fadeLog 0.2s ease-in;
+}
+@keyframes fadeLog {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tipos */
+
+.log-insert {
+    color: #065f46; /* verde escuro */
+}
+
+.log-remove {
+    color: #7f1d1d; /* vermelho escuro */
+}
+
+.log-search {
+    color: #1e40af; /* azul escuro */
+}
+
+.log-info {
+    color: var(--gray-700);
+}
+
+#terminalOutput .log-subinfo {
+    color: var(--ufms-blue-900);
+    font-style: italic;
+    opacity: 0.85;
+    font-size: 0.65rem;
+}

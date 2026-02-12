@@ -8,24 +8,12 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/visualPages.css">
+
 </head>
 
 <body>
     <!-- BARRA SUPERIOR FIXA -->
-    <div id="ufmsTopBar">
-		
-        <div class="topbar-content">
-
-              <h1 class="algo-title">
-                Plataforma de Visualização Interativa
-              </h1>
-
-                <div class="breadcrumb">
-                    <span class="current">Inicio</span>
-                </div>
-
-            </div>
-    </div>
+    <div id="ufmsTopBar"></div>
 
 <div class="layout">
 
@@ -33,63 +21,7 @@
          SIDEBAR LATERAL
     ========================================== -->
     <aside class="sidebar">
-
-
-        <nav class="sidebar-nav">
-
-            <!-- Seção Principal -->
-            <div class="nav-section">
-                <span class="nav-title">Algoritmos</span>
-
-                <ul>
-                    <li class="nav-group">
-                        <button class="nav-group-toggle">Árvores</button>
-                        <ul class="nav-submenu">
-                            <li><a href="BST.html">BST</a></li>
-                            <li><a href="AVL.html">AVL</a></li>
-                            <li><a href="RedBlack.html">Red-Black</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-group">
-                        <button class="nav-group-toggle">Grafos</button>
-                        <ul class="nav-submenu">
-                            <li><a href="Dijkstra.html">Dijkstra</a></li>
-                            <li><a href="BFS.html">BFS</a></li>
-                            <li><a href="DFS.html">DFS</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-group">
-                        <button class="nav-group-toggle">Ordenação</button>
-                        <ul class="nav-submenu">
-                            <li><a href="QuickSort.html">QuickSort</a></li>
-                            <li><a href="MergeSort.html">MergeSort</a></li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="Hash.html">Tabela Hash</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Seção Institucional -->
-            <div class="nav-section">
-                <span class="nav-title">Plataforma</span>
-
-                <ul>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="faq.html">F.A.Q</a></li>
-                    <li><a href="bugs.html">Known Bugs</a></li>
-                    <li><a href="features.html">Feature Requests</a></li>
-                    <li><a href="source.html">Source Code</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-
-        </nav>
-
+        <nav class="sidebar-nav" id="sidebarContainer"></nav>
     </aside>
 
 
@@ -101,62 +33,19 @@
         <header class="main-header">
             <p>Explore, visualize e compreenda algoritmos fundamentais</p>
         </header>
-
-        <section class="algorithms-grid">
-
-            <article class="algorithm-card">
-                <span class="badge arvores">Árvores</span>
-                <h3>Árvore AVL</h3>
-                <p>Árvore binária de busca balanceada por fator de balanceamento.</p>
-                <a href="AVL.html" class="btn-primary">Abrir</a>
-            </article>
-
-            <article class="algorithm-card">
-                <span class="badge arvores">Árvores</span>
-                <h3>Binary Search Tree</h3>
-                <p>Estrutura ordenada baseada em comparação de chaves.</p>
-                <a href="BST.html" class="btn-primary">Abrir</a>
-            </article>
-
-            <article class="algorithm-card">
-                <span class="badge grafos">Grafos</span>
-                <span class="badge ordenacao">Ordenação</span>
-                <h3>Dijkstra</h3>
-                <p>Algoritmo para caminho mínimo em grafos ponderados.</p>
-                <a href="Dijkstra.html" class="btn-primary">Abrir</a>
-            </article>
-            
-
-        </section>
-
+        
+        <section class="algorithms-grid" id="cardsContainer"></section>
     </main>
 
 </div>
 
 
-<footer id="mainFooter">
-  <span>
-    Copyright © 2011 
-    <a href="http://www.cs.usfca.edu/galles" target="_blank">David Galles</a>.
-    © 2015 
-    <a href="https://people.ok.ubc.ca/ylucet/" target="_blank">Yves Lucet</a>.
-    Licensed under the FreeBSD License.
-    
-    Modifications © 2026 Ronaldo Fiorilo.
-  </span>
-</footer>
+<footer id="mainFooter"></footer>
 
 
 
-
-<script>
-/* Toggle submenus */
-document.querySelectorAll(".nav-group-toggle").forEach(btn => {
-    btn.addEventListener("click", () => {
-        btn.parentElement.classList.toggle("open");
-    });
-});
-</script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/render.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFMS Algoritmos | BST - Árvore Binária de Busca</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../assets/css/visualPages.css">
+    <link rel="stylesheet" href="../../assets/css/visualizationPageStyle.css">
+
+		<!-- jqueury stuff.  Only used for the animation speed slider. -->	
+		<link rel="stylesheet" href="../../assets/js/ThirdParty/jquery-ui-1.8.11.custom.css">
+
+		<script src="../../assets/js/ThirdParty/jquery-1.5.2.min.js"></script>
+		<script src="../../assets/js/ThirdParty/jquery-ui-1.8.11.custom.min.js"></script>
+
+		<!-- Javascript for the actual visualization code -->
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/CustomEvents.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/UndoFunctions.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/AnimatedObject.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/AnimatedLabel.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/AnimatedCircle.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/AnimatedRectangle.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/AnimatedLinkedList.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/HighlightCircle.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/Line.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/ObjectManager.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AnimationLibrary/AnimationMain.js"> </script>
+		<script type = "application/javascript" src = "../../assets/js/AlgorithmLibrary/Algorithm.js"> </script>
+		<!-- <script type = "application/javascript" src = "../../assets/js/AlgorithmLibrary/BST.js"> </script> -->
+</head>
+
+<body onload="init();" class="VisualizationMainPage">
+
+	<!-- BARRA SUPERIOR FIXA -->
+    <div id="ufmsTopBar"></div>
+        
+	<div class="layout">
+		<aside class="sidebar">
+			<nav class="sidebar-nav" id="sidebarContainer"></nav>
+		</aside>
+
+
+		<main class="container algo-visualization">
+				<div id="centerArea">
+					<div id="algoControlSection">
+						<table id="AlgorithmSpecificControls"></table>
+					</div>
+					<canvas id="canvas" width="1500" height="750"></canvas>
+
+					<div id="generalAnimationControlSection">
+						<table id="GeneralAnimationControls"></table>
+					</div>
+				</div>
+
+		</main>
+
+	</div>
+
+<footer id="mainFooter"></footer> 
+
+<script src="../../assets/js/config.js"></script>
+<script src="../../assets/js/render.js"></script>
+
+</body>
+</html>

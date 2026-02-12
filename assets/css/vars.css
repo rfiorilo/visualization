@@ -1,0 +1,29 @@
+/* =====================================================
+   VARIÁVEIS INSTITUCIONAIS
+===================================================== */
+
+:root {
+
+    --ufms-green-900: #006633;
+    --ufms-green-700: #008c4a;
+    --ufms-green-100: #e6f4ec;
+    --ufms-green-50: #f2f9f5;
+
+    --ufms-blue-900: #0088b7; /* BASE */
+    --ufms-blue-700: #1fa0c9;
+    --ufms-blue-500: #4db8d9;
+    --ufms-blue-100: #d6eef6;
+    --ufms-blue-50:  #eef8fc;
+
+    --gray-900: #1d2939;
+    --gray-700: #475467;
+    --gray-500: #667085;
+    --gray-300: #d0d5dd;
+    --gray-200: #eaecf0;
+    --gray-100: #f2f4f7;
+    --white: #ffffff;
+
+    --radius: 12px;
+
+    --sidebar-width: 200px;
+}

@@ -1,32 +1,4 @@
-/* =====================================================
-   VARIÁVEIS INSTITUCIONAIS
-===================================================== */
-
-:root {
-
-    --ufms-green-900: #006633;
-    --ufms-green-700: #008c4a;
-    --ufms-green-100: #e6f4ec;
-    --ufms-green-50: #f2f9f5;
-
-    --ufms-blue-900: #0088b7; /* BASE */
-    --ufms-blue-700: #1fa0c9;
-    --ufms-blue-500: #4db8d9;
-    --ufms-blue-100: #d6eef6;
-    --ufms-blue-50:  #eef8fc;
-
-    --gray-900: #1d2939;
-    --gray-700: #475467;
-    --gray-500: #667085;
-    --gray-300: #d0d5dd;
-    --gray-200: #eaecf0;
-    --gray-100: #f2f4f7;
-    --white: #ffffff;
-
-    --radius: 12px;
-
-    --sidebar-width: 200px;
-}
+@import url("vars.css");
 
 /* =====================================================
    LAYOUT PRINCIPAL
@@ -41,7 +13,9 @@ body {
 
 .layout {
     display: flex;
-    min-height: 100vh;
+    /* min-height: 100vh; */
+    min-height: calc(100vh - 65px);
+
 }
 
 
@@ -68,7 +42,6 @@ body {
     overflow-y: auto;
     z-index: 1000;
     gap: 1.5rem;
-
 
 } 
 
@@ -104,14 +77,13 @@ body {
 .nav-section {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
 }
 
 .nav-title {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: var(--gray-500);
+    color: var(--ufms-blue-900);
     letter-spacing: 0.5px;
 }
 
@@ -125,18 +97,20 @@ body {
 
 .sidebar-nav li {
     margin: 0;
+    padding: 0;
 }
 
 /* Links simples */
 
 .sidebar-nav a {
     display: block;
-    padding: 0.5rem 0.75rem;
     border-radius: 8px;
     text-decoration: none;
     font-size: 0.9rem;
     color: var(--gray-700);
     transition: all 0.2s ease;
+    padding: 0.3rem 0.5rem;  
+
 }
 
 .sidebar-nav a:hover {
@@ -161,11 +135,13 @@ body {
     flex-direction: column;
 }
 
-.nav-group-toggle {
+.nav-group-toggle { 
     background: none;
     border: none;
     text-align: left;
-    padding: 0.5rem 0.75rem;
+    /* padding: 0.5rem 0.75rem; */
+    padding: 0.3rem 0.5rem;  
+
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 600;
@@ -191,6 +167,7 @@ body {
 
 .nav-group.open .nav-submenu {
     max-height: 500px;
+    overflow-y: auto;        /* ativa scroll */
 }
 
 /* Links do submenu */
@@ -199,6 +176,7 @@ body {
     font-size: 0.85rem;
     padding: 0.4rem 0.75rem;
     color: var(--gray-600);
+    padding-left: 1rem;
 }
 
 .nav-submenu a:hover {
@@ -213,10 +191,35 @@ body {
 .main-content {
     flex: 1;
     padding: 5rem;
-    /* margin-top: 40px; Compensar altura da barra superior fixa */
     margin-left: var(--sidebar-width);
     margin-bottom: 40px;
+
+    position: relative;   /* necessário para o ::before */
+    overflow: hidden;     /* evita vazamento visual */
+
 }
+
+.main-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin-top: 10px;
+    /* background-image: url("../images/background.png"); */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+
+    opacity: 0.21;     /* controla transparência */
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+.main-content > * {
+    position: relative;
+    z-index: 1;
+}
+
 
 .main-header h1 {
     margin: 0;
@@ -351,7 +354,7 @@ body {
 #ufmsTopBar {
     position: fixed;
     top: 0;
-    left: -50px;
+    left: 0px;
     width: 100%;
     height: 65px;
     background: linear-gradient(
