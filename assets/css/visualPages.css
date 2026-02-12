@@ -1,0 +1,457 @@
+/* =====================================================
+   VARIÁVEIS INSTITUCIONAIS
+===================================================== */
+
+:root {
+
+    --ufms-green-900: #006633;
+    --ufms-green-700: #008c4a;
+    --ufms-green-100: #e6f4ec;
+    --ufms-green-50: #f2f9f5;
+
+    --ufms-blue-900: #0088b7; /* BASE */
+    --ufms-blue-700: #1fa0c9;
+    --ufms-blue-500: #4db8d9;
+    --ufms-blue-100: #d6eef6;
+    --ufms-blue-50:  #eef8fc;
+
+    --gray-900: #1d2939;
+    --gray-700: #475467;
+    --gray-500: #667085;
+    --gray-300: #d0d5dd;
+    --gray-200: #eaecf0;
+    --gray-100: #f2f4f7;
+    --white: #ffffff;
+
+    --radius: 12px;
+
+    --sidebar-width: 200px;
+}
+
+/* =====================================================
+   LAYOUT PRINCIPAL
+===================================================== */
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-900);
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+ .sidebar {
+    width: var(--sidebar-width);
+    background: var(--white);
+    border-right: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    /* flex: 0 0 ; */
+
+    position: fixed;
+    top: 65px;              /* compensa a topbar */
+    left: 0;
+    height: calc(95vh - 65px);
+    overflow-y: auto;
+    z-index: 1000;
+    gap: 1.5rem;
+
+
+} 
+
+
+/* Cabeçalho */
+
+.sidebar-header {
+    margin-bottom: 2rem;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--ufms-blue-900);
+}
+
+.sidebar-header span {
+    font-size: 0.85rem;
+    color: var(--gray-500);
+}
+
+/* Navegação */
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Seções */
+
+.nav-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.nav-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    letter-spacing: 0.5px;
+}
+
+/* Lista */
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav li {
+    margin: 0;
+}
+
+/* Links simples */
+
+.sidebar-nav a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--gray-700);
+    transition: all 0.2s ease;
+}
+
+.sidebar-nav a:hover {
+    background: var(--ufms-blue-50);
+    color: var(--ufms-blue-900);
+}
+
+/* Item ativo */
+
+.sidebar-nav a.active {
+    background: var(--ufms-blue-100);
+    color: var(--ufms-blue-900);
+    font-weight: 600;
+}
+
+/* =====================================================
+   SUBMENU COLAPSÁVEL
+===================================================== */
+
+.nav-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-group-toggle {
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--gray-700);
+    transition: all 0.2s ease;
+}
+
+.nav-group-toggle:hover {
+    background: var(--gray-100);
+}
+
+/* Submenu */
+
+.nav-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    padding-left: 0.5rem;
+}
+
+.nav-group.open .nav-submenu {
+    max-height: 500px;
+}
+
+/* Links do submenu */
+
+.nav-submenu a {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+    color: var(--gray-600);
+}
+
+.nav-submenu a:hover {
+    background: var(--ufms-blue-50);
+    color: var(--ufms-blue-900);
+}
+
+/* =====================================================
+   CONTEÚDO PRINCIPAL
+===================================================== */
+
+.main-content {
+    flex: 1;
+    padding: 5rem;
+    /* margin-top: 40px; Compensar altura da barra superior fixa */
+    margin-left: var(--sidebar-width);
+    margin-bottom: 40px;
+}
+
+.main-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--ufms-blue-900);
+}
+
+.main-header p {
+    margin-top: 0.3rem;
+    color: var(--gray-500);
+}
+
+/* =====================================================
+   GRID DE CARDS
+===================================================== */
+
+.algorithms-grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.algorithm-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.algorithm-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.algorithm-card h3 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.algorithm-card p {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+}
+
+/* Badge */
+
+
+.badge {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    border-radius: 20px;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.badge.arvores {
+    background: rgba(0,168,89,0.15);
+    color: var(--ufms-green-700);
+}
+
+.badge.grafos {
+    background: rgba(31,111,235,0.15);
+    color: var(--accent-blue);
+}
+
+.badge.ordenacao {
+    background: rgba(124,58,237,0.15);
+    color: var(--accent-purple);
+}
+
+.badge.hash {
+    background: rgba(245,158,11,0.15);
+    color: var(--accent-orange);
+}
+
+
+/* Botão */
+
+.btn-primary {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    background: var(--ufms-blue-900);
+    color: white;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: var(--ufms-blue-700);
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+/* @media (max-width: 900px) {
+
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .main-content {
+        padding: 1.5rem;
+    }
+} */
+
+
+
+
+/* =====================================================
+   UFMS TOPBAR FIXA - TEMA INSTITUCIONAL
+   ===================================================== */
+
+#ufmsTopBar {
+    position: fixed;
+    top: 0;
+    left: -50px;
+    width: 100%;
+    height: 65px;
+    background: linear-gradient(
+        135deg,
+        var(--ufms-blue-900),
+        var(--ufms-blue-700)
+    );
+    color: white;
+    display: flex;
+    align-items: center;
+    z-index: 9999;
+}
+
+
+/* Conteúdo interno */
+
+.topbar-content {
+    width: min(1400px, 95%);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* Marca institucional */
+
+.topbar-left {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.ufms-brand {
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.ufms-course {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Breadcrumb */
+
+.breadcrumb {
+    font-size: 0.8rem;
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+
+.breadcrumb a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+
+
+.breadcrumb .current {
+    font-weight: 700;
+}
+
+
+#mainFooter {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    height: 25px;                 /* um pouco maior */
+    
+    display: flex;                /* ativa flex */
+    align-items: center;          /* centraliza verticalmente */
+    justify-content: center;      /* centraliza horizontalmente */
+
+    background: var(--ufms-blue-900);
+    color: white;
+    /* color: #ccc; */
+
+    font-size: 0.75rem;
+    z-index: 9999;
+}
+
+
+#mainFooter a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+#mainFooter a:hover {
+    text-decoration: underline;
+}
+
+

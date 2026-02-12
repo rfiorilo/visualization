@@ -1,74 +1,162 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        
-        <title>
-           Place your title here
-        </title>
-        
-        <!-- css sheet for how the page is laid out -->
-        
-        <link rel="stylesheet" href="visualizationPageStyle.css">
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFMS Algoritmos | Plataforma de Laboratório</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/visualPages.css">
+</head>
+
+<body>
+    <!-- BARRA SUPERIOR FIXA -->
+    <div id="ufmsTopBar">
+		
+        <div class="topbar-content">
+
+              <h1 class="algo-title">
+                Plataforma de Visualização Interativa
+              </h1>
+
+                <div class="breadcrumb">
+                    <span class="current">Inicio</span>
+                </div>
+
+            </div>
+    </div>
+
+<div class="layout">
+
+    <!-- =========================================
+         SIDEBAR LATERAL
+    ========================================== -->
+    <aside class="sidebar">
+
+
+        <nav class="sidebar-nav">
+
+            <!-- Seção Principal -->
+            <div class="nav-section">
+                <span class="nav-title">Algoritmos</span>
+
+                <ul>
+                    <li class="nav-group">
+                        <button class="nav-group-toggle">Árvores</button>
+                        <ul class="nav-submenu">
+                            <li><a href="BST.html">BST</a></li>
+                            <li><a href="AVL.html">AVL</a></li>
+                            <li><a href="RedBlack.html">Red-Black</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-group">
+                        <button class="nav-group-toggle">Grafos</button>
+                        <ul class="nav-submenu">
+                            <li><a href="Dijkstra.html">Dijkstra</a></li>
+                            <li><a href="BFS.html">BFS</a></li>
+                            <li><a href="DFS.html">DFS</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-group">
+                        <button class="nav-group-toggle">Ordenação</button>
+                        <ul class="nav-submenu">
+                            <li><a href="QuickSort.html">QuickSort</a></li>
+                            <li><a href="MergeSort.html">MergeSort</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="Hash.html">Tabela Hash</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Seção Institucional -->
+            <div class="nav-section">
+                <span class="nav-title">Plataforma</span>
+
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="faq.html">F.A.Q</a></li>
+                    <li><a href="bugs.html">Known Bugs</a></li>
+                    <li><a href="features.html">Feature Requests</a></li>
+                    <li><a href="source.html">Source Code</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =========================================
+         CONTEÚDO PRINCIPAL
+    ========================================== -->
+    <main class="main-content">
+
+        <header class="main-header">
+            <p>Explore, visualize e compreenda algoritmos fundamentais</p>
+        </header>
+
+        <section class="algorithms-grid">
+
+            <article class="algorithm-card">
+                <span class="badge arvores">Árvores</span>
+                <h3>Árvore AVL</h3>
+                <p>Árvore binária de busca balanceada por fator de balanceamento.</p>
+                <a href="AVL.html" class="btn-primary">Abrir</a>
+            </article>
+
+            <article class="algorithm-card">
+                <span class="badge arvores">Árvores</span>
+                <h3>Binary Search Tree</h3>
+                <p>Estrutura ordenada baseada em comparação de chaves.</p>
+                <a href="BST.html" class="btn-primary">Abrir</a>
+            </article>
+
+            <article class="algorithm-card">
+                <span class="badge grafos">Grafos</span>
+                <span class="badge ordenacao">Ordenação</span>
+                <h3>Dijkstra</h3>
+                <p>Algoritmo para caminho mínimo em grafos ponderados.</p>
+                <a href="Dijkstra.html" class="btn-primary">Abrir</a>
+            </article>
             
-            
-        <!-- jqueury stuff.  Only used for the animation speed slider. -->
-        <link rel="stylesheet" href="ThirdParty/jquery-ui-1.8.11.custom.css">
-                
-        <script src="ThirdParty/jquery-1.5.2.min.js"></script>
-        <script src="ThirdParty/jquery-ui-1.8.11.custom.min.js"></script>
-                
-        <!-- Javascript for the actual visualization code -->
-        <script type = "text/javascript" src = "AnimationLibrary/CustomEvents.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/UndoFunctions.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/AnimatedObject.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/AnimatedLabel.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/AnimatedCircle.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/AnimatedRectangle.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/AnimatedLinkedList.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/HighlightCircle.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/Line.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/ObjectManager.js"> </script>
-        <script type = "text/javascript" src = "AnimationLibrary/AnimationMain.js"> </script>
-        <script type = "text/javascript" src = "AlgorithmLibrary/Algorithm.js"> </script>
-        <script type = "text/javascript" src = "Place path to your javascript file here"> </script> 
-                
-            
-     </head> 
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<footer id="mainFooter">
+  <span>
+    Copyright © 2011 
+    <a href="http://www.cs.usfca.edu/galles" target="_blank">David Galles</a>.
+    © 2015 
+    <a href="https://people.ok.ubc.ca/ylucet/" target="_blank">Yves Lucet</a>.
+    Licensed under the FreeBSD License.
     
-    <body onload="init();" class="VisualizationMainPage">
-        
-        <div id = "container">
-            
-            <div id="header">  
-                <h1>Place your Header here </h1>
-            </div>
-            
-            <div = id = "mainContent"> 
-                
-                <div id = "algoControlSection">
-                    <!-- Table for buttons to control specific animation (insert/find/etc) -->
-                    <!-- (filled in by javascript code specific to the animtion) -->
-                    <table id="AlgorithmSpecificControls"> </table> 
-                </div>
-                
-                    <!-- Drawing canvas where all animation is done.  Note:  can be resized in code -->
-                                    
-                <canvas id="canvas" width="1000" height="500"></canvas>
-                
-                <div id = "generalAnimationControlSection">
-                    <!-- Table for buttons to control general animation (play/pause/undo/etc) ->
-                    <!-- (filled in by javascript code, specifically AnimationMain.js)  -->
+    Modifications © 2026 Ronaldo Fiorilo.
+  </span>
+</footer>
 
-                    <table id="GeneralAnimationControls">  </table>     
-                </div>
-                
-            </div> <!-- mainContent -->
-            
-            <div id="footer">  
-                <p><a href="Algorithms.html">Algorithm Visualizations</a></p>
-            </div>
 
-        </div><!-- container -->
-    </body>
+
+
+<script>
+/* Toggle submenus */
+document.querySelectorAll(".nav-group-toggle").forEach(btn => {
+    btn.addEventListener("click", () => {
+        btn.parentElement.classList.toggle("open");
+    });
+});
+</script>
+
+</body>
 </html>
-
