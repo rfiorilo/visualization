@@ -148,6 +148,10 @@ document.addEventListener("DOMContentLoaded", () => {
      topbar.appendChild(content);
   }
 
+//   Projeto Original (Galles)
+// Adaptação (Lucet)
+
+
   
   /* FOOTER */
   const foot = document.getElementById("mainFooter");
@@ -181,6 +185,19 @@ document.addEventListener("DOMContentLoaded", () => {
     sectionDiv.appendChild(title);
 
     const ul = document.createElement("ul");
+
+    // TODOS
+    if (section.title === "Algoritmos")
+    {
+        const liItem = document.createElement("li");
+        const link = document.createElement("a");
+        link.className = "overview-link"
+        const root = getProjectRoot();
+        link.href = root + "index.html";
+        link.textContent = "Todos os Algoritmos";
+        liItem.appendChild(link);
+        ul.appendChild(liItem);
+    }         
 
     section.groups.forEach(group => { /* Grupo */
 
@@ -269,7 +286,17 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebar.appendChild(sectionDiv);
   });
 
+  const creditos = document.createElement("div")
+    creditos.className = "sidebar-credits"
+    creditos.innerHTML = `
+            <a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener noreferrer">Projeto Original (Galles)</a>
+            <a href="https://cmps-people.ok.ubc.ca/ylucet/DS/Algorithms.html" target="_blank" rel="noopener noreferrer">Adaptação (Lucet)</a>
+    `;
+    console.log(creditos)
+    sidebar.appendChild(creditos)
+
 });
+
 
 
 

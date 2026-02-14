@@ -66,14 +66,15 @@ window.PAGES_CONFIG = {
           name: "Hash",
           showGroupName: false,
           items: [
-            { shortname: "Hash", fullname: "Tabela de dispersão", pagename: "OpenHash", link: "pages/algorithms/OpenHash.html", description: "Utiliza função de dispersão para acesso rápido sem ordenação.", categories: ["hash"] }
+            { shortname: "Hash", fullname: "Tabela de dispersão", pagename: "OpenHash", link: "pages/algorithms/OpenHash.html", description: "Utiliza função de dispersão para acesso rápido sem ordenação.", categories: ["hash"] },
           ]
         },
         // {
-        //     name: "",
+        //     name: "mais",
         //     showGroupName: false,
         //     items: [
-        //       { name: "Hash", link: "Hash.html", description: "Algoritmo de busca eficiente em vetores ordenados.", categories: ["ordenacao", "arvores"] }
+        //     { shortname: "Hash", fullname: "Tabela de dispersão", pagename: "OpenHash", link: "pages/algorithms/OpenHash.html", description: "Utiliza função de dispersão para acesso rápido sem ordenação.", categories: ["hash"] },
+              
         //     ]
         // },
       ]
