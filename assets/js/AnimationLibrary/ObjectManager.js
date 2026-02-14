@@ -63,7 +63,7 @@ function ObjectManager()
 			this.framenum = 0;
 		
 		this.ctx.clearRect(0,0,this.width,this.height); // clear canvas
-		this.statusReport.y = this.height - 15;
+		this.statusReport.y = this.height - parseInt(VISUAL_CONFIG.textStyle.font.match(/\d+/)[0]) - 5
 		
 		var i;
 		var j;

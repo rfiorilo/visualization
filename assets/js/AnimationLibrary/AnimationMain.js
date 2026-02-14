@@ -149,7 +149,7 @@ function animWaiting()
 	{
 		stepBackButton.disabled = false;
 	}
-	objectManager.statusReport.setText("Animation Paused");
+	objectManager.statusReport.setText("Animação Pausada");
 	objectManager.statusReport.setForegroundColor("#FF0000");
 }
 
@@ -159,9 +159,9 @@ function animStarted()
 	skipBackButton.disabled = false;
 	stepForwardButton.disabled = true;
 	stepBackButton.disabled = true;
-	objectManager.statusReport.setText("Animation Running");
-	// objectManager.statusReport.setForegroundColor("#009900");
-	objectManager.statusReport.setForegroundColor("#0088b7");
+	objectManager.statusReport.setText("Animação em Andamento");
+	objectManager.statusReport.setForegroundColor(VISUAL_CONFIG.textStyle.color);
+
 }
 
 function animEnded()
@@ -172,8 +172,9 @@ function animEnded()
 	{
 		stepBackButton.disabled = false;		
 	}
-	objectManager.statusReport.setText("Animation Completed");
-	objectManager.statusReport.setForegroundColor("#000000");
+	objectManager.statusReport.setText("Animação Concluída");
+	objectManager.statusReport.setForegroundColor(VISUAL_CONFIG.textStyle.color);
+
 }
 
 
@@ -223,7 +224,7 @@ function doPlayPause()
 	paused = !paused;
 	if (paused)
 	{
-		playPauseBackButton.setAttribute("value", "play");
+		playPauseBackButton.setAttribute("value", "Reproduzir");
 		if (skipBackButton.disabled == false)
 		{
 			stepBackButton.disabled = false;		
@@ -232,7 +233,7 @@ function doPlayPause()
 	}
 	else
 	{
-		playPauseBackButton.setAttribute("value", "pause");	
+		playPauseBackButton.setAttribute("value", "Pausar");	
 	}
 	animationManager.SetPaused(paused);
 }
@@ -289,15 +290,15 @@ function initCanvas()
 	objectManager = new ObjectManager();
 	animationManager = new AnimationManager(objectManager);
 	
-	skipBackButton = addControlToAnimationBar("Button", "Skip Back");
+	skipBackButton = addControlToAnimationBar("Button", "Retroceder");
 	skipBackButton.onclick = animationManager.skipBack.bind(animationManager);
-	stepBackButton = addControlToAnimationBar("Button", "Step Back");
+	stepBackButton = addControlToAnimationBar("Button", "Passo Anterior");
 	stepBackButton.onclick = animationManager.stepBack.bind(animationManager);
-	playPauseBackButton = addControlToAnimationBar("Button", "Pause");
+	playPauseBackButton = addControlToAnimationBar("Button", "Pausar");
 	playPauseBackButton.onclick = doPlayPause ;
-	stepForwardButton = addControlToAnimationBar("Button", "Step Forward");
+	stepForwardButton = addControlToAnimationBar("Button", "Próximo Passo");
 	stepForwardButton.onclick = animationManager.step.bind(animationManager) ;
-	skipForwardButton = addControlToAnimationBar("Button", "Skip Forward");
+	skipForwardButton = addControlToAnimationBar("Button", "Avançar");
 	skipForwardButton.onclick = animationManager.skipForward.bind(animationManager);
 	
 	
@@ -326,7 +327,7 @@ function initCanvas()
 	midLevel = document.createElement("tr");
 	bottomLevel = document.createElement("td");
 	bottomLevel.align = "center";
-	var txtNode = document.createTextNode("Animation Speed"); 
+	var txtNode = document.createTextNode("Velocidade da Animação"); 
 	midLevel.appendChild(bottomLevel);
 	bottomLevel.appendChild(txtNode);
 	newTable.appendChild(midLevel);	
@@ -403,7 +404,7 @@ function initCanvas()
 	
 	
 	tableEntry = document.createElement("td");
-	txtNode = document.createTextNode(" w:"); 
+	txtNode = document.createTextNode(" L:"); 
 	tableEntry.appendChild(txtNode);
 	controlBar.appendChild(tableEntry);
 
@@ -414,7 +415,7 @@ function initCanvas()
 
 	
 	tableEntry = document.createElement("td");
-	txtNode = document.createTextNode("       h:"); 
+	txtNode = document.createTextNode("       A:"); 
 	tableEntry.appendChild(txtNode);
 	controlBar.appendChild(tableEntry);
 	
@@ -422,12 +423,13 @@ function initCanvas()
 	heightEntry.onkeydown = this.returnSubmit(heightEntry, animationManager.changeSize.bind(animationManager), 4, true);
 
 //	heightEntry.size = 4;
-	sizeButton = addControlToAnimationBar("Button", "Change Canvas Size");
+	// sizeButton = addControlToAnimationBar("Button", "Tamanho da Tela (L, A)");
+	sizeButton = addControlToAnimationBar("Button", "Redimensionar Tela");
 	
 	sizeButton.onclick = animationManager.changeSize.bind(animationManager) ;
 	
 
-        swapButton = addControlToAnimationBar("Button", "Move Controls");
+        swapButton = addControlToAnimationBar("Button", "Mover Controles");
         swapButton.onclick = swapControlDiv;	
 	
 	
@@ -648,7 +650,7 @@ function AnimationManager(objectManager)
 				{
 					this.animatedObjects.connectEdge(parseInt(nextCommand[1]),
                                                                          parseInt(nextCommand[2]),
-													                    "#000000",
+													                     VISUAL_CONFIG.drawingStyle.link,
                                                                          0.0,
                                                                          true,
                                                                          "",
@@ -667,8 +669,8 @@ function AnimationManager(objectManager)
 															parseInt(nextCommand[4]), // h
 															nextCommand[7], // xJustify
 															nextCommand[8],// yJustify
-															"#ffffff", // background color
-					                                        "#000000"); // foreground color
+															VISUAL_CONFIG.drawingStyle.arraybackground, // background color
+					                                        VISUAL_CONFIG.drawingStyle.foreground); // foreground color
 				}
 				else
 				{
@@ -678,8 +680,8 @@ function AnimationManager(objectManager)
 															parseInt(nextCommand[4]), // h
 															"center", // xJustify
 															"center",// yJustify
-															"#ffffff", // background color
-					                                        "#000000"); // foreground color
+															VISUAL_CONFIG.drawingStyle.arraybackground, // background color
+					                                        VISUAL_CONFIG.drawingStyle.foreground); // foreground color
 					
 				}
 				if (nextCommand.length > 6)
@@ -878,11 +880,11 @@ function AnimationManager(objectManager)
 				{
 					this.animatedObjects.addLinkedListObject(parseInt(nextCommand[1]), nextCommand[2], 
 			               parseInt(nextCommand[3]), parseInt(nextCommand[4]), parseFloat(nextCommand[7]), 
-			               this.parseBool(nextCommand[8]), this.parseBool(nextCommand[9]),parseInt(nextCommand[10]), "#FFFFFF", "#000000");
+			               this.parseBool(nextCommand[8]), this.parseBool(nextCommand[9]),parseInt(nextCommand[10]), VISUAL_CONFIG.drawingStyle.arraybackground, VISUAL_CONFIG.drawingStyle.foreground);
 				}
 				else
 				{
-					this.animatedObjects.addLinkedListObject(parseInt(nextCommand[1]), nextCommand[2], parseInt(nextCommand[3]), parseInt(nextCommand[4]), 0.25, true, false, 1, "#FFFFFF", "#000000");
+					this.animatedObjects.addLinkedListObject(parseInt(nextCommand[1]), nextCommand[2], parseInt(nextCommand[3]), parseInt(nextCommand[4]), 0.25, true, false, 1, VISUAL_CONFIG.drawingStyle.arraybackground, VISUAL_CONFIG.drawingStyle.foreground);
 				}
 				if (nextCommand.length > 6)
 				{

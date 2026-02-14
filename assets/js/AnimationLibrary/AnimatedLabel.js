@@ -32,7 +32,7 @@ function AnimatedLabel(id, val, center, initialWidth)
 	this.objectID = id;
 	this.alpha = 1.0;
 	this.addedToScene = true;
-	this.labelColor = "#000000";
+	this.labelColor = VISUAL_CONFIG.textStyle.color;
 	this.textWidth = 0;
 	if (initialWidth != undefined)
 	{
@@ -64,7 +64,7 @@ AnimatedLabel.prototype.draw = function(ctx)
 	}
 	
 	ctx.globalAlpha = this.alpha;
-	ctx.font = '10px sans-serif';
+	ctx.font = VISUAL_CONFIG.textStyle.font;
 
         var startingXForHighlight = this.x; 
 

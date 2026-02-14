@@ -1,8 +1,76 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  window.Utils = {
+    toShow(str) {
+        str = str.trim();
+
+        // Verifica se é número inteiro ou real (positivo ou negativo)
+        if (/^-?\d+(\.\d+)?$/.test(str)) {
+
+            // Se for número, converte e volta para string
+            return String(Number(str));
+        }
+
+        // Se não for número, retorna original
+        return str;
+    }
+  };
+
+
+  /* HEAD */
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.type = "application/javascript";
+        script.src = src;
+        script.async = false; // importante
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+    }
+
+    async function loadEverything(structure) {
+
+        const base = "../../assets/js/AnimationLibrary/";
+
+        const libs = [
+            "CustomEvents.js",
+            "UndoFunctions.js",
+            "AnimatedObject.js",
+            "AnimatedLabel.js",
+            "AnimatedCircle.js",
+            "AnimatedRectangle.js",
+            "AnimatedLinkedList.js",
+            "HighlightCircle.js",
+            "Line.js",
+            "ObjectManager.js",
+            "AnimationMain.js",
+        ];
+
+        for (const file of libs) {
+            await loadScript(base + file);
+        }
+
+
+        await loadScript("../../assets/js/AlgorithmLibrary/Algorithm.js");
+        if (structure == "OpenHash.js")
+            await loadScript("../../assets/js/AlgorithmLibrary/Hash.js");
+            
+        await loadScript("../../assets/js/AlgorithmLibrary/" + structure);
+
+        // console.log("Sistema pronto.");
+
+        }
+
+    function getProjectRoot() {
+        const path = window.location.pathname;
+        const index = path.indexOf("/visualization/");
+        return path.substring(0, index + "/visualization/".length);
+    }
+
 
   /* TOPBAR */
-
   const topbar = document.getElementById("ufmsTopBar");
   if (topbar) {
     const currentPage = window.location.pathname.split("/").pop();
@@ -15,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (item.link.includes(currentPage)) {
                 foundItem = item;
                 foundGroup = group;
+                showGroup = group.showGroupName;
             }
         });
     });
@@ -23,39 +92,64 @@ document.addEventListener("DOMContentLoaded", () => {
     content.className = "topbar-content";
     if (foundItem)
     {
-        content.innerHTML = `
-            <h1 class="algo-title">${foundItem.fullname}</h1>
-            <div class="breadcrumb">
-            <a href="../../index.html">Início</a>
-            <span>›</span>
-            <span>${foundGroup.name}</span>
-            <span>›</span>
-            <span class="current">${foundItem.shortname}</span></div>
-        `;
+        if(showGroup)
+        {
+            content.innerHTML = `
+                <h1 class="algo-title">${foundItem.fullname}</h1>
+                <div class="breadcrumb">
+                <a href="../../index.html">Início</a>
+                <span>›</span>
+                <span>${foundGroup.name}</span>
+                <span>›</span>
+                <span class="current">${foundItem.shortname}</span></div>
+            `;
+        }
+        else
+        {
+            content.innerHTML = `
+                <h1 class="algo-title">${foundItem.fullname}</h1>
+                <div class="breadcrumb">
+                <a href="../../index.html">Início</a>
+                <span>›</span>
+                <span class="current">${foundItem.shortname}</span></div>
+            `;
+        }
 
-        script = document.createElement("script")
-        script.type = "application/javascript"
-        script.src = "../../assets/js/AlgorithmLibrary/" + currentPage.replace(".html", ".js");
-        document.head.appendChild(script);
+        console.log("Carregando script para " + currentPage);
+        loadEverything(currentPage.replace(".html", ".js"));
+
     }
     else
     {
-        content.innerHTML = `
-            <h1 class="algo-title">Plataforma de Visualização Interativa</h1>
-            <div class="breadcrumb">
-            <span class="current">Início</span></div>
-        `;
+        const title = topbar.dataset.title || "Plataforma de Visualização Interativa";
+        const section = topbar.dataset.section || "";
+
+        if (section) {
+                const root = getProjectRoot();
+
+                content.innerHTML = `
+                    <h1 class="algo-title">${title}</h1>
+                    <div class="breadcrumb">
+                    <a href="${root}index.html">Início</a>
+                    <span>›</span>
+                    <span class="current">${section}</span></div>
+                `
+        }
+        else
+        {
+                content.innerHTML = `
+                    <h1 class="algo-title">${title}</h1>
+                    <div class="breadcrumb">
+                    <span class="current">Início</span></div>
+                `;
+        }
     }
 
      topbar.appendChild(content);
   }
-/* <div class="breadcrumb">
-				<a href="../../index.html">Início</a>
-				<span>›</span>
-				<span>Árvores</span>
-				<span>›</span>
-				<span class="current">ABB</span>
-			</div> */
+
+  
+  /* FOOTER */
   const foot = document.getElementById("mainFooter");
   const corp = document.createElement("span");
   corp.innerHTML = `
@@ -71,6 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
 
+  /* SIDEBAR E CARDS */
 
   const sidebar = document.getElementById("sidebarContainer");
   const cards = document.getElementById("cardsContainer");
@@ -93,17 +188,27 @@ document.addEventListener("DOMContentLoaded", () => {
         if (cards && section.title === "Algoritmos")
         {
             group.items.forEach(item => { /* Cada estrutura */
-                    // Card
-                    const card = document.createElement("article");
+                    const card = document.createElement("a");
                     card.className = "algorithm-card";
+                    card.href = item.link;
+
                     card.innerHTML = `
-                        ${item.categories.map(cat => {
-                            const category = CATEGORIES_CONFIG.categories[cat];
-                            return `<span class="badge ${cat}">${category.label}</span>`;
-                        }).join("")}
-                        <h3>${item.name}</h3>
-                        <p>${item.description}</p>
-                        <a href="${item.link}" class="btn-primary">Abrir</a>
+                        <div class="card-badges">
+                            ${item.categories.map(cat => {
+                                const category = CATEGORIES_CONFIG.categories[cat];
+                                return `<span class="badge ${cat}">${category.label}</span>`;
+                            }).join("")}
+                        </div>
+
+                        <h3 class="card-title">
+                            ${item.fullname}
+                        </h3>
+
+                        ${item.description ? `
+                            <p class="card-description">
+                                ${item.description}
+                            </p>
+                        ` : ""}
                     `;
 
                     cards.appendChild(card);
@@ -128,7 +233,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Sidebar link
                 const liItem = document.createElement("li");
                 const link = document.createElement("a");
-                link.href = item.link;
+                // link.href = item.link;
+                const root = getProjectRoot();
+                link.href = root + item.link;
+
                 link.textContent = item.shortname;
                 liItem.appendChild(link);
                 subUl.appendChild(liItem);
@@ -144,8 +252,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Sidebar link
                 const liItem = document.createElement("li");
                 const link = document.createElement("a");
-                link.href = item.link;
-                link.textContent = item.name;
+                // link.href = item.link;
+                const root = getProjectRoot();
+                link.href = root + item.link;
+                if (item.name) link.textContent = item.name;
+                else link.textContent = item.shortname;
                 liItem.appendChild(link);
 
                 ul.appendChild(liItem);
@@ -159,6 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+
 
 /*listener do sidebar */
 document.addEventListener("click", function (e) {
