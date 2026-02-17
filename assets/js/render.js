@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         await loadScript("../../assets/js/AlgorithmLibrary/Algorithm.js");
-        if (structure == "OpenHash.js")
+        if (structure == "OpenHash.js" || structure == "ClosedHash.js")
             await loadScript("../../assets/js/AlgorithmLibrary/Hash.js");
             
         await loadScript("../../assets/js/AlgorithmLibrary/" + structure);

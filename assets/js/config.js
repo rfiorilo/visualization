@@ -54,19 +54,20 @@ window.PAGES_CONFIG = {
     {
       title: "Algoritmos",
       groups: [
-        {
-          name: "Árvores",
-          showGroupName: true,
-          items: [
-            { shortname: "ABB", fullname: "Árvore Binária de Busca", pagename: "BST", link: "pages/algorithms/BST.html", description: "Permite busca eficiente, mas pode degradar sem balanceamento.", categories: ["arvores"] },
-            // { name: "AVL", link: "AVL.html", description: "Árvore balanceada.", categories: ["arvores"] }
-          ]
-        },
+        // {
+        //   name: "Árvores",
+        //   showGroupName: true,
+        //   items: [
+        //     { shortname: "ABB", fullname: "Árvore Binária de Busca", pagename: "BST", link: "pages/algorithms/BST.html", description: "Permite busca eficiente, mas pode degradar sem balanceamento.", categories: ["arvores"] },
+        //     // { name: "AVL", link: "AVL.html", description: "Árvore balanceada.", categories: ["arvores"] }
+        //   ]
+        // },
         {
           name: "Hash",
-          showGroupName: false,
+          showGroupName: true,
           items: [
-            { shortname: "Hash", fullname: "Tabela de dispersão", pagename: "OpenHash", link: "pages/algorithms/OpenHash.html", description: "Utiliza função de dispersão para acesso rápido sem ordenação.", categories: ["hash"] },
+            { shortname: "Encadeamento externo", fullname: "Tabela de dispersão - Encadeamento externo", pagename: "OpenHash", link: "pages/algorithms/OpenHash.html", description: "Utiliza função de dispersão para acesso rápido sem ordenação.", categories: ["hash"] },
+            { shortname: "Endereçamento aberto", fullname: "Tabela de dispersão - Endereçamento aberto", pagename: "ClosedHash", link: "pages/algorithms/ClosedHash.html", description: "Utiliza função de dispersão para acesso rápido sem ordenação.", categories: ["hash"] },
           ]
         },
         // {
