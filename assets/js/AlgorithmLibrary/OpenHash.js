@@ -33,21 +33,26 @@ function OpenHash(am, w, h)
 }
 
 
-var HASH_TABLE_SIZE  = 13;
+// var HASH_TABLE_SIZE  = 13;
 
 
 var POINTER_ARRAY_ELEM_WIDTH = 70;
 var POINTER_ARRAY_ELEM_HEIGHT = 30;
 
-const tela = document.getElementById("canvas");
-if (tela)
+function inicioVetor(ts)
 {
-	const totalWidth = HASH_TABLE_SIZE * POINTER_ARRAY_ELEM_WIDTH;
-	POINTER_ARRAY_ELEM_START_X = (tela.width - totalWidth) / 2;
-}
-else
-	var POINTER_ARRAY_ELEM_START_X = 50;
+	const tela = document.getElementById("canvas");
 
+	if (tela)
+	{
+		const totalWidth = ts * POINTER_ARRAY_ELEM_WIDTH;
+		POINTER_ARRAY_ELEM_START_X = (tela.width - totalWidth) / 2;
+	}
+	else
+		var POINTER_ARRAY_ELEM_START_X = 50;
+
+	return POINTER_ARRAY_ELEM_START_X;
+}
 
 
 var LINKED_ITEM_HEIGHT = 30;
@@ -78,7 +83,8 @@ OpenHash.prototype.init = function(am, w, h)
 	fn.call(this,am, w, h);
 	this.nextIndex = 0;
 	this.POINTER_ARRAY_ELEM_Y = h - POINTER_ARRAY_ELEM_WIDTH;
-	this.setup();
+	this.setup(13);
+	this.animman = am;
 }
 
 OpenHash.prototype.addControls = function()
@@ -89,11 +95,13 @@ OpenHash.prototype.addControls = function()
 
 }
 
-OpenHash.prototype.insertElement = function(elem)
+OpenHash.prototype.insertElement_ok = function(elem)
 {
 	this.commands = new Array();
-	this.cmd("SetText", this.ExplainLabel, "Inserting element: " + String(elem));
+	this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + String(elem));	
 	var index = this.doHash(elem);
+
+	
 	var node  = new LinkedListNode(elem,this.nextIndex++, 100, 75);
 	this.cmd("CreateLinkedList", node.graphicID, elem, LINKED_ITEM_WIDTH, LINKED_ITEM_HEIGHT, 100, 75);
 	if (this.hashTableValues[index] != null && this.hashTableValues[index] != undefined)
@@ -112,16 +120,175 @@ OpenHash.prototype.insertElement = function(elem)
 	
 	this.repositionList(index);
 	
-	this.cmd("SetText", this.ExplainLabel, "");
+	// this.cmd("SetText", this.ExplainLabel, "");
+	this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + String(elem) + "  Inserido!");
+
 	
 	return this.commands;
 	
 }
 
 
+
+OpenHash.prototype.insertElement = function(elem)
+{
+	this.commands = new Array();
+	this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + String(elem));	
+	var index = this.doHash(elem);
+
+	var compareIndex = this.nextIndex++;
+	var found = false;
+
+	/* cria no */
+	var node  = new LinkedListNode(elem,this.nextIndex++, 100, 75);
+	this.cmd("CreateLinkedList", node.graphicID, elem, LINKED_ITEM_WIDTH, LINKED_ITEM_HEIGHT, 100, 75);
+	this.cmd("SetNull", node.graphicID, 1); 
+	node.next = null;
+
+
+	if(this.hashTableValues[index] == null)
+	{
+		/* primeiro elemento */
+		this.cmd("SetNull", this.hashTableVisual[index], 0);
+		this.cmd("connect", this.hashTableVisual[index], node.graphicID);
+		this.hashTableValues[index] = node;
+		this.repositionList(index);
+
+	}
+	else
+	{
+		this.cmd("SetHighlight", this.hashTableValues[index].graphicID, 1);
+		this.cmd("Step");
+		this.cmd("SetHighlight", this.hashTableValues[index].graphicID, 0);
+		if (this.hashTableValues[index].data == elem)
+		{
+			this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + elem + "  Elemento já existe!");
+
+			return this.commands;
+		}
+
+		var tmpPrev = this.hashTableValues[index];
+		var tmp = this.hashTableValues[index].next;
+		var found = false;
+		while (tmp != null && !found)
+		{
+			this.cmd("SetHighlight", tmp.graphicID, 1);
+			this.cmd("Step");
+			this.cmd("SetHighlight", tmp.graphicID, 0);
+			if (tmp.data == elem)
+			{
+				found = true;
+				this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + elem + "  Elemento já existe!");
+				this.cmd("Delete", node.graphicID);
+			}
+			else
+			{
+				tmpPrev = tmp;
+				tmp = tmp.next;
+			}		
+		}
+		if (!found)
+		{
+			this.cmd("Connect", tmpPrev.graphicID, node.graphicID);
+			tmpPrev.next = node;
+			this.repositionList(index);
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/* ja tem elemento, percorre a lista */
+		// var ant = null;
+		// var tmp = this.hashTableValues[index];
+		// this.cmd("CreateLabel", compareIndex, "", 10, 40, 0);
+
+		// while (tmp != null && !found)
+		// {
+		// 	this.cmd("SetHighlight", ant.graphicID, 1);
+		// 	if (tmp.data == elem)
+		// 	{
+		// 		this.cmd("SetText", compareIndex,  ant.data  + "==" + elem)
+		// 		found = true;
+		// 	}
+		// 	else
+		// 	{
+		// 		this.cmd("SetText", compareIndex,  ant.data  + "!=" + elem)
+		// 	}
+		// 	this.cmd("Step");
+		// 	this.cmd("SetHighlight", ant.graphicID, 0);
+		// 	ant = tmp;
+		// 	tmp = tmp.next;
+		// }
+
+		// if (found)
+		// {
+		// 	this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + elem+ "  Elemento já existe!")				
+		// }
+		// else
+		// {
+		// 	this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem+ "  Inserido!")
+		// 	this.cmd("connect", ant.graphicID, node.graphicID);
+		// 	ant.prox = node;
+
+		// 	var startX = inicioVetor(this.table_size) + index *POINTER_ARRAY_ELEM_WIDTH;
+		// 	var startY =  this.POINTER_ARRAY_ELEM_Y - LINKED_ITEM_Y_DELTA;
+		// 	this.cmd("Move", node.graphicID, ant.x, ant.y - LINKED_ITEM_Y_DELTA);				
+			
+		// }
+
+	}
+
+	
+	
+	return this.commands;
+	
+}
+
 OpenHash.prototype.repositionList = function(index)
 {
-	var startX = POINTER_ARRAY_ELEM_START_X + index *POINTER_ARRAY_ELEM_WIDTH;
+	// var startX = POINTER_ARRAY_ELEM_START_X + index *POINTER_ARRAY_ELEM_WIDTH;
+	var startX = inicioVetor(this.table_size) + index *POINTER_ARRAY_ELEM_WIDTH;
 	var startY =  this.POINTER_ARRAY_ELEM_Y - LINKED_ITEM_Y_DELTA;
 	var tmp = this.hashTableValues[index];
 	while (tmp != null)
@@ -135,14 +302,15 @@ OpenHash.prototype.repositionList = function(index)
 }
 
 
+
 OpenHash.prototype.deleteElement = function(elem)
 {
 	this.commands = new Array();
-	this.cmd("SetText", this.ExplainLabel, "Deleting element: " + elem);
+	this.cmd("SetText", this.ExplainLabel, "Removendo elemento: " + elem);
 	var index = this.doHash(elem);
 	if (this.hashTableValues[index] == null)
 	{
-		this.cmd("SetText", this.ExplainLabel, "Deleting element: " + elem + "  Element not in table");
+		this.cmd("SetText", this.ExplainLabel, "Removendo elemento: " + elem + "  Não encontrado!");
 		return this.commands;
 	}
 	this.cmd("SetHighlight", this.hashTableValues[index].graphicID, 1);
@@ -150,6 +318,8 @@ OpenHash.prototype.deleteElement = function(elem)
 	this.cmd("SetHighlight", this.hashTableValues[index].graphicID, 0);
 	if (this.hashTableValues[index].data == elem)
 	{
+		this.cmd("SetText", this.ExplainLabel, "Removendo elemento: " + elem + "  Removido!");
+
 		if (this.hashTableValues[index].next != null)
 		{
 			this.cmd("Connect", this.hashTableVisual[index], this.hashTableValues[index].next.graphicID);
@@ -174,7 +344,7 @@ OpenHash.prototype.deleteElement = function(elem)
 		if (tmp.data == elem)
 		{
 			found = true;
-			this.cmd("SetText", this.ExplainLabel, "Deleting element: " + elem + "  Element deleted");
+			this.cmd("SetText", this.ExplainLabel, "Removendo elemento: " + elem + "  Removido!");
 			if (tmp.next != null)
 			{
 				this.cmd("Connect", tmpPrev.graphicID, tmp.next.graphicID);
@@ -195,15 +365,16 @@ OpenHash.prototype.deleteElement = function(elem)
 	}
 	if (!found)
 	{
-		this.cmd("SetText", this.ExplainLabel, "Deleting element: " + elem + "  Element not in table");
+		this.cmd("SetText", this.ExplainLabel, "Removendo elemento: " + elem + "  Não encontrado!");
 	}
+	
 	return this.commands;
 	
 }
 OpenHash.prototype.findElement = function(elem)
 {
 	this.commands = new Array();
-	this.cmd("SetText", this.ExplainLabel, "Finding Element: " + elem);
+	this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem);
 
 	var index = this.doHash(elem);
 	var compareIndex = this.nextIndex++;
@@ -228,11 +399,11 @@ OpenHash.prototype.findElement = function(elem)
 	}
 	if (found)
 	{
-		this.cmd("SetText", this.ExplainLabel, "Finding Element: " + elem+ "  Found!")				
+		this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem+ "  Encontrado!")				
 	}
 	else
 	{
-		this.cmd("SetText", this.ExplainLabel, "Finding Element: " + elem+ "  Not Found!")
+		this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem+ "  Não encontrado!")
 		
 	}
 	this.cmd("Delete", compareIndex);
@@ -241,33 +412,46 @@ OpenHash.prototype.findElement = function(elem)
 }
 
 
-
-
-OpenHash.prototype.setup = function()
+OpenHash.prototype.tableSize = function(newSize)
 {
-	this.hashTableVisual = new Array(HASH_TABLE_SIZE);
-	this.hashTableIndices = new Array(HASH_TABLE_SIZE);
-	this.hashTableValues = new Array(HASH_TABLE_SIZE);
+    newSize = parseInt(newSize);
+
+    this.animman.resetAll();
+	this.setup(newSize);
+
+};
+
+
+
+
+OpenHash.prototype.setup = function(ts)
+{
+	this.table_size = ts;
+
+	this.hashTableVisual = new Array(this.table_size);
+	this.hashTableIndices = new Array(this.table_size);
+	this.hashTableValues = new Array(this.table_size);
 	
-	this.indexXPos = new Array(HASH_TABLE_SIZE);
-	this.indexYPos = new Array(HASH_TABLE_SIZE);
+	this.indexXPos = new Array(this.table_size);
+	this.indexYPos = new Array(this.table_size);
 	
 	this.ExplainLabel = this.nextIndex++;
 	
-	this.table_size = HASH_TABLE_SIZE;
 
 	this.commands = [];
-	for (var i = 0; i < HASH_TABLE_SIZE; i++)
+	for (var i = 0; i < this.table_size; i++)
 	{
 		var nextID  = this.nextIndex++;
 		
-		this.cmd("CreateRectangle", nextID, "", POINTER_ARRAY_ELEM_WIDTH, POINTER_ARRAY_ELEM_HEIGHT, POINTER_ARRAY_ELEM_START_X + i *POINTER_ARRAY_ELEM_WIDTH, this.POINTER_ARRAY_ELEM_Y)
+		// this.cmd("CreateRectangle", nextID, "", POINTER_ARRAY_ELEM_WIDTH, POINTER_ARRAY_ELEM_HEIGHT, POINTER_ARRAY_ELEM_START_X + i *POINTER_ARRAY_ELEM_WIDTH, this.POINTER_ARRAY_ELEM_Y)
+		this.cmd("CreateRectangle", nextID, "", POINTER_ARRAY_ELEM_WIDTH, POINTER_ARRAY_ELEM_HEIGHT, inicioVetor(this.table_size) + i *POINTER_ARRAY_ELEM_WIDTH, this.POINTER_ARRAY_ELEM_Y)
 		this.hashTableVisual[i] = nextID;
 		this.cmd("SetNull", this.hashTableVisual[i], 1);
 		
 		nextID = this.nextIndex++;
 		this.hashTableIndices[i] = nextID;
-		this.indexXPos[i] =  POINTER_ARRAY_ELEM_START_X + i *POINTER_ARRAY_ELEM_WIDTH;
+		// this.indexXPos[i] =  POINTER_ARRAY_ELEM_START_X + i *POINTER_ARRAY_ELEM_WIDTH;
+		this.indexXPos[i] =  inicioVetor(this.table_size) + i *POINTER_ARRAY_ELEM_WIDTH;
 		this.indexYPos[i] = this.POINTER_ARRAY_ELEM_Y + POINTER_ARRAY_ELEM_HEIGHT
 		this.hashTableValues[i] = null;
 		
@@ -280,6 +464,8 @@ OpenHash.prototype.setup = function()
 	this.animationManager.clearHistory();
 	this.resetIndex  = this.nextIndex;
 }
+
+
 
 
 
@@ -301,6 +487,7 @@ OpenHash.prototype.resetAll = function()
 			this.cmd("SetNull",  this.hashTableVisual[i], 1);
 		}
 	}
+
 	return this.commands;
 }
 

@@ -38,7 +38,7 @@ Hash.prototype = new Algorithm();
 Hash.prototype.constructor = Hash;
 Hash.superclass = Algorithm.prototype;
 
-var MAX_HASH_LENGTH = 10;
+var MAX_HASH_LENGTH = 6;
 
 
 var HASH_NUMBER_START_X = 200;
@@ -52,11 +52,14 @@ var HASH_ADD_LINE_Y = 42;
 var HASH_RESULT_Y = 50;
 var ELF_HASH_SHIFT = 10;
 
-var HASH_LABEL_X = 300;
-var HASH_LABEL_Y = 30;
+// var HASH_LABEL_X = 300;
+var HASH_LABEL_X = 50;
+// var HASH_LABEL_Y = 30;
+var HASH_LABEL_Y = 80;
 var HASH_LABEL_DELTA_X = 50;
 
 var HIGHLIGHT_COLOR = VISUAL_CONFIG.drawingStyle.highlight;
+
 
 
 
@@ -69,6 +72,13 @@ Hash.prototype.init = function(am, w, h)
 	this.nextIndex = 0;
 	this.hashingIntegers = true;
 
+	/* DAQUI PRA BAIXO EU COLOQUEI */
+	// this.canvasWidth = w;
+    // this.canvasHeight = h;
+
+    // this.nextIndex = 0;
+    // this.POINTER_ARRAY_ELEM_Y = h - POINTER_ARRAY_ELEM_WIDTH;
+
 }
 
 Hash.prototype.addControls = function()
@@ -76,20 +86,23 @@ Hash.prototype.addControls = function()
 	this.insertField = addControlToAlgorithmBar("Text", "");
 	this.insertField.size = MAX_HASH_LENGTH;
 	this.insertField.onkeydown = this.returnSubmit(this.insertField,  this.insertCallback.bind(this), MAX_HASH_LENGTH, true);
-	this.insertButton = addControlToAlgorithmBar("Button", "Insert");
+	this.insertButton = addControlToAlgorithmBar("Button", "Inserir");
 	this.insertButton.onclick =  this.insertCallback.bind(this);
+	addSpaceToAlgorithmBar(15);
+
 
 	this.deleteField = addControlToAlgorithmBar("Text", "");
 	this.deleteField.size = MAX_HASH_LENGTH;
-	this.deleteField.onkeydown = this.returnSubmit(this.insertField,  this.deleteCallback.bind(this), MAX_HASH_LENGTH, true);
-	this.deleteButton = addControlToAlgorithmBar("Button", "Delete");
+	this.deleteField.onkeydown = this.returnSubmit(this.deleteField,  this.deleteCallback.bind(this), MAX_HASH_LENGTH, true);
+	this.deleteButton = addControlToAlgorithmBar("Button", "Remover");
 	this.deleteButton.onclick =  this.deleteCallback.bind(this);
+	addSpaceToAlgorithmBar(15);
 
 
 	this.findField = addControlToAlgorithmBar("Text", "");
 	this.findField.size = MAX_HASH_LENGTH;
-	this.findField.onkeydown = this.returnSubmit(this.insertField,  this.findCallback.bind(this), MAX_HASH_LENGTH, true);
-	this.findButton = addControlToAlgorithmBar("Button", "Find");
+	this.findField.onkeydown = this.returnSubmit(this.findField,  this.findCallback.bind(this), MAX_HASH_LENGTH, true);
+	this.findButton = addControlToAlgorithmBar("Button", "Buscar");
 	this.findButton.onclick =  this.findCallback.bind(this);
 
 
@@ -101,6 +114,14 @@ Hash.prototype.addControls = function()
 	// this.hashStringButton.onclick = this.changeHashTypeCallback.bind(this, false);
 
 	// this.hashIntegerButton.checked = true;
+
+	addSpaceToAlgorithmBar(75);
+
+	this.sizeField = addControlToAlgorithmBar("Text", "");
+	this.sizeField.size = 2;
+	this.sizeField.onkeydown = this.returnSubmit(this.sizeField,  this.tableSizeCallback.bind(this), 2, true);
+	this.sizeButton = addControlToAlgorithmBar("Button", "Redefinir Tamanho");
+	this.sizeButton.onclick =  this.tableSizeCallback.bind(this);
 }
 
 
@@ -146,9 +167,10 @@ Hash.prototype.doHash = function(input)
 		var highlightID = this.nextIndex++;
 		var index = parseInt(input) % this.table_size;
 		this.currHash =  parseInt(input);
-
-		this.cmd("CreateLabel", labelID1, input + " % " + String(this.table_size) + " = " , HASH_LABEL_X, HASH_LABEL_Y);
-		this.cmd("CreateLabel", labelID2,index,  HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
+		var hdex = input + " % " + String(this.table_size) + " = ";
+		this.cmd("CreateLabel", labelID1, hdex , HASH_LABEL_X, HASH_LABEL_Y);
+		// this.cmd("CreateLabel", labelID2, index,  HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
+		this.cmd("CreateLabel", labelID2, index,  HASH_LABEL_X + hdex.length*4, HASH_LABEL_Y);
 		this.cmd("Step");
 		this.cmd("CreateHighlightCircle", highlightID, HIGHLIGHT_COLOR, HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
 		this.cmd("Move", highlightID, this.indexXPos[index], this.indexYPos[index]);
@@ -399,6 +421,17 @@ Hash.prototype.findCallback = function(event)
 }
 
 
+Hash.prototype.tableSizeCallback = function(event)
+{
+	var sizeValue = this.sizeField.value;
+	if( sizeValue != "")
+	{
+		this.sizeField.value = "";
+		this.implementAction(this.tableSize.bind(this), sizeValue);
+	}
+}
+
+
 
 
 
@@ -418,6 +451,10 @@ Hash.prototype.findElement = function(elem)
 
 }
 
+Hash.prototype.tableSize = function(elem)
+{
+
+}
 
 
 // NEED TO OVERRIDE IN PARENT

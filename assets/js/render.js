@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
             
         await loadScript("../../assets/js/AlgorithmLibrary/" + structure);
 
-        // console.log("Sistema pronto.");
 
         }
 
@@ -115,7 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }
 
-        console.log("Carregando script para " + currentPage);
         loadEverything(currentPage.replace(".html", ".js"));
 
     }
@@ -292,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener noreferrer">Projeto Original (Galles)</a>
             <a href="https://cmps-people.ok.ubc.ca/ylucet/DS/Algorithms.html" target="_blank" rel="noopener noreferrer">Adaptação (Lucet)</a>
     `;
-    console.log(creditos)
     sidebar.appendChild(creditos)
 
 });

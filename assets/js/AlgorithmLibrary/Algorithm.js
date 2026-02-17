@@ -115,6 +115,18 @@ function addControlToAlgorithmBar(type, name) {
 	
 }
 
+function addSpaceToAlgorithmBar(value) {
+	
+	var tableEntry = document.createElement("td");
+	tableEntry.setAttribute("width", value)
+	
+    var controlBar = document.getElementById("AlgorithmSpecificControls");
+	
+    //Append the element in page (in span).
+    controlBar.appendChild(tableEntry);
+	
+}
+
 
 
 
