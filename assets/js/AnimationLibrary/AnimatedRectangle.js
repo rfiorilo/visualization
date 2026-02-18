@@ -240,8 +240,8 @@ AnimatedRectangle.prototype.draw = function(context)
 	
 	if (this.highlighted)
 	{
-		context.strokeStyle = "#ff0000";
-		context.fillStyle = "#ff0000";
+		context.strokeStyle = VISUAL_CONFIG.drawingStyle.highlight;
+		context.fillStyle = VISUAL_CONFIG.drawingStyle.highlight;
 		
 		context.beginPath();
 		context.moveTo(startX - this.highlightDiff,startY- this.highlightDiff);
@@ -279,7 +279,8 @@ AnimatedRectangle.prototype.draw = function(context)
 	context.fillStyle = this.labelColor;
 	
 	context.textAlign = 'center';
-	context.font         = '10px sans-serif';
+	context.font         = VISUAL_CONFIG.textStyle.font;
+	// context.font         = '10px sans-serif';
 	context.textBaseline   = 'middle'; 
 	context.lineWidth = 1;
 	context.fillText(this.label, this.x, this.y); 

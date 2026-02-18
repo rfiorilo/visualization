@@ -90,21 +90,22 @@ Hash.prototype.addControls = function()
 	this.insertButton.onclick =  this.insertCallback.bind(this);
 	addSpaceToAlgorithmBar(15);
 
+	this.findField = addControlToAlgorithmBar("Text", "");
+	this.findField.size = MAX_HASH_LENGTH;
+	this.findField.onkeydown = this.returnSubmit(this.findField,  this.findCallback.bind(this), MAX_HASH_LENGTH, true);
+	this.findButton = addControlToAlgorithmBar("Button", "Buscar");
+	this.findButton.onclick =  this.findCallback.bind(this);
+	addSpaceToAlgorithmBar(15);
+
 
 	this.deleteField = addControlToAlgorithmBar("Text", "");
 	this.deleteField.size = MAX_HASH_LENGTH;
 	this.deleteField.onkeydown = this.returnSubmit(this.deleteField,  this.deleteCallback.bind(this), MAX_HASH_LENGTH, true);
 	this.deleteButton = addControlToAlgorithmBar("Button", "Remover");
 	this.deleteButton.onclick =  this.deleteCallback.bind(this);
-	addSpaceToAlgorithmBar(15);
 
 
-	this.findField = addControlToAlgorithmBar("Text", "");
-	this.findField.size = MAX_HASH_LENGTH;
-	this.findField.onkeydown = this.returnSubmit(this.findField,  this.findCallback.bind(this), MAX_HASH_LENGTH, true);
-	this.findButton = addControlToAlgorithmBar("Button", "Buscar");
-	this.findButton.onclick =  this.findCallback.bind(this);
-
+	
 
 	// vamos aceitar apenas inteiros
 	// var radioButtonList = addRadioButtonGroupToAlgorithmBar(["Hash Integer", "Hash Strings"], "HashType");
@@ -118,8 +119,8 @@ Hash.prototype.addControls = function()
 	addSpaceToAlgorithmBar(75);
 
 	this.sizeField = addControlToAlgorithmBar("Text", "");
-	this.sizeField.size = 2;
-	this.sizeField.onkeydown = this.returnSubmit(this.sizeField,  this.tableSizeCallback.bind(this), 2, true);
+	this.sizeField.size = 3;
+	this.sizeField.onkeydown = this.returnSubmit(this.sizeField,  this.tableSizeCallback.bind(this), 3, true);
 	this.sizeButton = addControlToAlgorithmBar("Button", "Redefinir Tamanho");
 	this.sizeButton.onclick =  this.tableSizeCallback.bind(this);
 }
@@ -158,7 +159,7 @@ Hash.prototype.changeHashType = function(newHashingIntegerValue)
 }
 
 
-Hash.prototype.doHash = function(input)
+Hash.prototype.doHash = function(input, hidelabel)
 {
 	if (this.hashingIntegers)
 	{
@@ -168,9 +169,17 @@ Hash.prototype.doHash = function(input)
 		var index = parseInt(input) % this.table_size;
 		this.currHash =  parseInt(input);
 		var hdex = input + " % " + String(this.table_size) + " = ";
-		this.cmd("CreateLabel", labelID1, hdex , HASH_LABEL_X, HASH_LABEL_Y);
-		// this.cmd("CreateLabel", labelID2, index,  HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
-		this.cmd("CreateLabel", labelID2, index,  HASH_LABEL_X + hdex.length*4, HASH_LABEL_Y);
+		if(hidelabel)
+		{
+			this.cmd("CreateLabel", labelID1, "" , HASH_LABEL_X, HASH_LABEL_Y);
+			this.cmd("CreateLabel", labelID2, "",  HASH_LABEL_X + hdex.length*4, HASH_LABEL_Y);
+		}
+		else
+		{
+			this.cmd("CreateLabel", labelID1, hdex , HASH_LABEL_X, HASH_LABEL_Y);
+			// this.cmd("CreateLabel", labelID2, index,  HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
+			this.cmd("CreateLabel", labelID2, index,  HASH_LABEL_X + hdex.length*4, HASH_LABEL_Y);
+		}
 		this.cmd("Step");
 		this.cmd("CreateHighlightCircle", highlightID, HIGHLIGHT_COLOR, HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
 		this.cmd("Move", highlightID, this.indexXPos[index], this.indexYPos[index]);

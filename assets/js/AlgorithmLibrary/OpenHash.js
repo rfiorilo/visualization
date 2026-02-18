@@ -33,11 +33,9 @@ function OpenHash(am, w, h)
 }
 
 
-// var HASH_TABLE_SIZE  = 13;
 
-
-var POINTER_ARRAY_ELEM_WIDTH = 70;
-var POINTER_ARRAY_ELEM_HEIGHT = 30;
+var POINTER_ARRAY_ELEM_WIDTH = 65;
+var POINTER_ARRAY_ELEM_HEIGHT = 40;
 
 function inicioVetor(ts)
 {
@@ -55,16 +53,12 @@ function inicioVetor(ts)
 }
 
 
-var LINKED_ITEM_HEIGHT = 30;
-var LINKED_ITEM_WIDTH = 65;
+var LINKED_ITEM_HEIGHT = 40;
+var LINKED_ITEM_WIDTH = 55;
 
-var LINKED_ITEM_Y_DELTA = 50;
+var LINKED_ITEM_Y_DELTA = 65;
 var LINKED_ITEM_POINTER_PERCENT = 0.25;
 
-var MAX_DATA_VALUE = 999;
-
-
-var ARRAY_Y_POS = 350;
 
 
 var INDEX_COLOR = VISUAL_CONFIG.drawingStyle.index;
@@ -82,7 +76,7 @@ OpenHash.prototype.init = function(am, w, h)
 	var fn = sc.init;
 	fn.call(this,am, w, h);
 	this.nextIndex = 0;
-	this.POINTER_ARRAY_ELEM_Y = h - POINTER_ARRAY_ELEM_WIDTH;
+	this.POINTER_ARRAY_ELEM_Y = h - POINTER_ARRAY_ELEM_WIDTH - parseInt(VISUAL_CONFIG.textStyle.font.match(/\d+/)[0]);
 	this.setup(13);
 	this.animman = am;
 }
@@ -98,8 +92,13 @@ OpenHash.prototype.addControls = function()
 OpenHash.prototype.insertElement_ok = function(elem)
 {
 	this.commands = new Array();
-	this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + String(elem));	
-	var index = this.doHash(elem);
+	// var index = this.doHash(elem);
+	var index = elem % this.table_size;
+
+	var texto = "Inserindo elemento: " + String(elem);
+	this.cmd("SetText", this.ExplainLabel, texto);	
+
+
 
 	
 	var node  = new LinkedListNode(elem,this.nextIndex++, 100, 75);
@@ -133,18 +132,42 @@ OpenHash.prototype.insertElement_ok = function(elem)
 OpenHash.prototype.insertElement = function(elem)
 {
 	this.commands = new Array();
-	this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + String(elem));	
-	var index = this.doHash(elem);
+	var index = elem % this.table_size;
 
-	var compareIndex = this.nextIndex++;
-	var found = false;
+	var texto = "Inserindo elemento: " + String(elem);
+	this.cmd("SetText", this.ExplainLabel, texto);
+
+	// this.cmd("Step");
+
+	texto += "\n\n  " + elem + " % " + this.table_size + " = " + index;
+	this.cmd("SetText", this.ExplainLabel, texto);
+
+	var highlightID = this.nextIndex++;
+	this.cmd("CreateHighlightCircle", highlightID, HIGHLIGHT_COLOR, HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
+	this.cmd("Move", highlightID, this.indexXPos[index], this.indexYPos[index] - 45);
+	this.cmd("Step");
+	
 
 	/* cria no */
-	var node  = new LinkedListNode(elem,this.nextIndex++, 100, 75);
-	this.cmd("CreateLinkedList", node.graphicID, elem, LINKED_ITEM_WIDTH, LINKED_ITEM_HEIGHT, 100, 75);
+	this.cmd("Delete", highlightID);
+
+	var node  = new LinkedListNode(elem, this.nextIndex++, 65, 85);
+	this.cmd("CreateLinkedList", node.graphicID, elem, LINKED_ITEM_WIDTH, LINKED_ITEM_HEIGHT, 65, 85);
 	this.cmd("SetNull", node.graphicID, 1); 
 	node.next = null;
 
+	var highlightID2 = this.nextIndex++;
+	this.cmd("CreateHighlightCircle", highlightID2, HIGHLIGHT_COLOR, this.indexXPos[index], this.indexYPos[index] - 45);
+
+	this.cmd("Step");
+	this.cmd("Delete", highlightID2);
+	this.nextIndex--;
+	
+	// this.cmd("Step");
+
+
+	var compareIndex = this.nextIndex++;
+	var found = false;
 
 	if(this.hashTableValues[index] == null)
 	{
@@ -153,6 +176,8 @@ OpenHash.prototype.insertElement = function(elem)
 		this.cmd("connect", this.hashTableVisual[index], node.graphicID);
 		this.hashTableValues[index] = node;
 		this.repositionList(index);
+		this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + elem + "  Inserido!");
+
 
 	}
 	else
@@ -163,6 +188,8 @@ OpenHash.prototype.insertElement = function(elem)
 		if (this.hashTableValues[index].data == elem)
 		{
 			this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + elem + "  Elemento já existe!");
+			this.cmd("Delete", node.graphicID);
+
 
 			return this.commands;
 		}
@@ -191,92 +218,12 @@ OpenHash.prototype.insertElement = function(elem)
 		{
 			this.cmd("Connect", tmpPrev.graphicID, node.graphicID);
 			tmpPrev.next = node;
+			this.cmd("SetNull", tmpPrev.graphicID, 0);
+
+
 			this.repositionList(index);
+			this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + elem + "  Inserido!");
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		/* ja tem elemento, percorre a lista */
-		// var ant = null;
-		// var tmp = this.hashTableValues[index];
-		// this.cmd("CreateLabel", compareIndex, "", 10, 40, 0);
-
-		// while (tmp != null && !found)
-		// {
-		// 	this.cmd("SetHighlight", ant.graphicID, 1);
-		// 	if (tmp.data == elem)
-		// 	{
-		// 		this.cmd("SetText", compareIndex,  ant.data  + "==" + elem)
-		// 		found = true;
-		// 	}
-		// 	else
-		// 	{
-		// 		this.cmd("SetText", compareIndex,  ant.data  + "!=" + elem)
-		// 	}
-		// 	this.cmd("Step");
-		// 	this.cmd("SetHighlight", ant.graphicID, 0);
-		// 	ant = tmp;
-		// 	tmp = tmp.next;
-		// }
-
-		// if (found)
-		// {
-		// 	this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + elem+ "  Elemento já existe!")				
-		// }
-		// else
-		// {
-		// 	this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem+ "  Inserido!")
-		// 	this.cmd("connect", ant.graphicID, node.graphicID);
-		// 	ant.prox = node;
-
-		// 	var startX = inicioVetor(this.table_size) + index *POINTER_ARRAY_ELEM_WIDTH;
-		// 	var startY =  this.POINTER_ARRAY_ELEM_Y - LINKED_ITEM_Y_DELTA;
-		// 	this.cmd("Move", node.graphicID, ant.x, ant.y - LINKED_ITEM_Y_DELTA);				
-			
-		// }
-
 	}
 
 	
@@ -306,8 +253,26 @@ OpenHash.prototype.repositionList = function(index)
 OpenHash.prototype.deleteElement = function(elem)
 {
 	this.commands = new Array();
-	this.cmd("SetText", this.ExplainLabel, "Removendo elemento: " + elem);
-	var index = this.doHash(elem);
+	var texto = "Removendo elemento: " + String(elem);
+	this.cmd("SetText", this.ExplainLabel, texto);
+
+	// this.cmd("Step");
+
+	// var index = this.doHash(elem);
+	var index = elem % this.table_size;
+
+	texto += "\n\n  " + elem + " % " + this.table_size + " = " + index;
+	this.cmd("SetText", this.ExplainLabel, texto);
+
+
+	var highlightID = this.nextIndex++;
+	this.cmd("CreateHighlightCircle", highlightID, HIGHLIGHT_COLOR, HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
+	this.cmd("Move", highlightID, this.indexXPos[index], this.indexYPos[index] - 45);
+	this.cmd("Step");
+	this.cmd("Delete", highlightID);
+	this.nextIndex -= 1;
+	
+
 	if (this.hashTableValues[index] == null)
 	{
 		this.cmd("SetText", this.ExplainLabel, "Removendo elemento: " + elem + "  Não encontrado!");
@@ -374,25 +339,47 @@ OpenHash.prototype.deleteElement = function(elem)
 OpenHash.prototype.findElement = function(elem)
 {
 	this.commands = new Array();
-	this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem);
+	var texto = "Buscando elemento: " + String(elem);
+	this.cmd("SetText", this.ExplainLabel, texto);
 
-	var index = this.doHash(elem);
-	var compareIndex = this.nextIndex++;
+	// this.cmd("Step");
+
+	// var index = this.doHash(elem);
+	var index = elem % this.table_size;
+
+	texto += "\n\n  " + elem + " % " + this.table_size + " = " + index;
+	this.cmd("SetText", this.ExplainLabel, texto);
+
+	var highlightID = this.nextIndex++;
+	this.cmd("CreateHighlightCircle", highlightID, HIGHLIGHT_COLOR, HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
+	this.cmd("Move", highlightID, this.indexXPos[index], this.indexYPos[index] - 45);
+	this.cmd("Step");
+	this.cmd("Delete", highlightID);
+	this.nextIndex -= 1;
+
+
+	// var compareIndex = this.nextIndex++;
 	var found = false;
 	var tmp = this.hashTableValues[index];
-	this.cmd("CreateLabel", compareIndex, "", 10, 40, 0);
+	// this.cmd("CreateLabel", compareIndex, "", 10, 40, 0);
+	var msg = ""
 	while (tmp != null && !found)
 	{
 		this.cmd("SetHighlight", tmp.graphicID, 1);
 		if (tmp.data == elem)
 		{
-			this.cmd("SetText", compareIndex,  tmp.data  + "==" + elem)
+			// this.cmd("SetText", compareIndex,  tmp.data  + "==" + elem)
+			msg =  "\n\n    " + tmp.data  + " == " + elem;
 			found = true;
 		}
 		else
 		{
-			this.cmd("SetText", compareIndex,  tmp.data  + "!=" + elem)
+			// this.cmd("SetText", compareIndex,  tmp.data  + "!=" + elem)
+			msg =  "\n\n    " + tmp.data  + " != " + elem;
+
 		}
+		this.cmd("SetText", this.ExplainLabel, texto + msg);
+
 		this.cmd("Step");
 		this.cmd("SetHighlight", tmp.graphicID, 0);
 		tmp = tmp.next;
@@ -403,11 +390,11 @@ OpenHash.prototype.findElement = function(elem)
 	}
 	else
 	{
-		this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem+ "  Não encontrado!")
+		this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem + "  Não encontrado!")
 		
 	}
-	this.cmd("Delete", compareIndex);
-	this.nextIndex--;
+	// this.cmd("Delete", compareIndex);
+	// this.nextIndex--;
 	return this.commands;
 }
 
@@ -428,6 +415,8 @@ OpenHash.prototype.setup = function(ts)
 {
 	this.table_size = ts;
 
+	this.HASH_FUNCTION = "h(x) = x % " + ts
+
 	this.hashTableVisual = new Array(this.table_size);
 	this.hashTableIndices = new Array(this.table_size);
 	this.hashTableValues = new Array(this.table_size);
@@ -436,6 +425,7 @@ OpenHash.prototype.setup = function(ts)
 	this.indexYPos = new Array(this.table_size);
 	
 	this.ExplainLabel = this.nextIndex++;
+	this.FunctionLabel = this.nextIndex++;
 	
 
 	this.commands = [];
@@ -458,7 +448,14 @@ OpenHash.prototype.setup = function(ts)
 		this.cmd("CreateLabel", nextID, i,this.indexXPos[i],this.indexYPos[i] );
 		this.cmd("SetForegroundColor", nextID, INDEX_COLOR);
 	}
-	this.cmd("CreateLabel", this.ExplainLabel, "", 10, 25, 0);
+	this.cmd("CreateLabel", this.ExplainLabel, "", 20, 10, 0);
+
+	const tela = document.getElementById("canvas");
+	const ctx = tela.getContext("2d");
+	ctx.font = VISUAL_CONFIG.textStyle.font;
+	const totalWidth = ctx.measureText(this.HASH_FUNCTION).width
+
+	this.cmd("CreateLabel", this.FunctionLabel, this.HASH_FUNCTION,  (tela.width - totalWidth) / 2, 10, 0);
 	this.animationManager.StartNewAnimation(this.commands);
 	this.animationManager.skipForward();
 	this.animationManager.clearHistory();

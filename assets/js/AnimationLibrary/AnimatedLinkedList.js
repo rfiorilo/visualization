@@ -248,8 +248,8 @@ AnimatedLinkedList.prototype.draw = function(context)
 	
 	if (this.highlighted)
 	{
-		context.strokeStyle = "#ff0000";
-		context.fillStyle = "#ff0000";
+		context.strokeStyle = VISUAL_CONFIG.drawingStyle.highlight;
+		context.fillStyle = VISUAL_CONFIG.drawingStyle.highlight;
 		
 		context.beginPath();
 		context.moveTo(startX - this.highlightDiff,startY- this.highlightDiff);
@@ -370,7 +370,8 @@ AnimatedLinkedList.prototype.draw = function(context)
 	
 	
 	context.textAlign = 'center';
-	context.font         = '10px sans-serif';
+	// context.font         = '10px sans-serif';
+	context.font         = VISUAL_CONFIG.textStyle.font;
 	context.textBaseline   = 'middle'; 
 	context.lineWidth = 1;
 	

@@ -100,8 +100,8 @@ AnimatedLabel.prototype.draw = function(ctx)
 	}
 	if (this.highlighted)
 	{
-	    ctx.strokeStyle = "#ffaaaa";
-	    ctx.fillStyle = "#ff0000";
+	    ctx.strokeStyle = "#ffaaaa"; 
+	    ctx.fillStyle = VISUAL_CONFIG.drawingStyle.highlight;
 		ctx.lineWidth = this.highlightDiff;
 		ctx.strokeText(this.label, this.x, this.y);		
 		//ctx.fillText(this.label, this.x, this.y);
@@ -122,8 +122,8 @@ AnimatedLabel.prototype.draw = function(ctx)
                     var highlightStr = this.label.substring(this.highlightIndex, this.highlightIndex + 1)
                     var rightStr = this.label.substring(this.highlightIndex + 1)
                     ctx.fillText(leftStr, startingXForHighlight, this.y)
- 	            ctx.strokeStyle = "#FF0000";
-	            ctx.fillStyle = "#FF0000";
+ 	            ctx.strokeStyle = VISUAL_CONFIG.drawingStyle.highlight;
+	            ctx.fillStyle = VISUAL_CONFIG.drawingStyle.highlight;
                     ctx.fillText(highlightStr, startingXForHighlight + this.leftWidth, this.y)
 
 

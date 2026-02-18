@@ -592,3 +592,9 @@ body.VisualizationMainPage {
     opacity: 0.85;
     font-size: 0.65rem;
 }
+
+
+
+input[name="CollisionStrategy"] {
+    accent-color: var(--ufms-blue-700);
+}

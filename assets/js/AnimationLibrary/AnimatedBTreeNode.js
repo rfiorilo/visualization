@@ -138,8 +138,8 @@ AnimatedBTreeNode.prototype.draw = function(context)
 	
 	if (this.highlighted)
 	{
-		context.strokeStyle = "#ff0000";
-		context.fillStyle = "#ff0000";
+		context.strokeStyle = VISUAL_CONFIG.drawingStyle.highlight;
+		context.fillStyle = VISUAL_CONFIG.drawingStyle.highlight;
 		
 		context.beginPath();
 		context.moveTo(startX - this.highlightDiff,startY- this.highlightDiff);

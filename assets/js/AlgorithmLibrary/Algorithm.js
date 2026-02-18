@@ -92,6 +92,68 @@ function addRadioButtonGroupToAlgorithmBar(buttonNames, groupName)
 	return buttonList
 }
 
+function addInlineRadioButtonGroupToAlgorithmBar(buttonNames, groupName, newline)
+{
+    var buttonList = [];
+
+    var newTable = document.createElement("table");
+    var row = document.createElement("tr");  // UMA linha só
+
+    for (var i = 0; i < buttonNames.length; i++)
+    {
+        var cell = document.createElement("td");
+
+        var button = document.createElement("input");
+        button.setAttribute("type", "radio");
+        button.setAttribute("name", groupName);
+        button.setAttribute("value", buttonNames[i]);
+
+        cell.appendChild(button);
+        cell.appendChild(document.createTextNode(buttonNames[i]));
+
+        row.appendChild(cell);
+		if(newline)
+		{
+				var tableEntry = document.createElement("td");
+				tableEntry.setAttribute("width", 5);
+				row.appendChild(tableEntry);
+		}
+        buttonList.push(button);
+
+
+    }
+
+    newTable.appendChild(row);
+
+	var controlBar = document.getElementById("AlgorithmSpecificControls");
+
+	if(newline)
+	{
+
+		// cria nova linha
+		var newRow = document.createElement("tr");
+
+		// cria célula que ocupa toda largura
+		var newCell = document.createElement("td");
+		newCell.colSpan = 30; // maior que número de colunas da primeira linha
+
+		newCell.appendChild(newTable);
+
+		newRow.appendChild(newCell);
+		controlBar.appendChild(newRow);
+	}
+	else
+	{
+		var topLevelTableEntry = document.createElement("td");
+		topLevelTableEntry.appendChild(newTable);
+		
+		controlBar.appendChild(topLevelTableEntry);
+	}
+
+    return buttonList;
+}
+
+
 
 function addControlToAlgorithmBar(type, name) {
 	

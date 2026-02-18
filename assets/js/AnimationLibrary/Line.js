@@ -149,7 +149,8 @@ function Line(n1, n2, color, cv, d, weight, anchorIndex)
 
 
 		context.textAlign = 'center';
-		context.font         = '10px sans-serif';
+		// context.font         = '10px sans-serif';
+		context.font         = VISUAL_CONFIG.textStyle.font;
 		context.textBaseline   = 'middle'; 
 		context.fillText(this.edgeLabel, labelPosX, labelPosY);
 
@@ -188,7 +189,7 @@ function Line(n1, n2, color, cv, d, weight, anchorIndex)
 		   ctx.globalAlpha = this.alpha;
 
 			if (this.highlighted)
-				this.drawArrow(this.highlightDiff, "#FF0000", ctx);
+				this.drawArrow(this.highlightDiff, VISUAL_CONFIG.drawingStyle.highlight, ctx);
 			this.drawArrow(1, this.edgeColor, ctx);
 	   }
 	   
