@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const currentPage = window.location.pathname.split("/").pop();
-  console.log("páginna", currentPage);
+  console.log("pagina " + currentPage);
 
 
   /* HEAD */
