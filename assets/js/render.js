@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const currentPage = window.location.pathname.split("/").pop();
+  console.log(currentPage);
+
 
   /* HEAD */
   function loadScript(src) {
@@ -72,8 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* TOPBAR */
   const topbar = document.getElementById("ufmsTopBar");
   if (topbar) {
-    const currentPage = window.location.pathname.split("/").pop();
-    console.log(currentPage);
+    
     let foundItem = null;
     let foundGroup = null;
 
