@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const currentPage = window.location.pathname.split("/").pop();
-  console.log("pagina " + currentPage);
+  
 
 
   /* HEAD */
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function loadEverything(structure) {
-
+  
         const base = "../../assets/js/AnimationLibrary/";
 
         const libs = [
@@ -75,19 +75,22 @@ document.addEventListener("DOMContentLoaded", () => {
   /* TOPBAR */
   const topbar = document.getElementById("ufmsTopBar");
   if (topbar) {
-    
+
+
     let foundItem = null;
     let foundGroup = null;
-
-    PAGES_CONFIG.sections[0].groups.forEach(group => {
-        group.items.forEach(item => {
-            if (item.link.includes(currentPage)) {
-                foundItem = item;
-                foundGroup = group;
-                showGroup = group.showGroupName;
-            }
+    if(currentPage)
+    {
+        PAGES_CONFIG.sections[0].groups.forEach(group => {
+            group.items.forEach(item => {
+                if (item.link.includes(currentPage)) {
+                    foundItem = item;
+                    foundGroup = group;
+                    showGroup = group.showGroupName;
+                }
+            });
         });
-    });
+    }
 
     const content = document.createElement("div");
     content.className = "topbar-content";
