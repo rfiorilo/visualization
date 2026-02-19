@@ -327,15 +327,13 @@ body.VisualizationMainPage {
 }
 
 
-
-
 #algoControlSection {
     display: flex;
     align-items: center;
     gap: 0.8rem;
     flex-wrap: wrap; /* evita quebrar layout em telas menores */
     justify-content: center; /* centraliza tabela */
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 /* Faz a tabela se comportar como bloco flexível */
@@ -343,6 +341,7 @@ body.VisualizationMainPage {
     /* display: inline-table; */
     margin: 0;
 }
+
 
 /* Botão desafio com estilo coerente */
 #btnNewChallenge {
@@ -595,6 +594,31 @@ body.VisualizationMainPage {
 
 
 
+/* Container do grupo */
+#AlgorithmSpecificControls table {
+    margin-top: -5px;
+    margin-bottom: -5px;
+    padding-bottom: -50px;
+    padding-top: -50px;
+}
+
+#AlgorithmSpecificControls div {
+    margin-top: -55px;
+    margin-bottom: -5px;
+    padding-bottom: -50px;
+    padding-top: -50px;
+}
+
+
+/* Radio */
 input[name="CollisionStrategy"] {
     accent-color: var(--ufms-blue-700);
+    cursor: pointer;
+    transform: scale(1.05);
+    transition: transform 0.05s ease;
+}
+
+/* Pequena animação ao marcar */
+input[name="CollisionStrategy"]:checked {
+    transform: scale(1.15);
 }

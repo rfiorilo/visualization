@@ -64,7 +64,7 @@ function inicioVetorX(ts)
 }
 
 
-var ARRAY_ELEM_START_Y = 130;
+var ARRAY_ELEM_START_Y = 150;
 
 
 
@@ -118,12 +118,27 @@ ClosedHash.prototype.addControls = function()
 }
 
 
+
+
 ClosedHash.prototype.tableSize = function(newSize)
 {
     newSize = parseInt(newSize);
 
-    this.animman.resetAll();
-	this.setup(newSize);
+	if(newSize < 3)
+		toast("Escolha um valor maior ou igual a 3.", this.sizeButton, 1000);
+	else
+	{
+
+		if(ehPrimo(newSize) == false)
+		{
+			var msg = "Dê preferências para valores primos."
+			msg += "\nSugestão: " + maiorMenorPrimo(newSize) + " ou " + menorMaiorPrimo(newSize);
+			toast(msg, this.sizeButton, 3000);
+		}
+
+		this.animman.resetAll();
+		this.setup(newSize);
+	}
 
 };
 
@@ -242,10 +257,14 @@ ClosedHash.prototype.insertElement = function(elem)
 }
 
 
-ClosedHash.prototype.resetSkipDist = function(elem, labelID)
+
+// ClosedHash.prototype.resetSkipDist = function(elem, labelID)
+ClosedHash.prototype.resetSkipDist = function(elem)
 {
-	var skipVal = 7 - (this.currHash % 7);
-	this.cmd("CreateLabel", labelID, "hash2("+String(elem) +") = 1 - " + String(this.currHash)  +" % 7 = " + String(skipVal),  20, 45, 0);
+	
+	var p = maiorMenorPrimo(this.table_size);
+	var skipVal = p - (elem % p);
+	// this.cmd("CreateLabel", labelID, "\nhash2("+String(elem) +") = " + p + " - (" + String(elem)  +" % " + p + ") = " + String(skipVal),  20, 45, 0);
 	this.skipDist[0] = 0;
 	for (var i = 1; i < this.table_size; i++)
 	{
@@ -257,7 +276,8 @@ ClosedHash.prototype.getEmptyIndex = function(index, elem)
 {
 	if (this.currentHashingTypeButtonState == this.doubleHashingButton)
 	{
-		this.resetSkipDist(elem, this.nextIndex++);
+		// this.resetSkipDist(elem, this.nextIndex++);
+		this.resetSkipDist(elem);
 	}
 	var foundIndex = -1;
 	for (var i  = 0; i < this.table_size; i++)
@@ -272,10 +292,10 @@ ClosedHash.prototype.getEmptyIndex = function(index, elem)
 			break;
 		}
 	}
-	if (this.currentHashingTypeButtonState == this.doubleHashingButton)
-	{
-		this.cmd("Delete", --this.nextIndex);
-	}
+	// if (this.currentHashingTypeButtonState == this.doubleHashingButton)
+	// {
+	// 	this.cmd("Delete", --this.nextIndex);
+	// }
 	return foundIndex;
 }
 
@@ -284,23 +304,68 @@ ClosedHash.prototype.searchIndex2Insert = function(index, elem)
 {
 	if (this.currentHashingTypeButtonState == this.doubleHashingButton)
 	{
-		this.resetSkipDist(elem, this.nextIndex++);
+		// this.resetSkipDist(elem, this.nextIndex++);
+		this.resetSkipDist(elem);
 	}
 	var foundIndex = -1;
-
 
 	for (var i  = 0; i < this.table_size; i++)
 	{
 		
 		var candidateIndex   = (index + this.skipDist[i]) % this.table_size;
 
+		/* animacao */
 		var texto = "Inserindo elemento: " + elem + "\n\n  Tentativa " + String(i) + ":  ";
+		/*  funcao */
 		if(this.currentHashingTypeButtonState == this.linearProblingButton)
-			texto += "((" + elem + " % " + this.table_size + ") + " + this.skipDist[i] + ") % " + this.table_size + " = " + candidateIndex;
+			texto += "((" + elem + " % " + this.table_size + ") + " + String(i) + ") % " + this.table_size;
 		else if(this.currentHashingTypeButtonState == this.quadraticProbingButton)
-			texto += "((" + elem + " % " + this.table_size + ") + " + this.skipDist[i] + ") % " + this.table_size + " = " + candidateIndex;
-
+			texto += "((" + elem + " % " + this.table_size + ") + " + String(i) + " * " + String(i) + ") % " + this.table_size;
+		else if(this.currentHashingTypeButtonState == this.doubleHashingButton)
+		{
+			var p = maiorMenorPrimo(this.table_size);		
+			texto += "((" + elem + " % " + this.table_size + ") + "  + String(i) + " * (" + String(p) + " - " + elem + " % "+  String(p) +  ")) % " + this.table_size;
+		}
 		this.cmd("SetText", this.ExplainLabel, texto);
+		
+		this.cmd("Step");
+
+		
+		/* intermediario */
+		texto += "\n\n                       "; /* 23 */
+		if (i > 9 && i < 100) texto += " ";
+		if (i > 99)  texto += "  ";
+		if(this.currentHashingTypeButtonState == this.doubleHashingButton)
+		{
+	
+			texto += "(" + elem  % this.table_size + " + " + String(i) + " * ( " + String(p) + " - " + elem % p +  ")) % " + this.table_size;
+			this.cmd("SetText", this.ExplainLabel, texto);
+			this.cmd("Step");
+			var p2 = p - elem % p;
+
+			texto += "   =  (" + elem  % this.table_size + " + " + String(i) + " * " + p2 +  ") % " + this.table_size;
+		}
+		else texto += "(" + elem  % this.table_size + " + " + this.skipDist[i] + ") % " + this.table_size;
+		this.cmd("SetText", this.ExplainLabel, texto);
+		this.cmd("Step");
+
+
+		/* resultado */
+		texto += "\n\n                        "; /* 24 */
+		if (i > 9 && i < 100) texto += " ";
+		if (i > 99)  texto += "  ";
+		if(this.currentHashingTypeButtonState == this.doubleHashingButton)
+		{
+			var p3 = i * p2
+			texto += "(" + elem  % this.table_size + " + " + p3 +  ") % " + this.table_size;
+			this.cmd("SetText", this.ExplainLabel, texto);
+			this.cmd("Step");
+			texto += "    =  "
+		}
+		texto += elem  % this.table_size + this.skipDist[i] + " % " + this.table_size + " = " + candidateIndex;
+		this.cmd("SetText", this.ExplainLabel, texto);
+		// this.cmd("Step");
+		/* animacao */
 
 		if (i==0)
 		{
@@ -318,21 +383,27 @@ ClosedHash.prototype.searchIndex2Insert = function(index, elem)
 
 
 		this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 0);
-		if (this.empty[candidateIndex])
+		if (foundIndex == -1 && this.deleted[candidateIndex])
 		{
 			foundIndex = candidateIndex;
-			break;
 		}
-		if(this.hashTableValues[candidateIndex] == elem)
+		if (this.empty[candidateIndex] && !this.deleted[candidateIndex])
+		{
+			if(foundIndex == -1)
+				foundIndex = candidateIndex;
+			break;
+			
+		}
+		if(this.hashTableValues[candidateIndex] == elem && this.deleted[candidateIndex] == false)
 		{
 			foundIndex = -2;
 			break;
 		}
 	}
-	if (this.currentHashingTypeButtonState == this.doubleHashingButton)
-	{
-		this.cmd("Delete", --this.nextIndex);
-	}
+	// if (this.currentHashingTypeButtonState == this.doubleHashingButton)
+	// {
+	// 	this.cmd("Delete", --this.nextIndex);
+	// }
 	return foundIndex;
 }
 
@@ -340,7 +411,8 @@ ClosedHash.prototype.getElemIndex = function(index, elem)
 {
 	if (this.currentHashingTypeButtonState == this.doubleHashingButton)
 	{
-		resetSkipDist(elem, this.nextIndex++);
+		// resetSkipDist(elem, this.nextIndex++);
+		this.resetSkipDist(elem);
 	}
 	var foundIndex = -1;
 	var msg = "";
@@ -349,12 +421,57 @@ ClosedHash.prototype.getElemIndex = function(index, elem)
 		var candidateIndex   = (index + this.skipDist[i]) % this.table_size;
 
 		var texto = "Buscando elemento: " + elem + "\n\n  Tentativa " + String(i) + ":  ";
+		/* animacao */
+		/*  funcao */
 		if(this.currentHashingTypeButtonState == this.linearProblingButton)
-			texto += "((" + elem + " % " + this.table_size + ") + " + this.skipDist[i] + ") % " + this.table_size + " = " + candidateIndex;
+			texto += "((" + elem + " % " + this.table_size + ") + " + String(i) + ") % " + this.table_size;
 		else if(this.currentHashingTypeButtonState == this.quadraticProbingButton)
-			texto += "((" + elem + " % " + this.table_size + ") + " + this.skipDist[i] + ") % " + this.table_size + " = " + candidateIndex;
-
+			texto += "((" + elem + " % " + this.table_size + ") + " + String(i) + " * " + String(i) + ") % " + this.table_size;
+		else if(this.currentHashingTypeButtonState == this.doubleHashingButton)
+		{
+			var p = maiorMenorPrimo(this.table_size);		
+			texto += "((" + elem + " % " + this.table_size + ") + "  + String(i) + " * (" + String(p) + " - " + elem + " % "+  String(p) +  ")) % " + this.table_size;
+		}
 		this.cmd("SetText", this.ExplainLabel, texto);
+		
+		this.cmd("Step");
+
+		
+		/* intermediario */
+		texto += "\n\n                       "; /* 23 */
+		if (i > 9 && i < 100) texto += " ";
+		if (i > 99)  texto += "  ";
+		if(this.currentHashingTypeButtonState == this.doubleHashingButton)
+		{
+	
+			texto += "(" + elem  % this.table_size + " + " + String(i) + " * ( " + String(p) + " - " + elem % p +  ")) % " + this.table_size;
+			this.cmd("SetText", this.ExplainLabel, texto);
+			this.cmd("Step");
+			var p2 = p - elem % p;
+
+			texto += "   =  (" + elem  % this.table_size + " + " + String(i) + " * " + p2 +  ") % " + this.table_size;
+		}
+		else texto += "(" + elem  % this.table_size + " + " + this.skipDist[i] + ") % " + this.table_size;
+		this.cmd("SetText", this.ExplainLabel, texto);
+		this.cmd("Step");
+
+
+		/* resultado */
+		texto += "\n\n                        "; /* 24 */
+		if (i > 9 && i < 100) texto += " ";
+		if (i > 99)  texto += "  ";
+		if(this.currentHashingTypeButtonState == this.doubleHashingButton)
+		{
+			var p3 = i * p2
+			texto += "(" + elem  % this.table_size + " + " + p3 +  ") % " + this.table_size;
+			this.cmd("SetText", this.ExplainLabel, texto);
+			this.cmd("Step");
+			texto += "    =  "
+		}
+		texto += elem  % this.table_size + this.skipDist[i] + " % " + this.table_size + " = " + candidateIndex;
+		this.cmd("SetText", this.ExplainLabel, texto);
+		// this.cmd("Step");
+		/* animacao */
 
 		if (i==0)
 		{
@@ -393,10 +510,10 @@ ClosedHash.prototype.getElemIndex = function(index, elem)
 			break;				
 		}
 	}
-	if (this.currentHashingTypeButtonState == this.doubleHashingButton)
-	{
-		this.cmd("Delete", --this.nextIndex);
-	}
+	// if (this.currentHashingTypeButtonState == this.doubleHashingButton)
+	// {
+	// 	this.cmd("Delete", --this.nextIndex);
+	// }
 	return foundIndex;
 }
 
@@ -455,7 +572,8 @@ ClosedHash.prototype.setup = function(ts)
 
 	this.LINEAR_FUNCTION = "h(x, k) = ((x % " + ts + ") + k) % "+ ts;
 	this.QUADRACT_FUNCTION = "h(x, k) = ((x % " + ts + ") + k * k) % "+ ts;
-	this.DOUBLE_HASH_FUNCTION = "TODO";
+	var p = maiorMenorPrimo(ts);
+	this.DOUBLE_HASH_FUNCTION = "h(x, k) = ((x % " + ts + ") + k * (" + p + " - x % " + p + ")) % "+ ts;
 
 	this.skipDist = new Array(this.table_size);
 	this.hashTableVisual = new Array(this.table_size);
@@ -504,6 +622,11 @@ ClosedHash.prototype.setup = function(ts)
 		texto = this.DOUBLE_HASH_FUNCTION;
 
 	const totalWidth = ctx.measureText(texto).width
+
+	this.tentativa1d = ctx.measureText("  Tentativa 0:  ").width;
+	this.tentativa2d = ctx.measureText("  Tentativa 00:  ").width;
+	this.tentativa3d = ctx.measureText("  Tentativa 000:  ").width;
+
 
 	this.cmd("CreateLabel", this.FunctionLabel, texto,  (tela.width - totalWidth) / 2, 10, 0);
 	animationManager.StartNewAnimation(this.commands);

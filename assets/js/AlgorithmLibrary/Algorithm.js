@@ -155,7 +155,7 @@ function addInlineRadioButtonGroupToAlgorithmBar(buttonNames, groupName, newline
 
 
 
-function addControlToAlgorithmBar(type, name) {
+function addControlToAlgorithmBar(type, name, id) {
 	
     var element = document.createElement("input");
 	
@@ -188,7 +188,6 @@ function addSpaceToAlgorithmBar(value) {
     controlBar.appendChild(tableEntry);
 	
 }
-
 
 
 
@@ -470,3 +469,93 @@ Algorithm.prototype.cmd = function()
 	}
 	
 }
+
+
+
+
+
+
+
+function toast(message, button, tempo) {
+    const t = document.createElement("div");
+    t.innerText = message;
+
+    // Estilo
+    t.style.position = "fixed";
+    t.style.background = "#0088b7";
+    t.style.color = "white";
+    t.style.padding = "8px 14px";
+    t.style.borderRadius = "8px";
+    t.style.boxShadow = "0 6px 18px rgba(0,0,0,0.2)";
+    t.style.opacity = "0";
+    t.style.transition = "0.25s ease";
+    t.style.pointerEvents = "none";
+    t.style.zIndex = "9999";
+    t.style.fontSize = "0.85rem";
+
+    document.body.appendChild(t);
+
+    // Posição baseada no botão
+    const rect = button.getBoundingClientRect();
+
+    // aparece acima do botão
+    // t.style.left = rect.left + rect.width / 2 - t.offsetWidth / 2 + "px";
+    // t.style.top = rect.top - 40 + "px";
+
+	// aparece abaixo do botao
+	t.style.left = rect.left + rect.width / 2 - t.offsetWidth / 2 + "px";
+	t.style.top  = rect.bottom + 8 + "px";
+
+
+    // Animação
+    requestAnimationFrame(() => {
+        t.style.opacity = "1";
+        t.style.transform = "translateY(-4px)";
+    });
+
+    setTimeout(() => {
+        t.style.opacity = "0";
+        t.style.transform = "translateY(0)";
+        setTimeout(() => t.remove(), 250);
+    }, tempo);
+};
+
+const CLOSED_HASH_PRIMES = [
+	2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
+	31, 37, 43, 47, 53, 59, 61, 67, 71, 73, 79,
+	83, 89, 97, 101, 107, 113, 127, 131, 137, 139,
+	149, 157, 163, 173, 179, 181, 191, 193, 197, 199,
+	211, 223, 227, 229, 233, 239, 241, 251, 257, 263,
+	269, 271, 277, 281, 283, 293, 307, 311, 313, 317,
+	331, 337, 347, 349, 353, 359, 367, 373, 379, 383,
+	389, 397, 401, 409, 419, 421, 431, 433, 439, 443,
+	449, 457, 461, 463, 467, 479, 487, 491, 499
+];
+
+
+function maiorMenorPrimo(value)
+{
+	let p = null;
+
+	for (let i = 0; i < CLOSED_HASH_PRIMES.length; i++) {
+		if (CLOSED_HASH_PRIMES[i] >= value) break;
+		p = CLOSED_HASH_PRIMES[i];
+	}
+
+	return p;
+};
+
+function menorMaiorPrimo(value)
+{
+	for (let i = 0; i < CLOSED_HASH_PRIMES.length; i++) {
+		if (CLOSED_HASH_PRIMES[i] >= value)
+			return CLOSED_HASH_PRIMES[i];
+	}
+
+	return null;
+};
+
+function ehPrimo(value)
+{
+	return CLOSED_HASH_PRIMES.includes(value);
+};

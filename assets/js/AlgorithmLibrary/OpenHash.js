@@ -403,8 +403,20 @@ OpenHash.prototype.tableSize = function(newSize)
 {
     newSize = parseInt(newSize);
 
-    this.animman.resetAll();
-	this.setup(newSize);
+	if(newSize < 3)
+		toast("Escolha um valor maior ou igual a 3.", this.sizeButton, 1000);
+	else
+	{
+		if(ehPrimo(newSize) == false)
+		{
+			var msg = "Dê preferências para valores primos."
+			msg += "\nSugestão: " + maiorMenorPrimo(newSize) + " ou " + menorMaiorPrimo(newSize);
+			toast(msg, this.sizeButton, 3000);
+		}
+
+		this.animman.resetAll();
+		this.setup(newSize);
+	}
 
 };
 
