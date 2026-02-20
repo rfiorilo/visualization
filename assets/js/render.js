@@ -75,12 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
   /* TOPBAR */
   const topbar = document.getElementById("ufmsTopBar");
   if (topbar) {
-
-
+    
     let foundItem = null;
     let foundGroup = null;
+    
     if(currentPage)
     {
+      console.log("achou"+ currentPage);
         PAGES_CONFIG.sections[0].groups.forEach(group => {
             group.items.forEach(item => {
                 if (item.link.includes(currentPage)) {
@@ -126,6 +127,10 @@ document.addEventListener("DOMContentLoaded", () => {
     {
         const title = topbar.dataset.title || "Plataforma de Visualização Interativa";
         const section = topbar.dataset.section || "";
+
+        console.log("nao achou");
+      console.log(title);
+      console.log(section);
 
         if (section) {
                 const root = getProjectRoot();
