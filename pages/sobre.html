@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Visualização Interativa</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/css/visualPages.css">
+    <link rel="stylesheet" href="../assets/css/visualizationPageStyle.css">
+    <link rel="stylesheet" href="../assets/css/support.css">
+
+</head>
+
+<body class="VisualizationMainPage">
+
+	<!-- BARRA SUPERIOR FIXA -->
+    <div id="ufmsTopBar" data-title="Sobre a plataforma" data-section="Sobre"></div>
+        
+	<div class="layout">
+		<aside class="sidebar">
+			<nav class="sidebar-nav" id="sidebarContainer"></nav>
+		</aside>
+
+        <main class="container">
+			<div class="main-content textual">
+				 <h2>Visualizando algoritmos</h2>
+                    <p> A melhor maneira de entender estruturas de dados complexas é vê-las em ação. 
+                        Desenvolvemos animações interativas para uma variedade de estruturas de dados e algoritmos. 
+                        Nossa ferramenta de visualização foi escrita em JavaScript usando o elemento canvas do HTML5 
+                        e funciona em praticamente qualquer navegador moderno, incluindo dispositivos iOS como iPhone e iPad, 
+                        e até mesmo o navegador do Kindle. (A taxa de quadros por segundo no Kindle é tão baixa que as 
+                        visualizações não são muito úteis, mas as visualizações baseadas em árvores — ABB e árvores AVL — 
+                        parecem funcionar bem).
+                    </p>
+                    <p>Confira o menu <strong>Algoritmos</strong> para todas as implementações JavaScript mais recentes.</p>
+
+
+                    <h2>Como usar as visualizações</h2>
+                    <p>
+                        Essas visualizações são bastante autoexplicativas, embora existam algumas sutilezas para uso avançado. 
+                        Veja um exemplo típico de visualização para Árvores de Busca Binária.
+                    </p>
+
+                    <img src="../assets/images/abb.png">
+                     
+
+
+                    <h3>Controles específicos do algoritmo</h3>
+                    <p>
+                        Na parte superior da tela (destacada em vermelho na captura de tela acima) estão os controles específicos 
+                        do algoritmo — estes variam dependendo do algoritmo que você está visualizando. Neste exemplo, você pode 
+                        inserir, excluir ou encontrar um elemento na ABB digitando o valor no campo apropriado e pressionando 
+                        Enter ou clicando no botão correspondente. A árvore pode ser impressa clicando no botão de impressão. 
+                        Depois de dar um comando, a visualização será iniciada e poderá ser controlada pelos controles gerais 
+                        de animação na parte inferior da tela.
+                    </p>
+
+
+                    <h3>Controles gerais de animação</h3>
+                    <ul>
+                        <li>
+                            <strong>Retroceder:</strong> 
+                            Se uma animação estiver em andamento, este botão desfaz completamente o comando atual. 
+                            Se a animação não estiver em execução, ele desfaz o comando anterior.
+                        </li>
+
+                        <li>
+                            <strong>Passo Anterior:</strong> 
+                            Este botão só fica ativo se a animação atual estiver pausada (usando o botão reproduzir/pausar).
+                            Ele volta um passo na animação atual.
+                            Caso não haja animação em execução, ele desfaz o comando anterior.
+                            Ao pressioná-lo repetidamente, você pode retroceder por todo o histórico de ações realizadas.
+                        </li>
+
+                        <li>
+                            <strong>Reproduzir/Pausar:</strong> 
+                            Alterna entre o modo de reprodução (no qual o algoritmo é executado continuamente até a conclusão) e o modo pausado (onde é necessário pressionar o botão Próximo Passo ou Passo Anterior para avançar a animação).
+                        </li>
+
+                        <li>
+                            <strong>Próximo Passo:</strong> 
+                            Este botão só fica ativo se a animação atual estiver pausada (usando o botão reproduzir/pausar) e ainda não tiver sido concluída. 
+                            Ele avança um passo na animação atual.
+                        </li>
+
+                        <li>
+                            <strong>Avançar:</strong> 
+                            Este botão só fica ativo se a animação atual ainda não tiver sido concluída.
+                            Ele pula diretamente para o final da animação atual.
+                        </li>
+
+                        <li>
+                            <strong>Velocidade da Animação (controle deslizante):</strong>
+                            Altera a velocidade da animação. 
+                            O valor deste controle é salvo em um cookie, portanto, você só precisa defini-lo uma vez caso tenha uma preferência de velocidade.
+                        </li>
+
+                        <li>
+                            <strong>L, A, Redimensionar Tela:</strong> 
+                            Altera a <strong>L</strong>argura e a <strong>A</strong>ltura da área de exibição. 
+                            Embora a mudança seja imediata, as animações não ficarão centralizadas nesta nova área até que você recarregue a página. 
+                            Isso limpará a animação atual, mas os valores de largura e altura também são salvos em um cookie; 
+                            portanto, você só precisará alterar essa configuração uma vez para que tudo funcione adequadamente, 
+                            esteja você usando um smartphone ou um computador com bastante espaço de tela.
+                        </li>
+
+                        <li>
+                            <strong>Mover Controles:</strong> 
+                            Alterna a posição dos controles gerais entre o topo e a parte inferior da área de exibição.
+                        </li>
+                    </ul>
+
+
+                    <div class="content-note">
+                        <p>
+                            Observe que é fácil se confundir ao avançar e retroceder em uma animação — você pode confundir o próximo passo com o anterior e interpretar 
+                            erroneamente o funcionamento do algoritmo. 
+                            Recomenda-se avançar apenas utilizando o botão "Próximo Passo" ao estudar um algoritmo específico pela primeira vez.
+                        </p>
+                    </div>
+
+
+
+                    <h2>Criando suas próprias visualizações</h2>
+                    <p>
+                        O tutorial para criar suas próprias visualizações já está online! 
+                        Todo o código-fonte também está disponível lá. 
+                        Se você deseja criar suas próprias visualizações, mas está com dificuldades para fazer tudo funcionar, 
+                        por favor, me avise. Todo o material está sob a licença FreeBSD e você pode usá-lo para o que quiser. 
+                        Por favor, informe-me se estiver usando o código — tenho curiosidade de ver como ele está sendo aplicado na prática.
+                    </p>
+
+                    <p>
+                        Esta biblioteca tem como base a versão original desenvolvida por David Galles, posteriormente modificada por Yves Lucet. A presente versão constitui uma adaptação adicional realizada por Ronaldo Fiorilo, consistindo na tradução integral para o português, bem como na reformulação do estilo visual e do esquema de cores, resultante da integração e do aprimoramento das versões anteriormente mencionadas.
+                    </p>
+                </div>
+		</main>
+
+	</div>
+
+<footer id="mainFooter"></footer> 
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/render.js"></script>
+
+</body>
+</html>
+

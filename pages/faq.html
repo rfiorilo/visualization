@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Visualização Interativa</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/css/visualPages.css">
+    <link rel="stylesheet" href="../assets/css/visualizationPageStyle.css">
+    <link rel="stylesheet" href="../assets/css/support.css">
+
+</head>
+
+<body class="VisualizationMainPage">
+
+	<!-- BARRA SUPERIOR FIXA -->
+    <div id="ufmsTopBar" data-title="Perguntas Frequentes (FAQ)" data-section="FAQ"></div>
+        
+	<div class="layout">
+		<aside class="sidebar">
+			<nav class="sidebar-nav" id="sidebarContainer"></nav>
+		</aside>
+
+        <main class="container">
+			<div class="main-content textual">
+	
+
+   
+
+
+
+
+    <ol class="faq-list">
+
+        <li>
+            <h3>Às vezes, ao inserir um elemento em uma Árvore Binária de Busca (ABB) ou outra estrutura ordenada, 
+                ocorre um comportamento estranho: "-2" parece ser considerado "menor" que "-3". O que está acontecendo?</h3>
+
+            <p>Nesta ferramenta, as comparações são realizadas como <em>strings</em> (sequências de caracteres).
+                Portanto, "-2" é, de fato, menor que "-3" em ordem lexicográfica (alfabética).
+                Para minimizar confusões com números positivos, a aplicação converte automaticamente inteiros positivos em números 
+                equivalentes com zeros à esquerda, para que sejam sempre ordenados conforme o esperado numérico (embora os números 
+                negativos, infelizmente, não sigam essa regra).
+
+                Percebemos que, ao tentar ordenar um grupo de <em>strings</em> quaisquer, o uso de uma estratégia de comparação mista torna-se 
+                confuso rapidamente: como o "10.4" deveria se comparar ao "3.1.2"? E quanto ao "3A" — seria uma string ou um número hexadecimal? 
+                E o "AF"? O "BC" deveria vir antes ou depois de "AFF"? Por isso, tomamos a decisão de projeto de utilizar comparações de <em>string</em> 
+                em todos os casos para manter a consistência.
+            </p>
+        </li>
+
+        <li>
+            <h3>Como posso fazer isso funcionar no meu celular, que possui uma tela muito pequena?</h3>
+
+            <p>Se você alterar o tamanho da tela (<em>Canvas Size</em>) para dimensões que pareçam adequadas para o seu dispositivo, 
+                usaremos um <em>cookie</em> para lembrar sua preferência de tamanho. Em seguida, recarregue a página e tudo deverá estar pronto!
+
+                O uso em celulares requer atenção devido às telas pequenas — como referência, o iPhone 4 funciona bem para a maioria dos 
+                algoritmos com largura 500 e altura 300. No entanto, observe que algoritmos de ordenação exigem uma largura de 900 para 
+                visualização completa, e algoritmos de grafos precisam de largura 1000. Em dispositivos iOS, você pode definir o tamanho da tela 
+                com um valor maior do que o visor exibe de uma vez, mas precisará usar o zoom ou a rolagem para visualizar todo o conteúdo.
+            </p>
+        </li>
+
+        <li>
+            <h3>A ferramenta utiliza <em>cookies?</em></h3>
+            <p>Apenas para memorizar suas preferências de largura, altura e velocidade. 
+                O sistema continuará funcionando normalmente mesmo se você desativar os <em>cookies?</em>; você apenas perderá a conveniência de manter
+                o ajuste de tela ideal para o seu dispositivo. Não há qualquer uso para rastreamento ou coleta de dados externos.
+            </p>
+        </li>
+
+        <li>
+            <h3>Encontrei um possível erro. Como devo proceder?</h3>
+            <p>Por favor, envie-me um e-mail descrevendo detalhadamente a ocorrência. 
+                Quanto mais específicas forem as informações — especialmente a sequência 
+                exata de operações que levou ao comportamento inesperado — mais eficiente será a análise e a correção.
+            </p>
+        </li>
+
+        <li>
+            <h3>Posso usar estes materiais em minhas aulas?</h3>
+            <p>Com certeza! 
+                Prefiro que você apenas crie links para as minhas páginas em vez de armazenar o conteúdo localmente, 
+                para garantir que seus alunos acessem sempre a versão mais atualizada. Se você utilizar este recurso 
+                em suas aulas, por favor, envie-me uma mensagem — tenho curiosidade de saber quem mais está achando este material útil.
+            </p>
+        </li>
+
+        <li>
+            <h3>Posso usar este material como base para minhas próprias visualizações?</h3>
+            <p>Sim! Consulte a página do código-fonte para acessar um tutorial simples e baixar um arquivo 
+                compactado com tudo o que você precisa. 
+                Observe que as atualizações do código-fonte não são feitas tão rapidamente quanto as atualizações 
+                das próprias visualizações, portanto, nem todas as visualizações podem estar presentes no pacote
+                de download em um determinado momento.
+                Se você utilizar meu código, por favor, mantenha as informações de
+                direitos autorais no início de cada arquivo fonte e inclua um link para estas páginas no site 
+                onde suas visualizações estiverem hospedadas. Caso crie algo realmente interessante, avise-me e 
+                poderei incluir um link para o seu trabalho.
+            </p>    
+        </li>
+
+        <li>
+            <h3>O que vem a seguir?</h3>
+            <ul>
+                <li>Tradução para o português e disponibilização de outras visualizações implementadas por Galles e Lucet.</li>
+                <li>Criação de mais visualizações de algoritmos e estruturas de dados.</li>
+            </ul>
+        </li>
+
+    </ol>
+    
+                </div>
+		</main>
+
+	</div>
+
+<footer id="mainFooter"></footer> 
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/render.js"></script>
+
+</body>
+</html>
+
