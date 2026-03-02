@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Plataforma de Visualização Interativa</title>
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="../assets/css/visualPages.css" />
+        <link rel="stylesheet" href="../assets/css/visualizationPageStyle.css" />
+        <link rel="stylesheet" href="../assets/css/support.css" />
+    </head>
+
+    <body class="VisualizationMainPage">
+        <!-- BARRA SUPERIOR FIXA -->
+        <div id="ufmsTopBar" data-title="Código-fonte" data-section="src"></div>
+
+        <div class="layout">
+            <aside class="sidebar">
+                <nav class="sidebar-nav" id="sidebarContainer"></nav>
+            </aside>
+
+            <main class="main-content">
+                <div class="source-page">
+                    <div class="source-highlight">
+                        <p>O código-fonte deste projeto está disponível publicamente:</p>
+
+                        <div class="source-actions">
+                            <!-- GitHub -->
+                            <a
+                                href="https://github.com/rfiorilo/visualization"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn-source btn-github"
+                            >
+                                <!-- Ícone GitHub SVG -->
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M12 .5C5.73.5.99 5.24.99 11.5c0 4.87 3.16 9 7.55 10.45.55.1.75-.24.75-.53
+            0-.26-.01-1.12-.02-2.03-3.07.67-3.72-1.48-3.72-1.48-.5-1.28-1.22-1.62-1.22-1.62
+            -.99-.68.08-.67.08-.67 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.19.91
+            .1-.71.38-1.19.69-1.47-2.45-.28-5.02-1.23-5.02-5.48 0-1.21.43-2.2 1.13-2.97
+            -.11-.28-.49-1.41.11-2.94 0 0 .93-.3 3.05 1.13a10.63 10.63 0 012.78-.37
+            10.63 10.63 0 012.78.37c2.12-1.43 3.05-1.13 3.05-1.13.6 1.53.22 2.66.11 2.94
+            .7.77 1.13 1.76 1.13 2.97 0 4.26-2.58 5.2-5.04 5.47.39.34.74 1.01.74 2.04
+            0 1.47-.01 2.65-.01 3.01 0 .29.2.64.76.53A10.51 10.51 0 0023 11.5
+            C23 5.24 18.27.5 12 .5z"
+                                    />
+                                </svg>
+                                Repositório no GitHub
+                            </a>
+
+                            <!-- Download ZIP -->
+                            <a
+                                href="https://github.com/rfiorilo/visualization/archive/refs/heads/main.zip"
+                                class="btn-source btn-zip"
+                            >
+                                ⬇ Download .zip
+                            </a>
+                        </div>
+                    </div>
+
+                    <p>
+                        O repositório contém a implementação completa das visualizações em HTML5/JavaScript, incluindo a
+                        biblioteca de animação, os arquivos de controle e os exemplos de estruturas e algoritmos.
+                    </p>
+
+                    <hr />
+
+                    <h3>Sobre o projeto</h3>
+
+                    <p>
+                        Esta ferramenta é baseada na biblioteca de visualizações desenvolvida por
+                        <strong>David Galles</strong> (University of San Francisco).
+                    </p>
+
+                    <p>
+                        Parte da estrutura também foi inspirada na adaptação mantida por
+                        <strong>Yves Lucet</strong> (University of British Columbia).
+                    </p>
+
+                    <p>
+                        O projeto atual inclui adaptações, traduções, melhorias de interface e ajustes didáticos
+                        voltados ao uso em sala de aula.
+                    </p>
+
+                    <hr />
+
+                    <h3>Observações importantes</h3>
+
+                    <p>
+                        O código-fonte foi desenvolvido com foco na visualização interativa. Por esse motivo, ele pode
+                        não ser a forma mais simples de compreender a lógica pura dos algoritmos, já que inclui chamadas
+                        relacionadas à animação, controle de eventos e gerenciamento gráfico.
+                    </p>
+
+                    <p>
+                        Para estudo conceitual das estruturas e algoritmos, recomenda-se a consulta a livros-texto ou
+                        materiais teóricos complementares.
+                    </p>
+
+                    <hr />
+
+                    <h3>Como criar suas próprias visualizações</h3>
+
+                    <p>
+                        Caso deseje desenvolver novas visualizações utilizando esta biblioteca, o processo geral
+                        consiste em:
+                    </p>
+
+                    <ul>
+                        <li>Criar um novo arquivo JavaScript para a visualização;</li>
+                        <li>Utilizar um arquivo HTML modelo, alterando apenas as referências necessárias;</li>
+                        <li>Implementar os controles (botões, campos de entrada etc.);</li>
+                        <li>Associar callbacks às ações do usuário;</li>
+                        <li>Enviar comandos ao gerenciador de animação responsável pela renderização.</li>
+                    </ul>
+
+                    <p>O repositório contém exemplos que podem ser utilizados como modelo para novas implementações.</p>
+
+                    <hr />
+
+                    <h3>Licença</h3>
+
+                    <p>
+                        Este projeto é distribuído sob a licença <strong>FreeBSD</strong>, mantendo os créditos aos
+                        autores originais.
+                    </p>
+
+                    <p>
+                        Caso utilize este código como base para seus próprios projetos, solicitamos que mantenha as
+                        informações de direitos autorais nos arquivos e inclua referência às páginas originais.
+                    </p>
+
+                    <hr />
+
+                    <h3>Projetos relacionados</h3>
+
+                    <ul>
+                        <li>
+                            <a href="https://www.cs.usfca.edu/~galles/visualization/source.html" target="_blank">
+                                Visualização original – David Galles
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://cmps-people.ok.ubc.ca/ylucet/DS/source.html" target="_blank">
+                                Adaptação – Yves Lucet
+                            </a>
+                        </li>
+                    </ul>
+
+                    <hr />
+
+                    <h3>Dúvidas ou dificuldades?</h3>
+
+                    <p>
+                        Caso encontre qualquer dificuldade na utilização do código-fonte ou identifique algum
+                        comportamento inesperado, consulte as informações disponíveis na
+                        <a href="contato.html"><strong>página de contato</strong></a
+                        >.
+                    </p>
+                </div>
+            </main>
+        </div>
+
+        <footer id="mainFooter"></footer>
+
+        <script src="../assets/js/config.js"></script>
+        <script src="../assets/js/render.js"></script>
+    </body>
+</html>

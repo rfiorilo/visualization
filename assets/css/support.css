@@ -144,20 +144,12 @@
 ===================================================== */
 
 @media (max-width: 1100px) {
-
     .main-content.textual {
         margin-left: 2rem;
         margin-right: 2rem;
         max-width: 100%;
     }
-
 }
-
-
-
-
-
-
 
 .main-content.textual h2::after {
     content: "";
@@ -174,19 +166,16 @@
     height: auto;
     display: block;
 
-    padding: 0.25rem;   
+    padding: 0.25rem;
     background: var(--white);
-    
 
     border: 1px solid var(--gray-300);
     border-radius: 8px;
 
-    box-shadow: 0 6px 18px rgba(0,0,0,0.9);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.9);
 
     margin: 2.5rem auto;
 }
-
-
 
 .faq-list {
     padding-left: 1.2rem;
@@ -200,8 +189,6 @@
     font-weight: 600;
     color: var(--ufms-blue-900);
 }
-
-
 
 /* =====================================================
    CONTACT PAGE – MODERNO E INSTITUCIONAL
@@ -218,11 +205,11 @@
     border: 1px solid var(--gray-200);
     border-radius: 16px;
     padding: 2rem;
-    margin: 2rem 0;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.05);
+    margin: 1rem 0;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 /* Seções internas */
@@ -230,7 +217,7 @@
 .contact-section h3 {
     font-size: 1rem;
     color: var(--ufms-blue-900);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.3rem;
 }
 
 .contact-section p {
@@ -260,19 +247,16 @@
     padding: 1rem 1.2rem;
     border-radius: 10px;
     font-size: 0.95rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 /* Responsividade */
 
 @media (max-width: 1100px) {
-
     .contact-card {
         padding: 1.5rem;
     }
-
 }
-
 
 .contact-name {
     font-size: 1.05rem;
@@ -297,4 +281,163 @@
 .contact-email:hover {
     color: var(--ufms-blue-900);
     text-decoration: underline;
+}
+
+/* =====================================================
+   SOURCE PAGE – ESTILO COMPLEMENTAR
+===================================================== */
+
+.source-page {
+    max-width: 900px;
+    line-height: 1.7;
+}
+
+/* Títulos internos */
+
+.source-page h2 {
+    font-size: 1.8rem;
+    color: var(--ufms-blue-900);
+    margin-bottom: 1rem;
+}
+
+.source-page h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    color: var(--ufms-blue-800);
+    border-left: 4px solid var(--ufms-blue-700);
+    padding-left: 0.6rem;
+}
+
+/* Parágrafos mais confortáveis */
+
+.source-page p {
+    color: var(--gray-700);
+    margin-bottom: 1rem;
+}
+
+/* Listas técnicas */
+
+.source-page ul {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.source-page li {
+    margin-bottom: 0.5rem;
+    color: var(--gray-700);
+}
+
+/* Links dentro da source */
+
+.source-page a {
+    font-weight: 600;
+    color: var(--ufms-blue-700);
+    text-decoration: none;
+}
+
+.source-page a:hover {
+    text-decoration: underline;
+}
+/* Bloco informativo (ex: aviso de licença) */
+
+.source-highlight {
+    background: var(--ufms-blue-100);
+    border: 1px solid var(--ufms-blue-200);
+    border-left: 5px solid var(--ufms-blue-700);
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius);
+}
+
+/* Bloco de código (caso você use <pre><code>) */
+
+.source-page pre {
+    background: #1e1e1e;
+    color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+}
+
+.source-page code {
+    background: var(--gray-200);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+.source-page hr {
+    border: none;
+    height: 1px;
+    background: var(--gray-200);
+    margin: 0.5rem 0;
+}
+/* =====================================================
+   BOTÃO GITHUB
+===================================================== */
+
+.btn-github {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    padding: 0.55rem 1.2rem;
+    border-radius: 10px;
+
+    background: linear-gradient(135deg, var(--ufms-blue-900), var(--ufms-blue-700));
+
+    color: white !important;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.btn-github:hover {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.btn-github svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+}
+
+/* =====================================================
+   BLOCO SOURCE DOWNLOAD
+===================================================== */
+
+.source-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+/* Botão base */
+
+.btn-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    padding: 0.55rem 1.2rem;
+    border-radius: 10px;
+
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+/* Download ZIP */
+
+.btn-zip {
+    background: var(--white);
+    border: 2px solid var(--ufms-blue-700);
+    color: var(--ufms-blue-900);
+}
+
+.btn-zip:hover {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
