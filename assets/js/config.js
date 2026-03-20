@@ -7,6 +7,10 @@ window.VISUAL_CONFIG = {
     drawingStyle: {
         link: "#0088b7",
         highlight: "#b70000",
+        focusGoodBackground: "#85bd74",
+        focusBadBackground: "#f1a4a4",
+        focusGoodForeground: "#0e6e01",
+        focusBadForeground: "#b70000",
         foreground: "#0088b7",
         background: "#d6eef6",
         arraybackground: "#ffffff",
@@ -29,7 +33,7 @@ window.CATEGORIES_CONFIG = {
             color: "#2563eb",
         },
         hash: {
-            label: "Hash",
+            label: "Tabelas de dispersão",
             color: "#db2777",
         },
     },
@@ -39,7 +43,23 @@ window.PAGES_CONFIG = {
     sections: [
         {
             title: "Algoritmos",
-            groups: [],
+            groups: [
+                {
+                    name: "Tabelas de dispersão",
+                    showGroupName: false,
+                    items: [
+                        {
+                            shortname: "Encadeamento externo",
+                            fullname: "Encadeamento externo",
+                            pagename: "OpenHash",
+                            link: "pages/algorithms/OpenHash.html",
+                            description:
+                                "Utiliza função de dispersão para acesso rápido aos dados, sem necessidade de ordenação. As colisões são tratadas por meio de listas encadeadas externas à tabela.",
+                            categories: ["hash"],
+                        },
+                    ],
+                },
+            ],
         },
         {
             title: "Plataforma",

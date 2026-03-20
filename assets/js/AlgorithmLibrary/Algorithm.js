@@ -155,6 +155,162 @@ function addInlineRadioButtonGroupToAlgorithmBar(buttonNames, groupName, newline
 
 
 
+function addSelectionBoxToAlgorithmBar(options, groupName)
+{
+	var select = document.createElement("select");
+    select.name = groupName;
+
+    options.forEach((opt) => {
+        var option = document.createElement("option");
+        option.value = opt.value; 
+        option.textContent = opt.text;
+        select.appendChild(option);
+    });
+
+    var topLevelTableEntry = document.createElement("td");
+    topLevelTableEntry.appendChild(select);
+
+    var controlBar = document.getElementById("AlgorithmSpecificControls");
+    controlBar.appendChild(topLevelTableEntry);
+
+    return select;
+}
+
+function addCustomSelectionBoxToAlgorithmBar(options, groupName)
+{
+
+    var container = document.createElement("div");
+    container.className = "custom-select";
+    container.dataset.name = groupName;
+
+    var selected = document.createElement("div");
+    selected.className = "select-selected";
+
+    var optionsBox = document.createElement("div");
+    optionsBox.className = "select-options";
+
+    let currentValue = options[0].value;
+    selected.textContent = options[0].text;
+
+    options.forEach((opt, index) => {
+
+        var option = document.createElement("div");
+        option.textContent = opt.text;
+        option.dataset.value = opt.value;
+
+        if (index === 0) option.classList.add("active");
+
+        option.addEventListener("click", function () {
+
+			const value = this.dataset.value;
+
+			setValue(value, true);
+
+			container.classList.remove("open");
+
+			optionsBox.querySelectorAll("div")
+					.forEach(o => o.classList.remove("hidden"));
+		});
+
+
+
+        optionsBox.appendChild(option);
+    });
+
+    function setValue(value, triggerEvent = false)
+	{
+		const allOptions = optionsBox.querySelectorAll("div");
+
+		allOptions.forEach(opt => {
+			opt.classList.toggle("active", opt.dataset.value === value);
+			if (opt.dataset.value === value) {
+				selected.textContent = opt.textContent;
+			}
+		});
+
+		currentValue = value;
+
+		if (triggerEvent) {
+
+			const eventValue = value; 
+			container.dispatchEvent(
+				new CustomEvent("change", {
+					detail: { value: eventValue }
+				})
+			);
+		}
+	}
+
+    selected.addEventListener("click", function () {
+
+		if (container.disabled) return;
+
+		const isOpen = container.classList.toggle("open");
+
+		if (isOpen) {
+			// Oculta a opção ativa
+			optionsBox.querySelectorAll("div").forEach(opt => {
+				opt.classList.toggle("hidden", opt.classList.contains("active"));
+			});
+		} else {
+			// Restaura tudo
+			optionsBox.querySelectorAll("div")
+					.forEach(opt => opt.classList.remove("hidden"));
+		}
+
+	});
+
+
+    document.addEventListener("click", function (e) {
+
+		if (!container.contains(e.target)) {
+
+			container.classList.remove("open");
+
+			optionsBox.querySelectorAll("div")
+					.forEach(o => o.classList.remove("hidden"));
+		}
+
+	});
+
+    // ===== API tipo SELECT =====
+
+    Object.defineProperty(container, "value", {
+        get() { return currentValue; },
+        set(v) { setValue(v, false); }
+    });
+
+    container.setValue = function(v, trigger) {
+        setValue(v, trigger);
+    };
+
+    Object.defineProperty(container, "disabled", {
+        get() { return container.classList.contains("disabled"); },
+        set(v) {
+            if (v) {
+                container.classList.add("disabled");
+            } else {
+                container.classList.remove("disabled");
+            }
+        }
+    });
+
+    container.appendChild(selected);
+    container.appendChild(optionsBox);
+
+    var td = document.createElement("td");
+    td.appendChild(container);
+
+    document.getElementById("AlgorithmSpecificControls")
+            .appendChild(td);
+
+    return container;
+}
+
+
+
+
+
 function addControlToAlgorithmBar(type, name, id) {
 	
     var element = document.createElement("input");
@@ -387,7 +543,8 @@ Algorithm.prototype.returnSubmit = function(field, funct, maxsize, intOnly)
 		{
 			keyASCII = event.which
 		} 
-
+		
+		// console.log(keyASCII);
 		if (keyASCII == 13 && funct !== null)
 		{
 			funct();

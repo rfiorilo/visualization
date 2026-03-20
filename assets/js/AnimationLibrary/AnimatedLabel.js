@@ -272,6 +272,11 @@ AnimatedLabel.prototype.setHighlight = function(value)
 {
 	this.highlighted = value;
 }
+
+AnimatedLabel.prototype.setFocus = function(value)
+{
+	this.focus = value;
+}
 		
 AnimatedLabel.prototype.createUndoDelete = function()
 {

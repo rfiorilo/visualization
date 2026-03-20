@@ -34,7 +34,7 @@ var LINE_minHeightDiff = 3;
 var LINE_range= LINE_maxHeightDiff - LINE_minHeightDiff + 1;
 var LINE_highlightDiff = 3;
 
-	
+
 function Line(n1, n2, color, cv, d, weight, anchorIndex)
 {
 	this.arrowHeight = 8;
