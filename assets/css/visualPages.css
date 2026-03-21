@@ -300,7 +300,10 @@ body {
 /* Conteúdo interno */
 
 .topbar-content {
-    width: min(1400px, 95%);
+    /* width: min(1400px, 95%); */
+    width: 100%;
+    padding: 0 20px;
+
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -309,10 +312,20 @@ body {
 
 /* Marca institucional */
 
-.topbar-left {
+/* .topbar-left {
     display: flex;
     align-items: baseline;
     gap: 1rem;
+} */
+.topbar-left {
+    display: flex;
+    align-items: center; /* Mudou de baseline para center */
+    gap: 1rem;
+}
+.topbar-logo {
+    width: 64px; /* Ajuste conforme achar melhor */
+    height: 64px;
+    object-fit: contain;
 }
 
 .ufms-brand {

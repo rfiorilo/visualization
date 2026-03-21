@@ -1,33 +1,26 @@
 @import url("vars.css");
 
-
 /* =====================================================
    BASE
    ===================================================== */
 
 body.VisualizationMainPage {
     margin: 0;
-    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    font-family: "Inter", "Segoe UI", Roboto, sans-serif;
     background: var(--gray-100);
     color: var(--gray-900);
 }
-
-
 
 /* =====================================================
    HEADER
    ===================================================== */
 
 #header {
-    background: linear-gradient(
-        135deg,
-        var(--ufms-blue-900),
-        var(--ufms-blue-700)
-    );
+    background: linear-gradient(135deg, var(--ufms-blue-900), var(--ufms-blue-700));
     color: white;
     padding: 2rem 1rem;
     text-align: center;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 #header h1 {
@@ -44,7 +37,6 @@ body.VisualizationMainPage {
     width: min(1400px, 95%);
     margin: 2rem auto;
 }
-
 
 /* =====================================================
    LAYOUT PRINCIPAL
@@ -66,7 +58,7 @@ body.VisualizationMainPage {
     border-radius: var(--radius);
     padding: 1.5rem;
     border: 1px solid var(--gray-200);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -101,10 +93,9 @@ body.VisualizationMainPage {
 #centerArea {
     display: flex;
     flex-direction: column;
-    gap: .75rem;
+    gap: 0.75rem;
     max-width: 1500px;
     width: 100%;
-
 }
 
 .algo-visualization {
@@ -118,15 +109,13 @@ body.VisualizationMainPage {
     background: var(--white);
     border-radius: var(--radius);
     border: 1px solid var(--gray-200);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
     display: block;
     margin: 0 auto;
     max-width: 100%;
     margin-top: -0.5rem;
     margin-bottom: -0.5rem;
 }
-
-
 
 /* Controles gerais */
 #generalAnimationControlSection {
@@ -140,7 +129,6 @@ body.VisualizationMainPage {
 #GeneralAnimationControls {
     margin: 0 auto;
 }
-
 
 /* =====================================================
    CONTROLES
@@ -182,7 +170,7 @@ input[type="text"] {
     border: 1px solid var(--gray-200);
     border-radius: 10px;
     padding: 0.75rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
 }
 
 /* Título */
@@ -198,8 +186,8 @@ input[type="text"] {
 /* Área de log com tamanho fixo */
 
 #terminalOutput {
-    height: 160px;              /* ALTURA FIXA */
-    overflow-y: auto;           /* SCROLL AUTOMÁTICO */
+    height: 160px; /* ALTURA FIXA */
+    overflow-y: auto; /* SCROLL AUTOMÁTICO */
     font-family: monospace;
     font-size: 0.75rem;
     background: var(--gray-100);
@@ -243,14 +231,11 @@ input[type="text"] {
     background: var(--ufms-blue-900);
 }
 
-
-
 /* =====================================================
    RESPONSIVIDADE
    ===================================================== */
 
 @media (max-width: 1100px) {
-
     #ideLayout {
         grid-template-columns: 1fr;
     }
@@ -259,9 +244,6 @@ input[type="text"] {
         grid-column: 1;
     }
 }
-
-
-
 
 /* =====================================================
    AJUSTE GLOBAL PARA BARRA FIXA
@@ -279,7 +261,6 @@ body.VisualizationMainPage {
     margin-top: 0;
 }
 
-
 /* =====================================================
    INFO PANEL - DESTAQUE INSTITUCIONAL ELEGANTE
    ===================================================== */
@@ -290,7 +271,7 @@ body.VisualizationMainPage {
     border-left: 4px solid var(--ufms-blue-700);
     border-radius: 10px;
     padding: 1rem 1.2rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
 }
 
 /* Título */
@@ -326,7 +307,6 @@ body.VisualizationMainPage {
     color: var(--gray-900);
 }
 
-
 #algoControlSection {
     display: flex;
     align-items: center;
@@ -341,7 +321,6 @@ body.VisualizationMainPage {
     /* display: inline-table; */
     margin: 0;
 }
-
 
 /* Botão desafio com estilo coerente */
 #btnNewChallenge {
@@ -363,20 +342,24 @@ body.VisualizationMainPage {
    BADGE DE DESAFIO AO LADO DO TÍTULO
    ===================================================== */
 
-.algo-title {
+/* .algo-title {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
+} */
+.algo-title {
+    margin: 0;
+    font-size: 2rem; /* Ajuste para o tamanho desejado */
+    /* font-weight: bold; */
+    font-weight: 700;
 }
-
-
 /* Botão estilo badge */
 
 .challenge-badge {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: white;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     padding: 0.3rem 0.7rem;
     font-size: 0.7rem;
     font-weight: 600;
@@ -385,7 +368,6 @@ body.VisualizationMainPage {
     cursor: pointer;
     transition: 0.2s ease;
 }
-
 
 /* Hover elegante */
 
@@ -401,21 +383,18 @@ body.VisualizationMainPage {
     outline-offset: 2px;
 }
 
-
-
-
 /* =====================================================
    CHALLENGE DRAWER - PAINEL LATERAL ANIMADO
    ===================================================== */
 
 #challengeDrawer {
     position: fixed;
-    top: 80px;                 /* abaixo da topbar */
+    top: 80px; /* abaixo da topbar */
     right: -420px; /* começa escondido */
     width: 300px;
     height: calc(100vh - 80px);
     background: var(--ufms-blue-50);
-    
+
     transition: right 0.35s ease;
 
     display: flex;
@@ -423,12 +402,11 @@ body.VisualizationMainPage {
 
     border-radius: 0 16px 16px 0;
     border-right: 6px solid var(--ufms-blue-700);
-    box-shadow: 5px 0 10px rgba(0,0,0,0.5);
+    box-shadow: 5px 0 10px rgba(0, 0, 0, 0.5);
     z-index: 9998;
 
     overflow: hidden;
 }
-
 
 /* Estado ativo */
 
@@ -456,7 +434,7 @@ body.VisualizationMainPage {
 /* Botão fechar */
 
 #closeDrawer {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     border: none;
     width: 28px;
     height: 28px;
@@ -468,7 +446,7 @@ body.VisualizationMainPage {
 }
 
 #closeDrawer:hover {
-    background: rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* =========================
@@ -504,8 +482,6 @@ body.VisualizationMainPage {
     background: var(--ufms-blue-900);
 }
 
-
-
 /* =====================================================
    BOTÃO VOLTAR COM SVG
    ===================================================== */
@@ -525,8 +501,6 @@ body.VisualizationMainPage {
     transition: 0.2s ease;
 }
 
-
-
 /* Ícone */
 
 .back-icon {
@@ -536,7 +510,7 @@ body.VisualizationMainPage {
 /* Hover */
 
 .topbar-back:hover {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .topbar-back:hover .back-icon {
@@ -550,9 +524,6 @@ body.VisualizationMainPage {
     outline-offset: 2px;
 }
 
-
-
-
 /* =====================================================
    ESTILO DO LOG DIDÁTICO
 ===================================================== */
@@ -563,8 +534,14 @@ body.VisualizationMainPage {
     animation: fadeLog 0.2s ease-in;
 }
 @keyframes fadeLog {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Tipos */
@@ -592,8 +569,6 @@ body.VisualizationMainPage {
     font-size: 0.65rem;
 }
 
-
-
 /* Container do grupo */
 #AlgorithmSpecificControls table {
     margin-top: -5px;
@@ -608,7 +583,6 @@ body.VisualizationMainPage {
     padding-bottom: -50px;
     padding-top: -50px;
 }
-
 
 /* Radio */
 input[name="CollisionStrategy"] {
