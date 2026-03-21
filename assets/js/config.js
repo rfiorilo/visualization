@@ -46,7 +46,7 @@ window.PAGES_CONFIG = {
             groups: [
                 {
                     name: "Tabelas de dispersão",
-                    showGroupName: false,
+                    showGroupName: true,
                     items: [
                         {
                             shortname: "Encadeamento externo",
@@ -55,6 +55,15 @@ window.PAGES_CONFIG = {
                             link: "pages/algorithms/OpenHash.html",
                             description:
                                 "Utiliza função de dispersão para acesso rápido aos dados, sem necessidade de ordenação. As colisões são tratadas por meio de listas encadeadas externas à tabela.",
+                            categories: ["hash"],
+                        },
+                        {
+                            shortname: "Endereçamento aberto",
+                            fullname: "Endereçamento aberto",
+                            pagename: "ClosedHash",
+                            link: "pages/algorithms/ClosedHash.html",
+                            description:
+                                "Utiliza função de dispersão para acesso rápido aos dados, sem necessidade de ordenação. As colisões são tratadas por endereçamento aberto, com sondagens linear, quadrática e por duplo hashing.",
                             categories: ["hash"],
                         },
                     ],
