@@ -250,18 +250,29 @@ OpenHash.prototype.deleteElement = function (elem) {
     this.cmd("CreateHighlightCircle", highlightID, HIGHLIGHT_COLOR, HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
     this.cmd("Move", highlightID, this.indexXPos[index], this.indexYPos[index] - 45);
     this.cmd("Step");
-    this.cmd("Delete", highlightID);
-    this.nextIndex -= 1;
 
     if (this.hashTableValues[index] == null) {
         this.cmd("SetText", this.ExplainLabel, "Removendo elemento: " + elem + "  Não encontrado!");
         this.cmd("Step");
+
+        this.cmd("Delete", highlightID);
+        this.nextIndex -= 1;
+        this.cmd("Step");
         this.cmd("SetText", this.ExplainLabel, "");
         return this.commands;
     }
+
+    this.cmd("Move", highlightID, this.hashTableValues[index].x, this.hashTableValues[index].y);
+    this.cmd("Step");
+
+    this.cmd("Delete", highlightID);
+    this.nextIndex -= 1;
+
     this.cmd("SetHighlight", this.hashTableValues[index].graphicID, 1);
     // this.cmd("Step");
     if (this.hashTableValues[index].data == elem) {
+        this.cmd("Step");
+
         this.cmd("SetFocus", this.hashTableValues[index].graphicID, 1);
         this.cmd(
             "SetFocusBackgroundColor",
@@ -354,17 +365,23 @@ OpenHash.prototype.findElement = function (elem) {
     this.cmd("CreateHighlightCircle", highlightID, HIGHLIGHT_COLOR, HASH_LABEL_X + HASH_LABEL_DELTA_X, HASH_LABEL_Y);
     this.cmd("Move", highlightID, this.indexXPos[index], this.indexYPos[index] - 45);
     this.cmd("Step");
-    this.cmd("Delete", highlightID);
-    this.nextIndex -= 1;
 
     // var compareIndex = this.nextIndex++;
     var found = false;
     var tmp = this.hashTableValues[index];
+    if (tmp != null) {
+        this.cmd("Move", highlightID, tmp.x, tmp.y);
+        this.cmd("Step");
+        this.cmd("Delete", highlightID);
+        this.nextIndex -= 1;
+    }
     // this.cmd("CreateLabel", compareIndex, "", 10, 40, 0);
     var msg = "";
     while (tmp != null && !found) {
         this.cmd("SetHighlight", tmp.graphicID, 1);
         if (tmp.data == elem) {
+            this.cmd("Step");
+
             // this.cmd("SetText", compareIndex,  tmp.data  + "==" + elem)
             msg = "\n\n    " + tmp.data + " == " + elem;
             var pos = tmp.graphicID;
@@ -389,7 +406,9 @@ OpenHash.prototype.findElement = function (elem) {
         this.cmd("SetFocus", pos, 0);
         this.cmd("SetHighlightColor", pos, VISUAL_CONFIG.drawingStyle.highlight);
     } else {
+        this.cmd("Step");
         this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem + "  Não encontrado!");
+        this.cmd("Delete", highlightID);
     }
     // this.cmd("Delete", compareIndex);
     // this.nextIndex--;
