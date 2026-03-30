@@ -45,6 +45,21 @@ window.PAGES_CONFIG = {
             title: "Algoritmos",
             groups: [
                 {
+                    name: "Árvores de busca",
+                    showGroupName: false,
+                    items: [
+                        {
+                            shortname: "ABB",
+                            fullname: "Árvore Binária de Busca",
+                            pagename: "BST",
+                            link: "pages/algorithms/BST.html",
+                            description:
+                                "Organiza os dados de forma hierárquica e ordenada, permitindo acesso eficiente por meio de comparações entre os elementos. Pode degradar para uma lista linear em casos desbalanceados.",
+                            categories: ["arvores"],
+                        },
+                    ],
+                },
+                {
                     name: "Tabelas de dispersão",
                     showGroupName: true,
                     items: [

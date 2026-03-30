@@ -342,18 +342,13 @@ body.VisualizationMainPage {
    BADGE DE DESAFIO AO LADO DO TÍTULO
    ===================================================== */
 
-/* .algo-title {
+.algo-title {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-} */
-.algo-title {
-    margin: 0;
-    font-size: 2rem; /* Ajuste para o tamanho desejado */
-    /* font-weight: bold; */
-    font-weight: 700;
 }
+
 /* Botão estilo badge */
 
 .challenge-badge {
@@ -577,14 +572,6 @@ body.VisualizationMainPage {
     padding-top: -50px;
 }
 
-#AlgorithmSpecificControls div {
-    margin-top: -55px;
-    margin-bottom: -5px;
-    padding-bottom: -50px;
-    padding-top: -50px;
-}
-
-/* Radio */
 input[name="CollisionStrategy"] {
     accent-color: var(--ufms-blue-700);
     cursor: pointer;
@@ -595,4 +582,159 @@ input[name="CollisionStrategy"] {
 /* Pequena animação ao marcar */
 input[name="CollisionStrategy"]:checked {
     transform: scale(1.15);
+}
+
+/*
+select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-300);
+    background: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--ufms-blue-700);
+    box-shadow: 0 0 0 2px var(--ufms-blue-100);
+} */
+
+/* ===============================
+   CUSTOM SELECT – MODERNO
+================================ */
+
+.custom-select {
+    position: relative;
+    width: 150px;
+    font-size: 0.9rem;
+    user-select: none;
+    font-family: inherit;
+}
+
+/* Caixa principal */
+.select-selected {
+    position: relative;
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    padding: 8px 36px 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: var(--gray-800);
+}
+
+/* SETA */
+.select-selected::after {
+    content: "";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 7px solid #6b7280; /* cor fixa para testar */
+    pointer-events: none;
+    transition: transform 0.2s ease;
+}
+
+/* Hover */
+.select-selected:hover {
+    border-color: var(--ufms-blue-700);
+    background: var(--ufms-blue-50);
+}
+
+/* Estado aberto */
+.custom-select.open .select-selected {
+    border-color: var(--ufms-blue-700);
+    box-shadow: 0 0 0 3px var(--ufms-blue-100);
+}
+
+.custom-select.open .select-selected::after {
+    transform: rotate(180deg);
+    border-top-color: var(--ufms-blue-700);
+}
+
+/* ===============================
+   DROPDOWN
+================================ */
+
+.select-options {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: 0.18s ease;
+}
+
+/* Opções */
+.select-options div {
+    padding: 10px 14px;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+    font-weight: 500;
+}
+
+/* Hover opção */
+.select-options div:hover {
+    background: var(--ufms-blue-50);
+    color: var(--ufms-blue-900);
+}
+
+/* Ativa */
+.select-options div.active {
+    background: var(--ufms-blue-700);
+    color: white;
+}
+
+/* ===============================
+   DISABLED
+================================ */
+
+.custom-select.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* ===============================
+   ANIMAÇÃO
+================================ */
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estado aberto */
+.custom-select.open .select-options {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Ocultar item ativo */
+.select-options div.hidden {
+    display: none;
 }
