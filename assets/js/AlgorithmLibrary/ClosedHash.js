@@ -97,6 +97,16 @@ ClosedHash.prototype.addControls = function () {
 
 ClosedHash.prototype.tableSize = function (newSize) {
     newSize = parseInt(newSize);
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "enderecamento_aberto",
+            tentativa: this.getProbingName(),
+            tamanho_tabela: this.table_size,
+            funcao: this.getHashFunction(),
+            acao: "resize",
+            valor: newSize,
+        });
+    }
 
     if (newSize < 3) toast("Escolha um valor maior ou igual a 3.", this.sizeButton, 1000);
     else {
@@ -113,6 +123,7 @@ ClosedHash.prototype.tableSize = function (newSize) {
 
 ClosedHash.prototype.changeProbeType = function (newProbingType) {
     if (newProbingType == this.linearProblingButton) {
+        prob = "linear";
         this.linearProblingButton.checked = true;
         this.currentHashingTypeButtonState = this.linearProblingButton;
         for (var i = 0; i < this.table_size; i++) {
@@ -130,7 +141,28 @@ ClosedHash.prototype.changeProbeType = function (newProbingType) {
         this.currentHashingTypeButtonState = this.doubleHashingButton;
     }
     this.commands = this.resetAll();
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "enderecamento_aberto",
+            tentativa: this.getProbingName(),
+            tamanho_tabela: this.table_size,
+            funcao: this.getHashFunction(),
+            acao: "troca_probing",
+        });
+    }
     return this.commands;
+};
+
+ClosedHash.prototype.getProbingName = function () {
+    if (this.currentHashingTypeButtonState == this.linearProblingButton) return "linear";
+    else if (this.currentHashingTypeButtonState == this.quadraticProbingButton) return "quadrática";
+    else if (this.currentHashingTypeButtonState == this.doubleHashingButton) return "dispersão dupla";
+};
+
+ClosedHash.prototype.getHashFunction = function () {
+    if (this.currentHashingTypeButtonState == this.linearProblingButton) return this.LINEAR_FUNCTION;
+    else if (this.currentHashingTypeButtonState == this.quadraticProbingButton) return this.QUADRACT_FUNCTION;
+    else if (this.currentHashingTypeButtonState == this.doubleHashingButton) return this.DOUBLE_HASH_FUNCTION;
 };
 
 ClosedHash.prototype.quadraticProbeCallback = function (event) {
@@ -159,6 +191,16 @@ ClosedHash.prototype.linearProbeCallback = function (event) {
 
 ClosedHash.prototype.insertElement = function (elem) {
     this.commands = new Array();
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "enderecamento_aberto",
+            tentativa: this.getProbingName(),
+            tamanho_tabela: this.table_size,
+            funcao: this.getHashFunction(),
+            acao: "insercao",
+            valor: elem,
+        });
+    }
     this.cmd("SetText", this.ExplainLabel, "Inserindo elemento: " + String(elem));
     // var index = this.doHash(elem, true);
     var index = elem % this.table_size;
@@ -491,6 +533,16 @@ ClosedHash.prototype.getElemIndex = function (index, elem, action) {
 };
 
 ClosedHash.prototype.deleteElement = function (elem) {
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "enderecamento_aberto",
+            tentativa: this.getProbingName(),
+            tamanho_tabela: this.table_size,
+            funcao: this.getHashFunction(),
+            acao: "remocao",
+            valor: elem,
+        });
+    }
     this.commands = new Array();
     this.cmd("SetText", this.ExplainLabel, "Removendo elemento: " + elem);
     // var index = this.doHash(elem);
@@ -522,6 +574,16 @@ ClosedHash.prototype.deleteElement = function (elem) {
 };
 
 ClosedHash.prototype.findElement = function (elem) {
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "enderecamento_aberto",
+            tentativa: this.getProbingName(),
+            tamanho_tabela: this.table_size,
+            funcao: this.getHashFunction(),
+            acao: "busca",
+            valor: elem,
+        });
+    }
     this.commands = new Array();
 
     this.cmd("SetText", this.ExplainLabel, "Buscando elemento: " + elem);

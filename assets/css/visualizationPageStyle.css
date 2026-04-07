@@ -738,3 +738,88 @@ select:focus {
 .select-options div.hidden {
     display: none;
 }
+/* Container principal */
+.custom-checkbox {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: "Segoe UI", system-ui, sans-serif; /* Fonte mais nítida */
+    font-size: 14px;
+    font-weight: 500; /* Peso ligeiramente maior para o texto não sumir */
+    user-select: none;
+    color: #1f2937; /* Cinza bem escuro, quase preto, para alto contraste */
+    margin-right: 15px;
+
+    vertical-align: middle;
+    line-height: 1;
+    height: 30px;
+    transition: color 0.2s ease;
+}
+
+/* Oculta o checkbox original */
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* A caixa do checkbox (O Segredo do visual "Ativo") */
+.custom-checkbox .checkmark {
+    position: relative;
+    height: 18px;
+    width: 18px;
+    background-color: #ffffff; /* BRANCO PURO indica que o campo está aberto para interação */
+    border: 2px solid #9ca3af; /* Borda mais nítida e escura */
+    border-radius: 4px;
+    margin-right: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* Curva de animação mais fluida */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Levíssima profundidade */
+}
+
+/* Efeito ao passar o mouse na caixa toda */
+.custom-checkbox:hover {
+    color: #0088b7; /* O texto também indica interatividade */
+}
+
+.custom-checkbox:hover input ~ .checkmark {
+    border-color: #0088b7;
+    background-color: #f0f9ff; /* Fundo levemente azulado no hover */
+}
+
+/* Estado de foco para acessibilidade (Navegação por teclado) */
+.custom-checkbox input:focus-visible ~ .checkmark {
+    outline: 2px solid #0088b7;
+    outline-offset: 2px;
+}
+
+/* Estado MARCADO */
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #0088b7;
+    border-color: #0088b7;
+    box-shadow: 0 2px 4px rgba(0, 136, 183, 0.3); /* Brilho da cor da sua paleta */
+}
+
+/* O ícone de "check" */
+.custom-checkbox .checkmark::after {
+    content: "";
+    position: absolute;
+    /* Centralização matemática do V */
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    /* A animação de "Pop": começa com tamanho 0 */
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito elástico */
+}
+
+/* Anima o ícone quando marcado */
+.custom-checkbox input:checked ~ .checkmark::after {
+    display: block;
+    /* Retorna ao tamanho normal, gerando a animação */
+    transform: rotate(45deg) scale(1);
+}

@@ -26,43 +26,22 @@
 
 // Constants.
 
-BST.LINK_COLOR = VISUAL_CONFIG.drawingStyle.link;
-BST.HIGHLIGHT_CIRCLE_COLOR = VISUAL_CONFIG.drawingStyle.highlight;
-BST.FOREGROUND_COLOR = VISUAL_CONFIG.drawingStyle.foreground;
-BST.BACKGROUND_COLOR = VISUAL_CONFIG.drawingStyle.background;
-BST.PRINT_COLOR = BST.FOREGROUND_COLOR;
-
-// BST.LINK_COLOR = "#007700";
-// BST.HIGHLIGHT_CIRCLE_COLOR = "#007700";
-// BST.FOREGROUND_COLOR = "#007700";
-// BST.BACKGROUND_COLOR = "#EEFFEE";
-// BST.PRINT_COLOR = BST.FOREGROUND_COLOR;
-
-BST.WIDTH_DELTA = 50;
-BST.HEIGHT_DELTA = 50;
-BST.STARTING_Y = 50;
-
-BST.FIRST_PRINT_POS_X = 50;
-BST.PRINT_VERTICAL_GAP = 20;
-BST.PRINT_HORIZONTAL_GAP = 50;
-
-BST.MAX_KEY_LENGTH = 4;
-
-BST.PERCURSO = Object.freeze({
-    NONE: "none",
-    PREORDEM: "pre",
-    EMORDEM: "ordem",
-    POSORDEM: "pos",
-    EMNIVEL: "nivel",
-});
-
 function BST(am, w, h) {
     this.init(am, w, h);
+    this.treeType = "BST";
 }
 
 BST.prototype = new Algorithm();
 BST.prototype.constructor = BST;
 BST.superclass = Algorithm.prototype;
+
+// 1. Injeta as FUNÇÕES (métodos) no protótipo para a árvore usar
+Object.assign(BST.prototype, TreeTraversals);
+Object.assign(BST.prototype, TreeSearch);
+Object.assign(BST.prototype, TreeVisuals);
+
+// 2. Injeta as CONSTANTES estáticas direto na classe
+Object.assign(BST, TreeConstants);
 
 BST.prototype.init = function (am, w, h) {
     var sc = BST.superclass;
@@ -84,74 +63,9 @@ BST.prototype.init = function (am, w, h) {
 };
 
 BST.prototype.addControls = function () {
-    this.insertField = addControlToAlgorithmBar("Text", "");
-    this.insertField.size = BST.MAX_KEY_LENGTH;
-    this.insertField.onkeydown = this.returnSubmit(
-        this.insertField,
-        this.insertCallback.bind(this),
-        BST.MAX_KEY_LENGTH,
-        true,
-    );
-    this.insertButton = addControlToAlgorithmBar("Button", "Inserir");
-    this.insertButton.onclick = this.insertCallback.bind(this);
-    addSpaceToAlgorithmBar(15);
-
-    this.findField = addControlToAlgorithmBar("Text", "");
-    this.findField.size = BST.MAX_KEY_LENGTH;
-    this.findField.onkeydown = this.returnSubmit(
-        this.findField,
-        this.findCallback.bind(this),
-        BST.MAX_KEY_LENGTH,
-        true,
-    );
-    this.findButton = addControlToAlgorithmBar("Button", "Buscar");
-    this.findButton.onclick = this.findCallback.bind(this);
-    addSpaceToAlgorithmBar(15);
-
-    this.deleteField = addControlToAlgorithmBar("Text", "");
-    this.deleteField.size = BST.MAX_KEY_LENGTH;
-    this.deleteField.onkeydown = this.returnSubmit(
-        this.deleteField,
-        this.deleteCallback.bind(this),
-        BST.MAX_KEY_LENGTH,
-        true,
-    );
-    this.deleteButton = addControlToAlgorithmBar("Button", "Remover");
-    this.deleteButton.onclick = this.deleteCallback.bind(this);
-    addSpaceToAlgorithmBar(55);
-
-    // this.printButton = addControlToAlgorithmBar("Button", "Imprimir");
-    // this.printButton.onclick = this.printCallback.bind(this);
-
-    var options = [
-        { value: BST.PERCURSO.NONE, text: "Percurso" },
-        { value: BST.PERCURSO.PREORDEM, text: "Pré ordem" },
-        { value: BST.PERCURSO.EMORDEM, text: "Em ordem" },
-        { value: BST.PERCURSO.POSORDEM, text: "Pós ordem" },
-    ];
-
-    this.selectionBoxList = addCustomSelectionBoxToAlgorithmBar(options, "SelecaoPercurso2");
-
-    this.selectionBoxList.addEventListener("change", (e) => {
-        const escolha = e.detail.value;
-
-        switch (escolha) {
-            case BST.PERCURSO.EMORDEM:
-                this.emOrdemCallback();
-                break;
-            case BST.PERCURSO.PREORDEM:
-                this.preOrdemCallback();
-                break;
-            case BST.PERCURSO.POSORDEM:
-                this.posOrdemCallback();
-                break;
-            case BST.PERCURSO.EMNIVEL:
-                this.emNivelCallback();
-                break;
-            default:
-                console.warn("Escolha desconhecida:", escolha);
-        }
-    });
+    // Monta a UI reaproveitando os blocos
+    this.setupBasicInputs();
+    this.setupTraversalSelect();
 };
 
 BST.prototype.reset = function () {
@@ -165,6 +79,13 @@ BST.prototype.insertCallback = function (event) {
     // Get text value
     insertedValue = this.normalizeNumber(insertedValue, 4);
     if (insertedValue != "") {
+        if (typeof gtag === "function") {
+            gtag("event", "operacao_arvore", {
+                tipo_arvore: "BST",
+                acao: "insercao",
+                valor: insertedValue,
+            });
+        }
         // set text value
         this.insertField.value = "";
         this.implementAction(this.insertElement.bind(this), insertedValue);
@@ -174,466 +95,17 @@ BST.prototype.insertCallback = function (event) {
 BST.prototype.deleteCallback = function (event) {
     var deletedValue = this.deleteField.value;
     if (deletedValue != "") {
+        if (typeof gtag === "function") {
+            gtag("event", "operacao_arvore", {
+                tipo_arvore: "BST",
+                acao: "remocao",
+                valor: deletedValue,
+            });
+        }
         deletedValue = this.normalizeNumber(deletedValue, 4);
         this.deleteField.value = "";
         this.implementAction(this.deleteElement.bind(this), deletedValue);
     }
-};
-
-// BST.prototype.printCallback = function(event)
-// {
-// 	this.implementAction(this.printTree.bind(this),"");
-// }
-
-BST.prototype.emOrdemCallback = function (event) {
-    this.implementAction(this.printTree.bind(this), BST.PERCURSO.EMORDEM);
-};
-
-BST.prototype.preOrdemCallback = function (event) {
-    this.implementAction(this.printTree.bind(this), BST.PERCURSO.PREORDEM);
-};
-
-BST.prototype.posOrdemCallback = function (event) {
-    this.implementAction(this.printTree.bind(this), BST.PERCURSO.POSORDEM);
-};
-
-BST.prototype.emNivelCallback = function (event) {
-    this.implementAction(this.printTree.bind(this), BST.PERCURSO.EMNIVEL);
-};
-
-BST.prototype.printTree = function (percurso) {
-    this.commands = [];
-
-    if (this.treeRoot != null) {
-        this.highlightID = this.nextIndex++;
-        this.firstLabel = this.nextIndex;
-        this.cmd(
-            "CreateHighlightCircle",
-            this.highlightID,
-            BST.HIGHLIGHT_CIRCLE_COLOR,
-            this.treeRoot.x,
-            this.treeRoot.y,
-        );
-        this.yPosOfNextLabel = this.first_print_pos_y + 10;
-
-        var labelPerc = this.nextIndex++;
-        this.linhas = 1;
-        this.recuos = [];
-        switch (percurso) {
-            case BST.PERCURSO.EMORDEM:
-                this.cmd("CreateLabel", labelPerc, "Percurso em ordem simétrica: ", 133, this.yPosOfNextLabel);
-                this.labelPosition = 133;
-                this.xPosOfNextLabel = this.initialXPosition = 235;
-                this.printTreeRec(this.treeRoot);
-                break;
-            case BST.PERCURSO.PREORDEM:
-                this.cmd("CreateLabel", labelPerc, "Percurso em pré ordem: ", 115, this.yPosOfNextLabel);
-                this.labelPosition = 115;
-                this.xPosOfNextLabel = this.initialXPosition = 198;
-                // this.preOrdemRec(this.treeRoot);
-                this.preOrdemRec(this.treeRoot);
-
-                break;
-            case BST.PERCURSO.POSORDEM:
-                this.cmd("CreateLabel", labelPerc, "Percurso em pós ordem: ", 115, this.yPosOfNextLabel);
-                this.labelPosition = 115;
-                this.xPosOfNextLabel = this.initialXPosition = 198;
-                // this.posOrdemRec(this.treeRoot);
-                this.posOrdemRec(this.treeRoot);
-
-                break;
-        }
-        this.cmd("Delete", this.highlightID);
-        this.cmd("Step");
-
-        for (var i = this.firstLabel; i < this.nextIndex; i++) {
-            this.cmd("Delete", i);
-        }
-        this.nextIndex = this.highlightID; /// Reuse objects.  Not necessary.
-        this.cmd("SetText", 0, "");
-    }
-
-    return this.commands;
-};
-
-const weights = {
-    1: 0.7,
-    0: 0.9,
-    2: 0.8,
-    3: 0.8,
-    4: 0.8,
-    5: 0.8,
-    6: 0.8,
-    7: 0.8,
-    8: 0.9,
-    9: 0.8,
-    " ": 0.3,
-};
-
-BST.prototype.printTreeRec = function (tree) {
-    this.cmd("Step");
-    var esq = this.projecaoFilhoEsquerdo(tree);
-    var dir = this.projecaoFilhoDireito(tree);
-
-    /* vista esquerda */
-    if (tree.left != null) {
-        this.cmd("Move", this.highlightID, tree.left.x, tree.left.y);
-        this.printTreeRec(tree.left);
-    } else {
-        this.cmd("Move", this.highlightID, esq[0], esq[1]);
-        this.cmd("Step");
-
-        var nullID = this.nextIndex++;
-        this.cmd("CreateLabel", nullID, "null", esq[0], esq[1]);
-        this.cmd("SetForegroundColor", nullID, BST.HIGHLIGHT_CIRCLE_COLOR);
-        this.cmd("Step");
-        this.cmd("Delete", nullID);
-        this.nextIndex--;
-    }
-    this.cmd("Move", this.highlightID, tree.x, tree.y);
-    this.cmd("Step");
-
-    /* visita o no */
-
-    let total = 0;
-    if (this.initialXPosition != this.xPosOfNextLabel) total = 1.5; /* para espaco*/
-    for (let char of Utils.toShow(tree.data)) {
-        total += weights[char] || 0.8;
-    }
-    var delta = total * 10;
-    this.xPosOfNextLabel += delta;
-
-    if (this.xPosOfNextLabel >= this.print_max) {
-        var linhas = this.linhas;
-        this.cmd("Move", this.firstLabel, this.labelPosition, this.yPosOfNextLabel - 20 * linhas);
-        var x_pos = this.recuos[0];
-        var des = 1;
-        for (var i = this.firstLabel + 1; i < this.nextIndex; i++) {
-            this.cmd("Move", i, x_pos, this.yPosOfNextLabel - 20 * linhas);
-            if (this.recuos[des] < this.recuos[des - 1]) {
-                linhas--;
-            }
-            x_pos = this.recuos[des++];
-        }
-
-        this.xPosOfNextLabel = this.initialXPosition + (total - 1.5) * 10;
-        this.linhas++;
-    }
-    this.cmd("SetFocus", tree.graphicID, 1);
-    this.cmd("SetFocusBackgroundColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.foreground);
-    this.cmd("SetFocusForegroundColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.background);
-    var nextLabelID = this.nextIndex++;
-    this.cmd("CreateLabel", nextLabelID, Utils.toShow(tree.data), tree.x, tree.y);
-    this.cmd("SetForegroundColor", nextLabelID, BST.PRINT_COLOR);
-    this.cmd("Move", nextLabelID, this.xPosOfNextLabel, this.yPosOfNextLabel);
-    this.cmd("Step");
-    this.cmd("SetFocus", tree.graphicID, 0);
-    this.recuos.push(this.xPosOfNextLabel);
-
-    // this.xPosOfNextLabel +=  BST.PRINT_HORIZONTAL_GAP;
-
-    /* visita direita */
-    if (tree.right != null) {
-        this.cmd("Move", this.highlightID, tree.right.x, tree.right.y);
-        this.printTreeRec(tree.right);
-    } else {
-        this.cmd("Move", this.highlightID, dir[0], dir[1]);
-        this.cmd("Step");
-
-        var nullID = this.nextIndex++;
-        this.cmd("CreateLabel", nullID, "null", dir[0], dir[1]);
-        this.cmd("SetForegroundColor", nullID, BST.HIGHLIGHT_CIRCLE_COLOR);
-        this.cmd("Step");
-        this.cmd("Delete", nullID);
-        this.nextIndex--;
-    }
-    this.cmd("Move", this.highlightID, tree.x, tree.y);
-    this.cmd("Step");
-
-    return;
-};
-
-BST.prototype.preOrdemRec = function (tree) {
-    this.cmd("Step");
-    var esq = this.projecaoFilhoEsquerdo(tree);
-    var dir = this.projecaoFilhoDireito(tree);
-
-    /* visita o no */
-    let total = 0;
-    if (this.initialXPosition != this.xPosOfNextLabel) total = 1.5; /* para espaco*/
-    for (let char of Utils.toShow(tree.data)) {
-        total += weights[char] || 0.8;
-    }
-    var delta = total * 10;
-    this.xPosOfNextLabel += delta;
-
-    if (this.xPosOfNextLabel >= this.print_max) {
-        var linhas = this.linhas;
-        this.cmd("Move", this.firstLabel, this.labelPosition, this.yPosOfNextLabel - 20 * linhas);
-        var x_pos = this.recuos[0];
-        var des = 1;
-        for (var i = this.firstLabel + 1; i < this.nextIndex; i++) {
-            this.cmd("Move", i, x_pos, this.yPosOfNextLabel - 20 * linhas);
-            if (this.recuos[des] < this.recuos[des - 1]) {
-                linhas--;
-            }
-            x_pos = this.recuos[des++];
-        }
-
-        this.xPosOfNextLabel = this.initialXPosition + (total - 1.5) * 10;
-        this.linhas++;
-    }
-    this.cmd("SetFocus", tree.graphicID, 1);
-    this.cmd("SetFocusBackgroundColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.foreground);
-    this.cmd("SetFocusForegroundColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.background);
-    var nextLabelID = this.nextIndex++;
-    this.cmd("CreateLabel", nextLabelID, Utils.toShow(tree.data), tree.x, tree.y);
-    this.cmd("SetForegroundColor", nextLabelID, BST.PRINT_COLOR);
-    this.cmd("Move", nextLabelID, this.xPosOfNextLabel, this.yPosOfNextLabel);
-    this.cmd("Step");
-    this.cmd("SetFocus", tree.graphicID, 0);
-    this.recuos.push(this.xPosOfNextLabel);
-
-    /* vista esquerda */
-    if (tree.left != null) {
-        this.cmd("Move", this.highlightID, tree.left.x, tree.left.y);
-        this.preOrdemRec(tree.left);
-    } else {
-        this.cmd("Move", this.highlightID, esq[0], esq[1]);
-        this.cmd("Step");
-
-        var nullID = this.nextIndex++;
-        this.cmd("CreateLabel", nullID, "null", esq[0], esq[1]);
-        this.cmd("SetForegroundColor", nullID, BST.HIGHLIGHT_CIRCLE_COLOR);
-        this.cmd("Step");
-        this.cmd("Delete", nullID);
-        this.nextIndex--;
-    }
-    this.cmd("Move", this.highlightID, tree.x, tree.y);
-    this.cmd("Step");
-
-    /* visita direita */
-    if (tree.right != null) {
-        this.cmd("Move", this.highlightID, tree.right.x, tree.right.y);
-        this.preOrdemRec(tree.right);
-    } else {
-        this.cmd("Move", this.highlightID, dir[0], dir[1]);
-        this.cmd("Step");
-
-        var nullID = this.nextIndex++;
-        this.cmd("CreateLabel", nullID, "null", dir[0], dir[1]);
-        this.cmd("SetForegroundColor", nullID, BST.HIGHLIGHT_CIRCLE_COLOR);
-        this.cmd("Step");
-        this.cmd("Delete", nullID);
-        this.nextIndex--;
-    }
-    this.cmd("Move", this.highlightID, tree.x, tree.y);
-    this.cmd("Step");
-
-    return;
-};
-
-BST.prototype.posOrdemRec = function (tree) {
-    this.cmd("Step");
-    var esq = this.projecaoFilhoEsquerdo(tree);
-    var dir = this.projecaoFilhoDireito(tree);
-
-    /* vista esquerda */
-    if (tree.left != null) {
-        this.cmd("Move", this.highlightID, tree.left.x, tree.left.y);
-        this.posOrdemRec(tree.left);
-    } else {
-        this.cmd("Move", this.highlightID, esq[0], esq[1]);
-        this.cmd("Step");
-
-        var nullID = this.nextIndex++;
-        this.cmd("CreateLabel", nullID, "null", esq[0], esq[1]);
-        this.cmd("SetForegroundColor", nullID, BST.HIGHLIGHT_CIRCLE_COLOR);
-        this.cmd("Step");
-        this.cmd("Delete", nullID);
-        this.nextIndex--;
-    }
-    this.cmd("Move", this.highlightID, tree.x, tree.y);
-    this.cmd("Step");
-
-    /* visita direita */
-    if (tree.right != null) {
-        this.cmd("Move", this.highlightID, tree.right.x, tree.right.y);
-        this.posOrdemRec(tree.right);
-    } else {
-        this.cmd("Move", this.highlightID, dir[0], dir[1]);
-        this.cmd("Step");
-
-        var nullID = this.nextIndex++;
-        this.cmd("CreateLabel", nullID, "null", dir[0], dir[1]);
-        this.cmd("SetForegroundColor", nullID, BST.HIGHLIGHT_CIRCLE_COLOR);
-        this.cmd("Step");
-        this.cmd("Delete", nullID);
-        this.nextIndex--;
-    }
-    this.cmd("Move", this.highlightID, tree.x, tree.y);
-    this.cmd("Step");
-
-    /* visita o no */
-    let total = 0;
-    if (this.initialXPosition != this.xPosOfNextLabel) total = 1.5; /* para espaco*/
-    for (let char of Utils.toShow(tree.data)) {
-        total += weights[char] || 0.8;
-    }
-    var delta = total * 10;
-    this.xPosOfNextLabel += delta;
-
-    if (this.xPosOfNextLabel >= this.print_max) {
-        var linhas = this.linhas;
-        this.cmd("Move", this.firstLabel, this.labelPosition, this.yPosOfNextLabel - 20 * linhas);
-        var x_pos = this.recuos[0];
-        var des = 1;
-        for (var i = this.firstLabel + 1; i < this.nextIndex; i++) {
-            this.cmd("Move", i, x_pos, this.yPosOfNextLabel - 20 * linhas);
-            if (this.recuos[des] < this.recuos[des - 1]) {
-                linhas--;
-            }
-            x_pos = this.recuos[des++];
-        }
-
-        this.xPosOfNextLabel = this.initialXPosition + (total - 1.5) * 10;
-        this.linhas++;
-    }
-    this.cmd("SetFocus", tree.graphicID, 1);
-    this.cmd("SetFocusBackgroundColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.foreground);
-    this.cmd("SetFocusForegroundColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.background);
-    var nextLabelID = this.nextIndex++;
-    this.cmd("CreateLabel", nextLabelID, Utils.toShow(tree.data), tree.x, tree.y);
-    this.cmd("SetForegroundColor", nextLabelID, BST.PRINT_COLOR);
-    this.cmd("Move", nextLabelID, this.xPosOfNextLabel, this.yPosOfNextLabel);
-    this.cmd("Step");
-    this.cmd("SetFocus", tree.graphicID, 0);
-    this.recuos.push(this.xPosOfNextLabel);
-
-    return;
-};
-
-BST.prototype.findCallback = function (event) {
-    if (this.findField.value != "") {
-        var findValue;
-        findValue = this.normalizeNumber(this.findField.value, 4);
-        this.findField.value = "";
-        this.implementAction(this.findElement.bind(this), findValue);
-    }
-};
-
-BST.prototype.findElement = function (findValue) {
-    this.commands = [];
-
-    this.highlightID = this.nextIndex++;
-    this.cmd("SetText", 0, "Buscando elemento: " + Utils.toShow(findValue));
-    this.cmd("Step");
-
-    this.doFind(this.treeRoot, findValue);
-
-    this.cmd("Step");
-    this.cmd("SetText", 0, "");
-
-    return this.commands;
-};
-
-BST.prototype.doFind = function (tree, value) {
-    showValue = Utils.toShow(value);
-    var texto = "Buscando elemento: " + showValue;
-
-    if (tree != null) {
-        showTreeValue = Utils.toShow(tree.data);
-
-        this.cmd("SetHighlight", tree.graphicID, 1);
-        if (tree.data == value) {
-            texto += "\n\n   " + showValue + " = " + showTreeValue;
-            this.cmd("SetText", 0, texto);
-            this.cmd("Step");
-
-            this.cmd("SetFocus", tree.graphicID, 1);
-            this.cmd("SetFocusBackgroundColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.focusGoodBackground);
-            this.cmd("SetFocusForegroundColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.focusGoodForeground);
-            this.cmd("SetHighlightColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.focusGoodForeground);
-            this.cmd("Step");
-
-            this.cmd("SetText", 0, "Buscando elemento: " + showValue + " Encontrado!");
-            this.cmd("Step");
-            this.cmd("SetHighlight", tree.graphicID, 0);
-            this.cmd("SetFocus", tree.graphicID, 0);
-            this.cmd("SetHighlightColor", tree.graphicID, VISUAL_CONFIG.drawingStyle.highlight);
-        } else {
-            if (tree.data > value) {
-                texto += "\n\n   " + showValue + " < " + showTreeValue;
-                this.cmd("SetText", 0, texto);
-                this.cmd("Step");
-
-                this.cmd("SetHighlight", tree.graphicID, 0);
-                texto += "\n\n   ► Descer para a subárvore esquerda";
-                this.cmd("SetText", 0, texto);
-                this.cmd("CreateHighlightCircle", this.highlightID, BST.HIGHLIGHT_CIRCLE_COLOR, tree.x, tree.y);
-
-                if (tree.left != null) {
-                    this.nextPos = [tree.left.x, tree.left.y];
-                } else {
-                    this.nextPos = this.projecaoFilhoEsquerdo(tree);
-                }
-                this.cmd("Move", this.highlightID, this.nextPos[0], this.nextPos[1]);
-                this.cmd("Step");
-
-                this.cmd("Delete", this.highlightID);
-                this.doFind(tree.left, value);
-            } else {
-                texto += "\n\n   " + showValue + " > " + showTreeValue;
-                this.cmd("SetText", 0, texto);
-                this.cmd("Step");
-
-                this.cmd("SetHighlight", tree.graphicID, 0);
-                texto += "\n\n   ► Descer para a subárvore direita";
-                this.cmd("SetText", 0, texto);
-                this.cmd("CreateHighlightCircle", this.highlightID, BST.HIGHLIGHT_CIRCLE_COLOR, tree.x, tree.y);
-
-                if (tree.right != null) {
-                    this.nextPos = [tree.right.x, tree.right.y];
-                } else {
-                    this.nextPos = this.projecaoFilhoDireito(tree);
-                }
-                this.cmd("Move", this.highlightID, this.nextPos[0], this.nextPos[1]);
-                this.cmd("Step");
-
-                this.cmd("Delete", this.highlightID);
-                this.doFind(tree.right, value);
-            }
-        }
-    } else {
-        texto += "\n\n   Subárvore vazia!";
-        this.cmd("SetText", 0, texto);
-        var nullID = this.nextIndex + 1;
-        this.cmd("CreateLabel", nullID, "null", this.nextPos[0], this.nextPos[1]);
-        this.cmd("SetForegroundColor", nullID, BST.HIGHLIGHT_CIRCLE_COLOR);
-        this.cmd(
-            "CreateHighlightCircle",
-            this.highlightID,
-            BST.HIGHLIGHT_CIRCLE_COLOR,
-            this.nextPos[0],
-            this.nextPos[1],
-        );
-        this.cmd("Step");
-
-        this.cmd("Delete", nullID);
-        this.cmd("Delete", this.highlightID);
-        this.cmd("SetText", 0, "Buscando elemento: " + showValue + " Não encontrado!");
-    }
-};
-
-BST.prototype.projecaoFilhoEsquerdo = function (node) {
-    const offset = node.rightWidth ?? BST.WIDTH_DELTA / 2;
-    return [node.x - offset, node.y + BST.HEIGHT_DELTA - 1];
-};
-
-BST.prototype.projecaoFilhoDireito = function (node) {
-    const offset = node.lefttWidth ?? BST.WIDTH_DELTA / 2;
-
-    return [node.x + offset, node.y + BST.HEIGHT_DELTA + 1];
 };
 
 BST.prototype.insertElement = function (insertedValue) {
@@ -653,7 +125,7 @@ BST.prototype.insertElement = function (insertedValue) {
 
     if (this.treeRoot == null) {
         this.cmd("SetHighlight", this.nextIndex, 1);
-        texto += "\n\n   Subárvore vazia!";
+        texto += "\n\n   Árvore vazia!";
         this.cmd("SetText", 0, texto);
 
         var nullID = this.nextIndex + 1;
@@ -808,12 +280,27 @@ BST.prototype.insert = function (elem, tree) {
 
 BST.prototype.deleteElement = function (deletedValue) {
     this.commands = [];
-    this.cmd("SetText", 0, "Removendo elemento: " + Utils.toShow(deletedValue));
-    this.cmd("Step");
 
     this.highlightID = this.nextIndex++;
-    this.treeDelete(this.treeRoot, deletedValue);
-    this.resizeTree();
+    var msg = "Removendo elemento: " + Utils.toShow(deletedValue);
+    this.cmd("SetText", 0, msg);
+    this.cmd("Step");
+
+    if (this.treeRoot == null) {
+        var nullID = this.nextIndex + 1;
+        this.cmd("CreateLabel", nullID, "null", this.startingX, BST.STARTING_Y);
+        this.cmd("SetForegroundColor", nullID, BST.HIGHLIGHT_CIRCLE_COLOR);
+        this.cmd("CreateHighlightCircle", this.highlightID, BST.HIGHLIGHT_CIRCLE_COLOR, this.startingX, BST.STARTING_Y);
+        this.cmd("SetText", 0, msg + "\n\n   ► Árvore Vazia!");
+        this.cmd("Step");
+
+        this.cmd("Delete", nullID);
+        this.cmd("Delete", this.highlightID);
+    } else {
+        this.treeDelete(this.treeRoot, deletedValue);
+        this.resizeTree();
+    }
+
     // this.cmd("Step");
     this.cmd("SetText", 0, "");
 
@@ -862,11 +349,11 @@ BST.prototype.treeDelete = function (tree, valueToDelete) {
 
         if (valueToDelete == tree.data) {
             if (tree.left == null && tree.right == null) {
-                texto += "\n\n    ► Nó é uma folha.";
+                texto += "\n\n    ► É uma folha.";
                 this.cmd("SetText", 0, texto);
                 this.cmd("Step");
 
-                texto += "\n\n     ► Remover nó.";
+                texto += "\n\n     ► Remover diretamente.";
                 this.cmd("SetText", 0, texto);
                 this.cmd("Delete", tree.graphicID);
                 if (leftchild && tree.parent != null) {
@@ -879,17 +366,26 @@ BST.prototype.treeDelete = function (tree, valueToDelete) {
                 this.cmd("Step");
                 this.cmd("SetText", 0, textobase + " Removido!");
             } else if (tree.left == null) {
-                texto += "\n\n    ► Não possui filho esquerdo.";
+                var compl = "";
+
+                texto += "\n\n     ► Não possui filho esquerdo.";
                 this.cmd("SetText", 0, texto);
                 this.cmd("Step");
 
-                texto += "\n\n     ► Filho direito ocupa sua posição.";
-                this.cmd("SetText", 0, texto);
+                // texto += "\n\n     ► Conectar o pai diretamente ao filho da direita.";
+                // this.cmd("SetText", 0, texto);
                 if (tree.parent != null) {
                     this.cmd("Disconnect", tree.parent.graphicID, tree.graphicID);
                     this.cmd("Connect", tree.parent.graphicID, tree.right.graphicID, BST.LINK_COLOR);
-                    this.cmd("Step");
-                    this.cmd("Delete", tree.graphicID);
+                    compl = "\n\n        ► Conectar o pai diretamente ao filho da direita.";
+                } else {
+                    compl = "\n\n        ► É raiz! A raiz da subárvore direita é a nova raiz da árvore.";
+                }
+                this.cmd("SetText", 0, texto + compl);
+
+                this.cmd("Step");
+                this.cmd("Delete", tree.graphicID);
+                if (tree.parent != null) {
                     if (leftchild) {
                         tree.parent.left = tree.right;
                     } else {
@@ -897,23 +393,30 @@ BST.prototype.treeDelete = function (tree, valueToDelete) {
                     }
                     tree.right.parent = tree.parent;
                 } else {
-                    this.cmd("Delete", tree.graphicID);
                     this.treeRoot = tree.right;
                     this.treeRoot.parent = null;
                 }
                 this.cmd("SetText", 0, textobase + " Removido!");
             } else if (tree.right == null) {
-                texto += "\n\n    ► Não possui filho direito.";
+                var compl = "";
+                texto += "\n\n     ► Não possui filho direito.";
                 this.cmd("SetText", 0, texto);
                 this.cmd("Step");
 
-                texto += "\n\n     ► Filho esquerdo ocupa sua posição.";
-                this.cmd("SetText", 0, texto);
+                // texto += "\n\n     ► Filho esquerdo ocupa sua posição.";
+                // this.cmd("SetText", 0, texto);
                 if (tree.parent != null) {
                     this.cmd("Disconnect", tree.parent.graphicID, tree.graphicID);
                     this.cmd("Connect", tree.parent.graphicID, tree.left.graphicID, BST.LINK_COLOR);
-                    this.cmd("Step");
-                    this.cmd("Delete", tree.graphicID);
+                    compl = "\n\n        ► Conectar o pai diretamente ao filho da esquerda.";
+                } else {
+                    compl = "\n\n        ► É raiz! A raiz da subárvore esquerda é a nova raiz da árvore.";
+                }
+                this.cmd("SetText", 0, texto + compl);
+
+                this.cmd("Step");
+                this.cmd("Delete", tree.graphicID);
+                if (tree.parent != null) {
                     if (leftchild) {
                         tree.parent.left = tree.left;
                     } else {
@@ -921,7 +424,6 @@ BST.prototype.treeDelete = function (tree, valueToDelete) {
                     }
                     tree.left.parent = tree.parent;
                 } else {
-                    this.cmd("Delete", tree.graphicID);
                     this.treeRoot = tree.left;
                     this.treeRoot.parent = null;
                 }
@@ -931,12 +433,12 @@ BST.prototype.treeDelete = function (tree, valueToDelete) {
                 this.cmd("SetFocusBackgroundColor", tree.graphicID, "#F0C065");
                 this.cmd("SetFocusForegroundColor", tree.graphicID, "#BA643C");
                 texto += "\n\n    ► Possui dois filhos.";
-                texto += "\n\n     ► Buscar maior elemento da subárvore esquerda.";
+                texto += "\n\n     ► Buscar o maior valor da subárvore esquerda.";
                 this.cmd("SetText", 0, texto);
 
                 this.highlightID = this.nextIndex;
                 this.nextIndex += 1;
-                this.cmd("CreateHighlightCircle", this.highlightID, BST.HIGHLIGHT_CIRCLE_COLOR, tree.x, tree.y);
+                this.cmd("CreateHighlightCircle", this.highlightID, BST.GOOD_FOREGROUND_COLOR, tree.x, tree.y);
                 var tmp = tree;
                 tmp = tree.left;
                 this.cmd("Move", this.highlightID, tmp.x, tmp.y);
@@ -950,6 +452,7 @@ BST.prototype.treeDelete = function (tree, valueToDelete) {
                 var labelID = this.nextIndex;
                 this.nextIndex += 1;
                 this.cmd("CreateLabel", labelID, Utils.toShow(tmp.data), tmp.x, tmp.y);
+                this.cmd("SetForegroundColor", labelID, BST.GOOD_FOREGROUND_COLOR);
                 tree.data = tmp.data;
                 this.cmd("Move", labelID, tree.x, tree.y);
                 texto += "\n\n      ► Copiar valor encontrado.";
@@ -1043,51 +546,6 @@ BST.prototype.treeDelete = function (tree, valueToDelete) {
         this.cmd("Delete", this.highlightID);
         this.cmd("SetText", 0, "Removendo elemento: " + showValue + " Não encontrado!");
     }
-};
-
-BST.prototype.resizeTree = function () {
-    var startingPoint = this.startingX;
-    this.resizeWidths(this.treeRoot);
-    if (this.treeRoot != null) {
-        if (this.treeRoot.leftWidth > startingPoint) {
-            startingPoint = this.treeRoot.leftWidth;
-        } else if (this.treeRoot.rightWidth > startingPoint) {
-            startingPoint = Math.max(this.treeRoot.leftWidth, 2 * startingPoint - this.treeRoot.rightWidth);
-        }
-        this.setNewPositions(this.treeRoot, startingPoint, BST.STARTING_Y, 0);
-        this.animateNewPositions(this.treeRoot);
-    }
-    this.cmd("Step");
-};
-
-BST.prototype.setNewPositions = function (tree, xPosition, yPosition, side) {
-    if (tree != null) {
-        tree.y = yPosition;
-        if (side == -1) {
-            xPosition = xPosition - tree.rightWidth;
-        } else if (side == 1) {
-            xPosition = xPosition + tree.leftWidth;
-        }
-        tree.x = xPosition;
-        this.setNewPositions(tree.left, xPosition, yPosition + BST.HEIGHT_DELTA, -1);
-        this.setNewPositions(tree.right, xPosition, yPosition + BST.HEIGHT_DELTA, 1);
-    }
-};
-BST.prototype.animateNewPositions = function (tree) {
-    if (tree != null) {
-        this.cmd("Move", tree.graphicID, tree.x, tree.y);
-        this.animateNewPositions(tree.left);
-        this.animateNewPositions(tree.right);
-    }
-};
-
-BST.prototype.resizeWidths = function (tree) {
-    if (tree == null) {
-        return 0;
-    }
-    tree.leftWidth = Math.max(this.resizeWidths(tree.left), BST.WIDTH_DELTA / 2);
-    tree.rightWidth = Math.max(this.resizeWidths(tree.right), BST.WIDTH_DELTA / 2);
-    return tree.leftWidth + tree.rightWidth;
 };
 
 function BSTNode(val, id, initialX, initialY) {

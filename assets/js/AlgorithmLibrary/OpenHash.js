@@ -71,6 +71,15 @@ OpenHash.prototype.addControls = function () {
 };
 
 OpenHash.prototype.insertElement_ok = function (elem) {
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "encadeamento_externo",
+            tamanho_tabela: this.table_size,
+            funcao: this.HASH_FUNCTION,
+            acao: "insercao",
+            valor: elem,
+        });
+    }
     this.commands = new Array();
     // var index = this.doHash(elem);
     var index = elem % this.table_size;
@@ -100,6 +109,15 @@ OpenHash.prototype.insertElement_ok = function (elem) {
 };
 
 OpenHash.prototype.insertElement = function (elem) {
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "encadeamento_externo",
+            tamanho_tabela: this.table_size,
+            funcao: this.HASH_FUNCTION,
+            acao: "insercao",
+            valor: elem,
+        });
+    }
     this.commands = new Array();
     var index = elem % this.table_size;
 
@@ -234,6 +252,15 @@ OpenHash.prototype.repositionList = function (index) {
 };
 
 OpenHash.prototype.deleteElement = function (elem) {
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "encadeamento_externo",
+            tamanho_tabela: this.table_size,
+            funcao: this.HASH_FUNCTION,
+            acao: "remocao",
+            valor: elem,
+        });
+    }
     this.commands = new Array();
     var texto = "Removendo elemento: " + String(elem);
     this.cmd("SetText", this.ExplainLabel, texto);
@@ -349,6 +376,15 @@ OpenHash.prototype.deleteElement = function (elem) {
     return this.commands;
 };
 OpenHash.prototype.findElement = function (elem) {
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "encadeamento_externo",
+            tamanho_tabela: this.table_size,
+            funcao: this.HASH_FUNCTION,
+            acao: "busca",
+            valor: elem,
+        });
+    }
     this.commands = new Array();
     var texto = "Buscando elemento: " + String(elem);
     this.cmd("SetText", this.ExplainLabel, texto);
@@ -420,6 +456,15 @@ OpenHash.prototype.findElement = function (elem) {
 
 OpenHash.prototype.tableSize = function (newSize) {
     newSize = parseInt(newSize);
+    if (typeof gtag === "function") {
+        gtag("event", "operacao_hash", {
+            tratamento: "encadeamento_externo",
+            tamanho_tabela: this.table_size,
+            funcao: this.HASH_FUNCTION,
+            acao: "resize",
+            valor: newSize,
+        });
+    }
 
     if (newSize < 3) toast("Escolha um valor maior ou igual a 3.", this.sizeButton, 1000);
     else {
