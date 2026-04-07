@@ -743,21 +743,23 @@ select:focus {
     display: none;
 }
 /* Container principal */
+/* Container principal */
 .custom-checkbox {
     display: inline-flex;
     align-items: center;
     cursor: pointer;
-    font-family: "Segoe UI", system-ui, sans-serif; /* Fonte mais nítida */
+    font-family: "Segoe UI", system-ui, sans-serif;
     font-size: 14px;
-    font-weight: 500; /* Peso ligeiramente maior para o texto não sumir */
+    font-weight: 500;
     user-select: none;
-    color: #1f2937; /* Cinza bem escuro, quase preto, para alto contraste */
+    color: #1f2937;
     margin-right: 15px;
-
     vertical-align: middle;
     line-height: 1;
     height: 30px;
-    transition: color 0.2s ease;
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
 }
 
 /* Oculta o checkbox original */
@@ -769,61 +771,89 @@ select:focus {
     width: 0;
 }
 
-/* A caixa do checkbox (O Segredo do visual "Ativo") */
+/* A caixa do checkbox */
 .custom-checkbox .checkmark {
     position: relative;
     height: 18px;
     width: 18px;
-    background-color: #ffffff; /* BRANCO PURO indica que o campo está aberto para interação */
-    border: 2px solid #9ca3af; /* Borda mais nítida e escura */
+    background-color: #ffffff;
+    border: 2px solid #9ca3af;
     border-radius: 4px;
     margin-right: 8px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* Curva de animação mais fluida */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Levíssima profundidade */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* Efeito ao passar o mouse na caixa toda */
-.custom-checkbox:hover {
-    color: #0088b7; /* O texto também indica interatividade */
+/* =========================================================
+   ESTADOS DE HOVER (Protegidos para não ativar se desativado)
+========================================================= */
+.custom-checkbox:has(input:not(:disabled)):hover {
+    color: #0088b7;
 }
 
-.custom-checkbox:hover input ~ .checkmark {
+.custom-checkbox:hover input:not(:disabled) ~ .checkmark {
     border-color: #0088b7;
-    background-color: #f0f9ff; /* Fundo levemente azulado no hover */
+    background-color: #f0f9ff;
 }
 
-/* Estado de foco para acessibilidade (Navegação por teclado) */
+/* Estado de foco para acessibilidade */
 .custom-checkbox input:focus-visible ~ .checkmark {
     outline: 2px solid #0088b7;
     outline-offset: 2px;
 }
 
-/* Estado MARCADO */
-.custom-checkbox input:checked ~ .checkmark {
+/* =========================================================
+   ESTADO MARCADO (Ativo)
+========================================================= */
+.custom-checkbox input:checked:not(:disabled) ~ .checkmark {
     background-color: #0088b7;
     border-color: #0088b7;
-    box-shadow: 0 2px 4px rgba(0, 136, 183, 0.3); /* Brilho da cor da sua paleta */
+    box-shadow: 0 2px 4px rgba(0, 136, 183, 0.3);
 }
 
 /* O ícone de "check" */
 .custom-checkbox .checkmark::after {
     content: "";
     position: absolute;
-    /* Centralização matemática do V */
     left: 5px;
     top: 2px;
     width: 4px;
     height: 8px;
     border: solid white;
     border-width: 0 2px 2px 0;
-    /* A animação de "Pop": começa com tamanho 0 */
     transform: rotate(45deg) scale(0);
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito elástico */
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Anima o ícone quando marcado */
 .custom-checkbox input:checked ~ .checkmark::after {
     display: block;
-    /* Retorna ao tamanho normal, gerando a animação */
     transform: rotate(45deg) scale(1);
+}
+
+/* =========================================================
+   NOVO: ESTADO DESATIVADO (UI Bloqueada)
+========================================================= */
+
+/* O container e o texto ficam ofuscados e o cursor muda */
+.custom-checkbox:has(input:disabled) {
+    cursor: not-allowed;
+    color: #9ca3af; /* Cinza claro */
+    opacity: 0.6; /* Ofusca o elemento todo */
+}
+
+/* A caixinha perde o brilho, fica cinza e perde a sombra */
+.custom-checkbox input:disabled ~ .checkmark {
+    background-color: #f3f4f6; /* Fundo mais escuro/inativo */
+    border-color: #d1d5db; /* Borda lavada */
+    box-shadow: none;
+}
+
+/* Caso o professor desative um checkbox que JÁ ESTAVA marcado */
+.custom-checkbox input:disabled:checked ~ .checkmark {
+    background-color: #e5e7eb;
+}
+
+/* O ícone de check (V) fica cinza em vez de branco para combinar com o fundo inativo */
+.custom-checkbox input:disabled:checked ~ .checkmark::after {
+    border-color: #9ca3af;
 }

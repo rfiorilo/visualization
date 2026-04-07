@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1G16MPNFVN"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+
+            gtag("config", "G-1G16MPNFVN");
+        </script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Plataforma de Visualização Interativa</title>
+        <link rel="shortcut icon" href="/visualization/assets/images/favicon.png" type="image/png" />
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="../../assets/css/visualPages.css" />
+        <link rel="stylesheet" href="../../assets/css/visualizationPageStyle.css" />
+        <link rel="stylesheet" href="../../assets/css/mobile.css" />
+
+        <!-- jqueury stuff.  Only used for the animation speed slider. -->
+        <link rel="stylesheet" href="../../assets/js/ThirdParty/jquery-ui-1.8.11.custom.css" />
+
+        <script src="../../assets/js/ThirdParty/jquery-1.5.2.min.js"></script>
+        <script src="../../assets/js/ThirdParty/jquery-ui-1.8.11.custom.min.js"></script>
+    </head>
+
+    <body onload="init()" class="VisualizationMainPage">
+        <div id="sidebarOverlay" class="sidebar-overlay"></div>
+        <!-- BARRA SUPERIOR FIXA -->
+        <div id="ufmsTopBar"></div>
+
+        <div class="layout">
+            <aside class="sidebar">
+                <nav class="sidebar-nav" id="sidebarContainer"></nav>
+            </aside>
+
+            <main class="container algo-visualization">
+                <div id="centerArea">
+                    <div id="algoControlSection">
+                        <table id="AlgorithmSpecificControls"></table>
+                    </div>
+                    <canvas id="canvas" width="1500" height="700"></canvas>
+
+                    <div id="generalAnimationControlSection">
+                        <table id="GeneralAnimationControls"></table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer id="mainFooter"></footer>
+
+        <script src="../../assets/js/config.js"></script>
+        <script src="../../assets/js/render.js"></script>
+    </body>
+</html>

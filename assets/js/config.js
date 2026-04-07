@@ -15,6 +15,8 @@ window.VISUAL_CONFIG = {
         background: "#d6eef6",
         arraybackground: "#ffffff",
         index: "#0088b7",
+        focusWarningBackground: "#fceba7",
+        focusWarningForeground: "#8a5900",
     },
 };
 
@@ -55,6 +57,15 @@ window.PAGES_CONFIG = {
                             link: "pages/algorithms/BST.html",
                             description:
                                 "Organiza os dados de forma hierárquica e ordenada, permitindo acesso eficiente por meio de comparações entre os elementos. Pode degradar para uma lista linear em casos desbalanceados.",
+                            categories: ["arvores"],
+                        },
+                        {
+                            shortname: "AVL",
+                            fullname: "Árvore AVL",
+                            pagename: "AVL",
+                            link: "pages/algorithms/AVL.html",
+                            description:
+                                "Árvore binária de busca que organiza os dados de forma hierárquica e ordenada, com acesso eficiente por comparações. Mantém balanceamento automático, evitando degradação.",
                             categories: ["arvores"],
                         },
                     ],
