@@ -1,0 +1,157 @@
+/* =====================================================
+   ESTRUTURA BASE DO MENU MOBILE (Oculto no Desktop)
+===================================================== */
+.mobile-menu-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 10px;
+    outline: none;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 65px; /* Inicia logo abaixo da Topbar institucional */
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 65px);
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9998; /* Fica logo abaixo da sidebar aberta */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* =====================================================
+   REGRAS PARA TABLETS E CELULARES (Telas até 850px)
+===================================================== */
+@media screen and (max-width: 1100px) {
+    /* ==========================================================
+       1. ATIVAÇÃO DO BOTÃO HAMBÚRGUER E TOPBAR (COM DESTAQUE)
+    ========================================================== */
+    .mobile-menu-btn {
+        display: block !important;
+        padding: 5px 8px !important; /* Aumenta a área invisível de clique do botão */
+    }
+
+    /* Deixa o ícone do hambúrguer um pouco mais encorpado */
+    .mobile-menu-btn svg {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .topbar-left {
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px !important; /* Dá mais 'respiro' entre o botão, a logo e o texto */
+        width: 100% !important;
+    }
+
+    /* Logo com mais presença na tela */
+    .topbar-logo {
+        width: 44px !important;
+        height: 44px !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Título (Shortname) com cara de aplicativo nativo */
+    .ufms-brand {
+        font-size: 1.5rem !important; /* Fonte bem maior */
+        font-weight: 700 !important; /* Negrito forte */
+        letter-spacing: 1px !important; /* Leve espaçamento entre as letras para elegância */
+        line-height: 1 !important;
+        white-space: nowrap !important;
+        text-align: left !important;
+    }
+
+    .breadcrumb {
+        display: none !important;
+    }
+
+    /* ==========================================================
+       2. SIDEBAR E OVERLAY (Cobre a .sidebar e o #didacticSidebar)
+    ========================================================== */
+    .sidebar,
+    #didacticSidebar {
+        position: fixed !important;
+        top: 65px !important;
+        left: 0 !important;
+        margin: 0 !important;
+
+        transform: translateX(-110%) !important;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+        width: 280px !important;
+        height: calc(100vh - 65px) !important;
+        padding-bottom: 80px !important;
+
+        z-index: 99999 !important;
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        background: var(--white) !important;
+
+        /* Adiciona barra de rolagem caso o conteúdo seja muito grande */
+        overflow-y: auto !important;
+    }
+
+    .sidebar.open,
+    #didacticSidebar.open {
+        transform: translateX(0) !important;
+        box-shadow: 4px 0 25px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .sidebar-overlay.open {
+        display: block !important;
+        opacity: 1 !important;
+    }
+
+    .nav-section {
+        max-height: none !important; /* Remove a trava do desktop */
+        overflow-y: visible !important; /* Desativa a rolagem interna esmagada */
+        padding-right: 0 !important;
+    }
+
+    /* ==========================================================
+       3. CONTEÚDO PRINCIPAL
+    ========================================================== */
+    .main-content,
+    .main-content.textual,
+    .algo-visualization {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 1rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    #ideLayout {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+
+    .algorithms-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* ==========================================================
+       TROCA DE TÍTULO (NOME LONGO -> SHORTNAME)
+    ========================================================== */
+    .algo-title .title-full {
+        display: none !important; /* Esconde o nome gigante */
+    }
+
+    .algo-title .title-short {
+        display: inline !important; /* Mostra a sigla (Ex: ABB) */
+    }
+
+    /* Opcional: Centraliza o h1 caso tenha desalinhado */
+    .algo-title {
+        font-size: 1.5rem !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+    }
+}

@@ -29,6 +29,10 @@ body.VisualizationMainPage {
     font-weight: 700;
 }
 
+.algo-title .title-short {
+    display: none;
+}
+
 /* =====================================================
    CONTAINER
    ===================================================== */

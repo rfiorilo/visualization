@@ -91,8 +91,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if (showGroup) {
                 content.innerHTML = `
                 <div class="topbar-left">
+                    <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Abrir menu">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                        </svg>
+                    </button>
                     <img src="${logoPath}" class="topbar-logo" alt="Logo">
-                    <h1 class="algo-title">${foundItem.fullname}</h1>
+                    <h1 class="algo-title">
+                        <span class="title-full">${foundItem.fullname}</span>
+                        <span class="title-short">${foundItem.shortname}</span>
+                    </h1>
                 </div>
                 <div class="breadcrumb">
                 <a href="../../index.html">Início</a>
@@ -104,8 +112,16 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 content.innerHTML = `
                 <div class="topbar-left">
+                    <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Abrir menu">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                        </svg>
+                    </button>
                     <img src="${logoPath}" class="topbar-logo" alt="Logo">
-                    <h1 class="algo-title">${foundItem.fullname}</h1>
+                    <h1 class="algo-title">
+                        <span class="title-full">${foundItem.fullname}</span>
+                        <span class="title-short">${foundItem.shortname}</span>
+                    </h1>
                 </div>
                 <div class="breadcrumb">
                 <a href="../../index.html">Início</a>
@@ -124,6 +140,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 content.innerHTML = `
                     <div class="topbar-left">
+                        <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Abrir menu">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                            </svg>
+                        </button>
                         <img src="${logoPath}" class="topbar-logo" alt="Logo">
                         <h1 class="algo-title">${title}</h1>
                     </div>
@@ -135,6 +156,11 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 content.innerHTML = `
                     <div class="topbar-left">
+                        <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Abrir menu">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                            </svg>
+                        </button>
                         <img src="${logoPath}" class="topbar-logo" alt="Logo">
                         <h1 class="algo-title">${title}</h1>
                     </div>
@@ -290,6 +316,27 @@ document.addEventListener("DOMContentLoaded", () => {
             <a href="https://cmps-people.ok.ubc.ca/ylucet/DS/Algorithms.html" target="_blank" rel="noopener noreferrer">Adaptação (Lucet)</a>
     `;
     sidebar.appendChild(creditos);
+
+    /* MENU MOBILE */
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+
+    // Procura pela classe sidebar (página inicial) OU pelo ID didacticSidebar (página da árvore)
+    const sidebar2 = document.querySelector(".sidebar") || document.getElementById("didacticSidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    if (mobileMenuBtn && sidebar2 && overlay) {
+        // Abre e fecha ao clicar no botão
+        mobileMenuBtn.addEventListener("click", () => {
+            sidebar2.classList.toggle("open");
+            overlay.classList.toggle("open");
+        });
+
+        // Fecha ao clicar fora (na parte escura)
+        overlay.addEventListener("click", () => {
+            sidebar2.classList.remove("open");
+            overlay.classList.remove("open");
+        });
+    }
 });
 
 /*listener do sidebar */
